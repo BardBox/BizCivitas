@@ -1,5 +1,5 @@
 
-import { theme } from './lib/theme.js';
+import { theme } from './lib/theme.ts';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
