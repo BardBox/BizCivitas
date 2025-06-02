@@ -9,7 +9,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const event = await getEventBySlug(slug);
 
   if (!event) {
@@ -69,7 +69,7 @@ function formatDate(dateString: string) {
 }
 
 export default async function EventDetailPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const event = await getEventBySlug(slug);
 
   if (!event) {
