@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { getAllEvents, getUpcomingEvents, getPastEvents, Event } from '@/lib/events';
 
 export const metadata: Metadata = {
-  title: "Events | BizCivitas - Business Networking Events",
-  description: "Discover upcoming and past business networking events at BizCivitas. Join industry leaders for professional development, networking opportunities, and strategic business discussions.",
-  keywords: ["business events", "networking events", "professional development", "BizCivitas events", "business networking", "corporate events"],
+  title: "Business Events | BizCivitas - Transform Your Vision Into Reality",
+  description: "Discover upcoming and past business networking events at BizCivitas. Join industry leaders for professional development, networking opportunities, and strategic business discussions. Watch inspiring stories of companies like Airbnb, Uber, and SolarCity.",
+  keywords: ["business events", "networking events", "professional development", "BizCivitas events", "business networking", "corporate events", "business innovation", "startup events", "entrepreneur networking"],
   openGraph: {
-    title: "Business Events | BizCivitas",
-    description: "Join BizCivitas events for networking, professional development, and business growth opportunities.",
+    title: "Business Events | BizCivitas - Transform Your Vision Into Reality",
+    description: "Join BizCivitas events for networking, professional development, and business growth opportunities. Discover how great ideas become successful businesses.",
     type: "website",
     url: "https://bizcivitas.com/events",
     images: [
@@ -18,17 +18,28 @@ export const metadata: Metadata = {
         url: "/og-events.jpg",
         width: 1200,
         height: 630,
-        alt: "BizCivitas Events",
+        alt: "BizCivitas Business Events - Networking and Innovation",
+      },
+    ],
+    videos: [
+      {
+        url: "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4",
+        width: 1920,
+        height: 1080,
+        type: "video/mp4",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Business Events | BizCivitas",
+    title: "Business Events | BizCivitas - Transform Your Vision Into Reality",
     description: "Join BizCivitas events for networking, professional development, and business growth opportunities.",
   },
   alternates: {
     canonical: "/events",
+  },
+  other: {
+    'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
   },
 };
 
@@ -45,18 +56,104 @@ export default async function EventsPage() {
   const upcomingEvents = await getUpcomingEvents();
   const pastEvents = await getPastEvents();
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Business Events | BizCivitas",
+    "description": "Discover upcoming and past business networking events at BizCivitas. Join industry leaders for professional development and strategic business discussions.",
+    "url": "https://bizcivitas.com/events",
+    "mainEntity": {
+      "@type": "VideoObject",
+      "name": "Business Innovation - Transform Your Vision Into Reality",
+      "description": "Inspiring video showcasing how great business ideas like Airbnb, Uber, and SolarCity transformed from concepts to successful companies.",
+      "contentUrl": "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4",
+      "thumbnailUrl": "/video-poster.jpg",
+      "uploadDate": "2025-01-24",
+      "duration": "PT30S",
+      "publisher": {
+        "@type": "Organization",
+        "name": "BizCivitas",
+        "url": "https://bizcivitas.com"
+      }
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bizcivitas.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Events",
+          "item": "https://bizcivitas.com/events"
+        }
+      ]
+    }
+  };
+
   return (
-    <div className="bg-gray-50 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Page Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Business <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Events</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join our exclusive networking events designed to connect professionals, share insights, and drive business growth.
-          </p>
+    <>
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
+      <div className="bg-gray-50">
+    <div className="bg-gray-50">
+      {/* Hero Video Section */}
+      <section className="relative w-full h-screen overflow-hidden">
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            className="w-full h-full object-cover"
+            src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            controlsList="nodownload nofullscreen noremoteplaybook"
+            disablePictureInPicture
+            preload="auto"
+            poster="/video-poster.jpg"
+            aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
+            onError={() => console.error('Video failed to load')}
+          />
         </div>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
+            <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+              Business <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Events</span>
+            </h1>
+            <p className="text-xl lg:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
+              Join our exclusive networking events designed to connect professionals, share insights, and drive business growth.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                Register for Events
+              </button>
+              <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all duration-200">
+                Learn More
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      <div className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Upcoming Events Section */}
         <section className="mb-16">
@@ -172,7 +269,9 @@ export default async function EventsPage() {
             )}
           </div>
         </section>
+        </div>
       </div>
     </div>
+    </>
   );
 }
