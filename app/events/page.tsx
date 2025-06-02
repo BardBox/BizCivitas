@@ -107,20 +107,7 @@ export default async function EventsPage() {
       {/* Hero Video Section */}
       <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          <video
-            className="w-full h-full object-cover"
-            src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            controlsList="nodownload nofullscreen noremoteplaybook"
-            disablePictureInPicture
-            preload="auto"
-            poster="/video-poster.jpg"
-            aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
-            onError={() => console.error('Video failed to load')}
-          />
+         
         </div>
         
         {/* Video Overlay */}
