@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Link from 'next/link';
 import { theme } from '@/lib/theme';
@@ -113,7 +112,7 @@ export default function HomePage() {
 
         {/* Features Section */}
         <section className="py-16 bg-flat-surface">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-flat-text-primary mb-4 flat-text-heading">
                 Why Choose BizCivitas?

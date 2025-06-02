@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -87,7 +86,7 @@ export default async function InsightsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      
+
       <div className="bg-gray-50 min-h-screen">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20">
@@ -105,7 +104,7 @@ export default async function InsightsPage() {
 
         {/* Blog Posts Section */}
         <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
             {blogs.length === 0 ? (
               <div className="bg-white rounded-xl p-12 text-center text-gray-600 shadow-sm border">
                 <svg className="w-20 h-20 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,24 +129,24 @@ export default async function InsightsPage() {
                           />
                         </div>
                       )}
-                      
+
                       <div className="p-6">
                         {blog.type_of_topic && (
                           <div className="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full mb-3">
                             {blog.type_of_topic}
                           </div>
                         )}
-                        
+
                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                           {blog.topic_name || 'Untitled Post'}
                         </h3>
-                        
+
                         {blog.description && (
                           <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
                             {blog.description}
                           </p>
                         )}
-                        
+
                         <div className="flex items-center justify-between text-sm text-gray-500">
                           {blog.author_name && (
                             <div className="flex items-center">
@@ -157,7 +156,7 @@ export default async function InsightsPage() {
                               <span>{blog.author_name}</span>
                             </div>
                           )}
-                          
+
                           <div className="flex items-center">
                             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

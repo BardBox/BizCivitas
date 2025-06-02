@@ -156,6 +156,31 @@ button:focus {
   }
 }
 
+/* Layout utilities */
+.container-max {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-max {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-max {
+    padding: 0 2rem;
+  }
+}
+
+/* Full width sections */
+.full-width {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
 /* Flat UI specific utilities */
 .flat-shadow-sm {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);

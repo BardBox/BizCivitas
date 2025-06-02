@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -105,7 +104,7 @@ export default async function TeamPage() {
 
         {/* Team Members Section */}
         <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 Core Team Members
@@ -129,7 +128,7 @@ export default async function TeamPage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    
+
                     <div className="p-6 text-center">
                       <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                         {member.name}
