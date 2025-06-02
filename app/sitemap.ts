@@ -1,10 +1,12 @@
 import { MetadataRoute } from 'next'
 import { getAllEvents } from '@/lib/events';
 import { getAllBlogs } from '@/lib/blogs';
+import { getAllTeamMembers } from '@/lib/team';
 
 export default async function sitemap() {
   const events = await getAllEvents();
   const blogs = await getAllBlogs();
+  const teamMembers = await getAllTeamMembers();
 
   const baseUrl = 'https://bizcivitas.com';
 
@@ -20,6 +22,13 @@ export default async function sitemap() {
     lastModified: new Date(blog.updated_at || blog.created_at || blog.date),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
+  }));
+
+  const teamUrls = teamMembers.map((member) => ({
+    url: `${baseUrl}/team/${member.slug}`,
+    lastModified: new Date(member.updated_at || member.created_at || new Date()),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
   }));
 
   return [
@@ -41,7 +50,14 @@ export default async function sitemap() {
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/team`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     ...eventUrls,
     ...blogUrls,
+    ...teamUrls,
   ];
 }
