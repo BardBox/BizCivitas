@@ -1,63 +1,16 @@
 
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
-import EventDetailClient from './EventDetailClient';
-
-interface Event {
-  id: number;
-  slug: string;
-  event_name: string;
-  date: string;
-  location: string;
-  description: string;
-  cover_url: string;
-  type: string;
-  long_description?: string;
-}
-
-// Mock data - replace with actual database calls
-const mockEvents: Event[] = [
-  {
-    id: 1,
-    slug: "quarterly-business-summit-2024",
-    event_name: "Quarterly Business Summit 2024",
-    date: "2024-03-15",
-    location: "Grand Convention Center, NYC",
-    description: "Join industry leaders for our quarterly business summit featuring keynote speakers, networking sessions, and strategic discussions about the future of business.",
-    cover_url: "https://via.placeholder.com/1200x400?text=Business+Summit",
-    type: "upcoming",
-    long_description: "Our Quarterly Business Summit brings together the most innovative minds in business for a day of learning, networking, and strategic planning. This premier event features renowned keynote speakers, interactive workshops, and exclusive networking opportunities. Attendees will gain valuable insights into market trends, emerging technologies, and business strategies that drive success in today's competitive landscape. Join us for an unforgettable experience that will transform your approach to business and help you build meaningful professional relationships."
-  },
-  {
-    id: 2,
-    slug: "entrepreneur-networking-breakfast",
-    event_name: "Entrepreneur Networking Breakfast",
-    date: "2024-02-28",
-    location: "Downtown Business Club",
-    description: "Start your day with fellow entrepreneurs over breakfast. Share insights, discuss challenges, and build meaningful connections.",
-    cover_url: "https://via.placeholder.com/1200x400?text=Networking+Breakfast",
-    type: "upcoming",
-    long_description: "Our monthly Entrepreneur Networking Breakfast provides a relaxed and intimate setting for business owners and entrepreneurs to connect over a delicious meal. This event focuses on building genuine relationships, sharing experiences, and creating opportunities for collaboration. Whether you're a seasoned entrepreneur or just starting your journey, you'll find valuable connections and insights that can help propel your business forward."
-  },
-  {
-    id: 3,
-    slug: "annual-gala-2023",
-    event_name: "Annual Business Gala 2023",
-    date: "2023-12-15",
-    location: "Metropolitan Hotel Ballroom",
-    description: "Our annual gala celebrating business achievements and recognizing outstanding contributions to the business community.",
-    cover_url: "https://via.placeholder.com/1200x400?text=Annual+Gala",
-    type: "past",
-    long_description: "The Annual Business Gala is our signature event celebrating excellence in business and recognizing the outstanding achievements of our community members. This elegant evening features award presentations, inspiring speeches, and exceptional networking opportunities in a sophisticated atmosphere. Join us as we honor the leaders who have made significant contributions to our business community and enjoy an evening of celebration and recognition."
-  }
-];
+import Image from 'next/image';
+import Link from 'next/link';
+import { getEventBySlug, getAllEvents } from '@/lib/events';
 
 interface PageProps {
   params: { slug: string };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const event = mockEvents.find(e => e.slug === params.slug);
+  const event = await getEventBySlug(params.slug);
   
   if (!event) {
     return {
@@ -91,21 +44,171 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: event.description,
       images: [event.cover_url],
     },
+    alternates: {
+      canonical: `/events/${event.slug}`,
+    },
   };
 }
 
 export async function generateStaticParams() {
-  return mockEvents.map((event) => ({
+  const events = await getAllEvents();
+  return events.map((event) => ({
     slug: event.slug,
   }));
 }
 
-export default function EventDetailPage({ params }: PageProps) {
-  const event = mockEvents.find(e => e.slug === params.slug);
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
+export default async function EventDetailPage({ params }: PageProps) {
+  const event = await getEventBySlug(params.slug);
 
   if (!event) {
     notFound();
   }
 
-  return <EventDetailClient event={event} />;
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        <div className="event-details">
+          {/* Event Banner */}
+          <div className="event-details-banner" style={{ backgroundImage: `url('${event.cover_url}')` }}>
+            <div className="event-details-banner-content">
+              <h1 className="event-title">{event.event_name}</h1>
+              <div className="date-location">
+                {formatDate(event.date)} • {event.location}
+              </div>
+            </div>
+          </div>
+
+          {/* Event Content */}
+          <div className="event-details-content">
+            <div className="description">
+              {event.long_description || event.description}
+            </div>
+            
+            <Link href="/events" className="back-button">
+              Back to Events
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .event-details {
+          background-color: #ffffff;
+          border-radius: 12px;
+          margin: 20px;
+          overflow: hidden;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .event-details-banner {
+          position: relative;
+          width: 100%;
+          min-height: 400px;
+          background-size: cover;
+          background-position: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          color: #fff;
+        }
+
+        .event-details-banner::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.4);
+          z-index: 1;
+        }
+
+        .event-details-banner-content {
+          position: relative;
+          z-index: 2;
+          padding: 20px;
+        }
+
+        .event-title {
+          font-size: 3rem;
+          font-weight: 700;
+          color: #f5a623;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+          letter-spacing: 2px;
+        }
+
+        .date-location {
+          font-size: 1.2rem;
+          color: #ddd;
+          margin-top: 15px;
+          background-color: rgba(0, 0, 0, 0.5);
+          padding: 5px 15px;
+          border-radius: 5px;
+          display: inline-block;
+        }
+
+        .event-details-content {
+          padding: 30px;
+        }
+
+        .description {
+          font-size: 1rem;
+          color: #5c6b73;
+          line-height: 1.6;
+          margin-bottom: 20px;
+        }
+
+        .back-button {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #28a745;
+          color: #ffffff;
+          border: none;
+          border-radius: 5px;
+          margin-top: 20px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          font-size: 16px;
+          text-decoration: none;
+        }
+
+        .back-button:hover {
+          background-color: #218838;
+        }
+
+        @media (max-width: 768px) {
+          .event-details {
+            margin: 10px;
+          }
+
+          .event-details-banner {
+            min-height: 300px;
+          }
+
+          .event-title {
+            font-size: 2rem;
+          }
+
+          .date-location {
+            font-size: 1rem;
+          }
+
+          .event-details-content {
+            padding: 20px;
+          }
+        }
+      `}</style>
+    </div>
+  );
 }

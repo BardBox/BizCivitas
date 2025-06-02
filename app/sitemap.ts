@@ -1,7 +1,17 @@
 
 import { MetadataRoute } from 'next'
+import { getAllEvents } from '@/lib/events'
  
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): MetadataRoute.Sitemap {
+  const events = await getAllEvents();
+  
+  const eventUrls = events.map((event) => ({
+    url: `https://bizcivitas.com/events/${event.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
   return [
     {
       url: 'https://bizcivitas.com',
@@ -63,24 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
-    // Dynamic event pages
-    {
-      url: 'https://bizcivitas.com/events/quarterly-business-summit-2024',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://bizcivitas.com/events/entrepreneur-networking-breakfast',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://bizcivitas.com/events/annual-gala-2023',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
+    ...eventUrls,
   ]
 }
