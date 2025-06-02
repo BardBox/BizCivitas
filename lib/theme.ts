@@ -100,8 +100,8 @@ export const theme = {
       inverse: '#ffffff'
     },
     button: {
-      primary: '#3498db',
-      primaryHover: '#2980b9',
+      primary: '#5865f2',
+      primaryHover: '#4752c4',
       secondary: '#95a5a6',
       secondaryHover: '#7f8c8d',
       success: '#2ecc71',

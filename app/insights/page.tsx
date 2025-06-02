@@ -87,15 +87,15 @@ export default async function InsightsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-flat-bg min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20">
+        <section className="bg-flat-surface py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Business <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Insights</span>
+              <h1 className="text-4xl lg:text-6xl font-bold text-flat-text-primary mb-6 flat-text-heading">
+                Business <span className="text-flat-btn-primary">Insights</span>
               </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              <p className="text-xl text-flat-text-secondary mb-8 max-w-3xl mx-auto flat-text-body">
                 Stay ahead with expert analysis, industry trends, and thought leadership from the world of business innovation.
               </p>
             </div>
@@ -106,18 +106,18 @@ export default async function InsightsPage() {
         <section className="py-16">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
             {blogs.length === 0 ? (
-              <div className="bg-white rounded-xl p-12 text-center text-gray-600 shadow-sm border">
-                <svg className="w-20 h-20 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flat-card p-12 text-center text-flat-text-secondary">
+                <svg className="w-20 h-20 text-flat-text-muted mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">No Insights Available</h3>
-                <p className="text-lg">Check back soon for the latest business insights and thought leadership articles!</p>
+                <h3 className="text-2xl font-semibold text-flat-text-primary mb-2 flat-text-heading">No Insights Available</h3>
+                <p className="text-lg flat-text-body">Check back soon for the latest business insights and thought leadership articles!</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {blogs.map((blog) => (
                   <Link key={blog.id} href={`/insights/${blog.slug}`} className="block group">
-                    <article className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 h-full">
+                    <article className="flat-card overflow-hidden h-full group">
                       {blog.cover_url && (
                         <div className="h-48 relative overflow-hidden">
                           <Image
@@ -132,22 +132,22 @@ export default async function InsightsPage() {
 
                       <div className="p-6">
                         {blog.type_of_topic && (
-                          <div className="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full mb-3">
+                          <div className="inline-flex items-center bg-flat-btn-primary text-flat-text-inverse text-xs font-medium px-2.5 py-0.5 rounded-full mb-3">
                             {blog.type_of_topic}
                           </div>
                         )}
 
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                        <h3 className="text-xl font-bold text-flat-text-primary mb-3 group-hover:text-flat-btn-primary transition-colors line-clamp-2 flat-text-heading">
                           {blog.topic_name || 'Untitled Post'}
                         </h3>
 
                         {blog.description && (
-                          <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                          <p className="text-flat-text-secondary text-sm leading-relaxed mb-4 line-clamp-3 flat-text-body">
                             {blog.description}
                           </p>
                         )}
 
-                        <div className="flex items-center justify-between text-sm text-gray-500">
+                        <div className="flex items-center justify-between text-sm text-flat-text-muted">
                           {blog.author_name && (
                             <div className="flex items-center">
                               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

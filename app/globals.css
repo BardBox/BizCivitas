@@ -60,12 +60,12 @@ body {
 }
 
 .flat-btn-primary {
-  background: #3498db;
+  background: #5865f2;
   color: white;
 }
 
 .flat-btn-primary:hover {
-  background: #2980b9;
+  background: #4752c4;
 }
 
 .flat-btn-secondary {
@@ -88,12 +88,12 @@ body {
 
 .flat-btn-outline {
   background: transparent;
-  border: 2px solid #3498db;
-  color: #3498db;
+  border: 2px solid #5865f2;
+  color: #5865f2;
 }
 
 .flat-btn-outline:hover {
-  background: #3498db;
+  background: #5865f2;
   color: white;
 }
 
@@ -111,7 +111,7 @@ html {
 /* Focus states for accessibility */
 a:focus,
 button:focus {
-  outline: 2px solid #3498db;
+  outline: 2px solid #5865f2;
   outline-offset: 2px;
 }
 
@@ -216,8 +216,8 @@ button {
 
 .flat-input:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  border-color: #5865f2;
+  box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.1);
 }
 
 /* Text styles */
