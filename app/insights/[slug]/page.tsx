@@ -40,14 +40,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
       ],
       publishedTime: blog.date,
+      modifiedTime: blog.updated_at || blog.date,
       authors: blog.author_name ? [blog.author_name] : undefined,
       siteName: "BizCivitas",
+      locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
       title: seoData.twitterTitle,
       description: seoData.twitterDescription,
       images: [seoData.twitterImage],
+      creator: blog.author_name ? `@${blog.author_name.replace(/\s+/g, '')}` : '@BizCivitas',
     },
     alternates: {
       canonical: `/insights/${blog.slug}`,
@@ -57,6 +60,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       'article:author': blog.author_name || 'BizCivitas',
       'article:section': 'Business Insights',
       'article:tag': blog.type_of_topic || 'Business',
+      'article:published_time': blog.date,
+      'article:modified_time': blog.updated_at || blog.date,
+      'og:locale': 'en_US',
+      'og:site_name': 'BizCivitas',
     },
   };
 }
@@ -85,6 +92,11 @@ export default async function BlogPage({ params }: PageProps) {
     notFound();
   }
 
+  // Extract text content for word count and reading time
+  const textContent = blog.content ? blog.content.replace(/<[^>]*>/g, '') : '';
+  const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
+  const readingTime = Math.ceil(wordCount / 200); // 200 words per minute
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -102,17 +114,52 @@ export default async function BlogPage({ params }: PageProps) {
       "url": "https://bizcivitas.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://bizcivitas.com/logo.png"
+        "url": "https://bizcivitas.com/logo.png",
+        "width": 200,
+        "height": 60
       }
     },
-    "image": blog.cover_url,
+    "image": {
+      "@type": "ImageObject",
+      "url": blog.cover_url || "https://bizcivitas.com/og-blog.jpg",
+      "width": 1200,
+      "height": 630
+    },
     "url": `https://bizcivitas.com/insights/${blog.slug}`,
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": `https://bizcivitas.com/insights/${blog.slug}`
     },
     "articleSection": blog.type_of_topic || "Business Insights",
-    "keywords": [blog.topic_name, blog.type_of_topic, "business insights", "BizCivitas"].filter(Boolean).join(", ")
+    "keywords": [blog.topic_name, blog.type_of_topic, "business insights", "BizCivitas"].filter(Boolean).join(", "),
+    "wordCount": wordCount,
+    "timeRequired": `PT${readingTime}M`,
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "articleBody": textContent.substring(0, 300) + "...",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bizcivitas.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Insights",
+          "item": "https://bizcivitas.com/insights"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": blog.topic_name,
+          "item": `https://bizcivitas.com/insights/${blog.slug}`
+        }
+      ]
+    }
   };
 
   return (
@@ -157,7 +204,7 @@ export default async function BlogPage({ params }: PageProps) {
                 </p>
               )}
 
-              <div className="flex items-center justify-center space-x-6 text-gray-500">
+              <div className="flex items-center justify-center space-x-6 text-gray-500 flex-wrap">
                 {blog.author_name && (
                   <div className="flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,6 +220,24 @@ export default async function BlogPage({ params }: PageProps) {
                   </svg>
                   <span>{formatDate(blog.date)}</span>
                 </div>
+
+                {wordCount > 0 && (
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{readingTime} min read</span>
+                  </div>
+                )}
+
+                {wordCount > 0 && (
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>{wordCount.toLocaleString()} words</span>
+                  </div>
+                )}
               </div>
             </header>
 
@@ -194,13 +259,10 @@ export default async function BlogPage({ params }: PageProps) {
             {/* Article Content */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-12">
               {blog.content ? (
-                <div className="prose prose-lg max-w-none">
-                  {blog.content.split('\n').map((paragraph, index) => (
-                    <p key={index} className="mb-6 text-gray-700 leading-relaxed">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
+                <div 
+                  className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-em:text-gray-600 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-li:text-gray-700 prose-blockquote:text-gray-600 prose-blockquote:border-blue-200 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 prose-pre:border prose-pre:border-gray-200"
+                  dangerouslySetInnerHTML={{ __html: blog.content }}
+                />
               ) : (
                 <div className="text-center py-12 text-gray-500">
                   <p className="text-lg">Content coming soon...</p>
