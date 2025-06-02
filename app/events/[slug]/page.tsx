@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -11,7 +10,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const event = await getEventBySlug(params.slug);
-  
+
   if (!event) {
     return {
       title: "Event Not Found - BizCivitas",
@@ -75,140 +74,38 @@ export default async function EventDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        <div className="event-details">
+        <div className="bg-white rounded-xl m-5 overflow-hidden shadow-lg">
           {/* Event Banner */}
-          <div className="event-details-banner" style={{ backgroundImage: `url('${event.cover_url}')` }}>
-            <div className="event-details-banner-content">
-              <h1 className="event-title">{event.event_name}</h1>
-              <div className="date-location">
+          <div 
+            className="relative w-full min-h-[400px] bg-cover bg-center flex flex-col justify-center items-center text-center text-white"
+            style={{ backgroundImage: `url('${event.cover_url}')` }}
+          >
+            <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
+            <div className="relative z-20 p-5">
+              <h1 className="text-5xl font-bold text-yellow-400 uppercase tracking-wider mb-3 md:text-3xl">
+                {event.event_name}
+              </h1>
+              <div className="text-xl text-gray-300 mt-4 bg-black bg-opacity-50 px-4 py-1 rounded inline-block md:text-base">
                 {formatDate(event.date)} • {event.location}
               </div>
             </div>
           </div>
 
           {/* Event Content */}
-          <div className="event-details-content">
-            <div className="description">
+          <div className="p-8 md:p-5">
+            <div className="text-base text-gray-600 leading-relaxed mb-5">
               {event.long_description || event.description}
             </div>
-            
-            <Link href="/events" className="back-button">
+
+            <Link 
+              href="/events" 
+              className="inline-block px-5 py-2.5 bg-green-600 text-white border-none rounded cursor-pointer text-base no-underline transition-colors duration-300 hover:bg-green-700 mt-5"
+            >
               Back to Events
             </Link>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .event-details {
-          background-color: #ffffff;
-          border-radius: 12px;
-          margin: 20px;
-          overflow: hidden;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .event-details-banner {
-          position: relative;
-          width: 100%;
-          min-height: 400px;
-          background-size: cover;
-          background-position: center;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          color: #fff;
-        }
-
-        .event-details-banner::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.4);
-          z-index: 1;
-        }
-
-        .event-details-banner-content {
-          position: relative;
-          z-index: 2;
-          padding: 20px;
-        }
-
-        .event-title {
-          font-size: 3rem;
-          font-weight: 700;
-          color: #f5a623;
-          text-transform: uppercase;
-          margin-bottom: 10px;
-          letter-spacing: 2px;
-        }
-
-        .date-location {
-          font-size: 1.2rem;
-          color: #ddd;
-          margin-top: 15px;
-          background-color: rgba(0, 0, 0, 0.5);
-          padding: 5px 15px;
-          border-radius: 5px;
-          display: inline-block;
-        }
-
-        .event-details-content {
-          padding: 30px;
-        }
-
-        .description {
-          font-size: 1rem;
-          color: #5c6b73;
-          line-height: 1.6;
-          margin-bottom: 20px;
-        }
-
-        .back-button {
-          display: inline-block;
-          padding: 10px 20px;
-          background-color: #28a745;
-          color: #ffffff;
-          border: none;
-          border-radius: 5px;
-          margin-top: 20px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-          font-size: 16px;
-          text-decoration: none;
-        }
-
-        .back-button:hover {
-          background-color: #218838;
-        }
-
-        @media (max-width: 768px) {
-          .event-details {
-            margin: 10px;
-          }
-
-          .event-details-banner {
-            min-height: 300px;
-          }
-
-          .event-title {
-            font-size: 2rem;
-          }
-
-          .date-location {
-            font-size: 1rem;
-          }
-
-          .event-details-content {
-            padding: 20px;
-          }
-        }
-      `}</style>
     </div>
   );
 }
