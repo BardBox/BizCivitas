@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { getEventBySlug, getAllEvents, getEventSEOData } from "@/lib/events";
-import EventNavigation from '@/components/EventNavigation';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { getEventBySlug, getAllEvents, getEventSEOData } from '@/lib/events';
 
 interface PageProps {
   params: { slug: string };
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
 
@@ -54,11 +51,10 @@ export async function generateMetadata({
       canonical: `/events/${event.slug}`,
     },
     other: {
-      robots:
-        "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-      "article:author": "BizCivitas",
-      "article:section": "Events",
-      "article:tag": event.event_name,
+      'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      'article:author': 'BizCivitas',
+      'article:section': 'Events',
+      'article:tag': event.event_name,
     },
   };
 }
@@ -71,10 +67,10 @@ export async function generateStaticParams() {
 }
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
+  return new Date(dateString).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
   });
 }
 
@@ -91,44 +87,42 @@ export default async function EventPage({ params }: PageProps) {
   }
 
   function formatDate(dateString: string) {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
     });
   }
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Event",
-    name: event.event_name,
-    description: event.description,
-    startDate: event.date,
-    location: {
+    "name": event.event_name,
+    "description": event.description,
+    "startDate": event.date,
+    "location": {
       "@type": "Place",
-      name: event.location,
+      "name": event.location,
     },
-    image: event.cover_url,
-    organizer: {
+    "image": event.cover_url,
+    "organizer": {
       "@type": "Organization",
-      name: "BizCivitas",
-      url: "https://bizcivitas.com",
+      "name": "BizCivitas",
+      "url": "https://bizcivitas.com"
     },
-    url: `https://bizcivitas.com/events/${event.slug}`,
-    eventStatus: "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    video: {
+    "url": `https://bizcivitas.com/events/${event.slug}`,
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "video": {
       "@type": "VideoObject",
-      name: "Business Innovation - Transform Your Vision Into Reality",
-      description:
-        "Inspiring video showcasing how great business ideas like Airbnb, Uber, and SolarCity transformed from concepts to successful companies.",
-      contentUrl:
-        "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4",
-      thumbnailUrl: "/video-poster.jpg",
-      uploadDate: "2025-01-24",
-      duration: "PT30S",
-    },
+      "name": "Business Innovation - Transform Your Vision Into Reality",
+      "description": "Inspiring video showcasing how great business ideas like Airbnb, Uber, and SolarCity transformed from concepts to successful companies.",
+      "contentUrl": "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4",
+      "thumbnailUrl": "/video-poster.jpg",
+      "uploadDate": "2025-01-24",
+      "duration": "PT30S"
+    }
   };
 
   return (
@@ -140,9 +134,6 @@ export default async function EventPage({ params }: PageProps) {
       />
 
       <div className="min-h-screen bg-gray-50">
-        {/* Event Navigation */}
-        <EventNavigation currentEventSlug={event.slug} />
-        
         {/* Hero Video Section */}
         <section className="relative w-full h-screen overflow-hidden">
           <div className="absolute inset-0 w-full h-full">
@@ -160,49 +151,24 @@ export default async function EventPage({ params }: PageProps) {
               aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
             />
           </div>
-          
+
           {/* Video Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                {event.event_name}
-              </h1>
               <div className="inline-flex items-center bg-blue-600/90 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
-                <svg
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 {formatDate(event.date)}
               </div>
+              <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight mb-4">
+                {event.event_name}
+              </h1>
               {event.location && (
                 <div className="text-white/90 text-lg mb-6 flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   {event.location}
                 </div>
@@ -222,7 +188,7 @@ export default async function EventPage({ params }: PageProps) {
               </div>
             </div>
           </div>
-          
+
           {/* Scroll Indicator */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,18 +216,14 @@ export default async function EventPage({ params }: PageProps) {
                     </div>
                   )}
                   <div className="p-8">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                      About This Event
-                    </h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">About This Event</h2>
                     {event.description && (
                       <div className="prose prose-lg max-w-none text-gray-600 leading-relaxed">
-                        {event.description
-                          .split("\n")
-                          .map((paragraph, index) => (
-                            <p key={index} className="mb-4">
-                              {paragraph}
-                            </p>
-                          ))}
+                        {event.description.split('\n').map((paragraph, index) => (
+                          <p key={index} className="mb-4">
+                            {paragraph}
+                          </p>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -271,53 +233,24 @@ export default async function EventPage({ params }: PageProps) {
               {/* Sidebar */}
               <div className="lg:col-span-1">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-8">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">
-                    Event Details
-                  </h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Event Details</h3>
 
                   <div className="space-y-4">
                     <div className="flex items-start">
-                      <svg
-                        className="w-5 h-5 text-blue-600 mr-3 mt-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
+                      <svg className="w-5 h-5 text-blue-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       <div>
                         <p className="font-medium text-gray-900">Date & Time</p>
-                        <p className="text-gray-600">
-                          {formatDate(event.date)}
-                        </p>
+                        <p className="text-gray-600">{formatDate(event.date)}</p>
                       </div>
                     </div>
 
                     {event.location && (
                       <div className="flex items-start">
-                        <svg
-                          className="w-5 h-5 text-blue-600 mr-3 mt-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
+                        <svg className="w-5 h-5 text-blue-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         <div>
                           <p className="font-medium text-gray-900">Location</p>
@@ -327,18 +260,8 @@ export default async function EventPage({ params }: PageProps) {
                     )}
 
                     <div className="flex items-start">
-                      <svg
-                        className="w-5 h-5 text-blue-600 mr-3 mt-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
+                      <svg className="w-5 h-5 text-blue-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
                       <div>
                         <p className="font-medium text-gray-900">Organizer</p>
@@ -358,9 +281,7 @@ export default async function EventPage({ params }: PageProps) {
 
                   {/* Social Share */}
                   <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-sm font-medium text-gray-900 mb-3">
-                      Share this event
-                    </p>
+                    <p className="text-sm font-medium text-gray-900 mb-3">Share this event</p>
                     <div className="flex space-x-3">
                       <button className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 transition-colors">
                         Facebook
@@ -382,22 +303,19 @@ export default async function EventPage({ params }: PageProps) {
         {/* Related Events or CTA Section */}
         <section className="py-16 bg-gray-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Transform Your Business?
-            </h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Ready to Transform Your Business?</h2>
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Join BizCivitas events and connect with industry leaders,
-              innovators, and like-minded professionals.
+              Join BizCivitas events and connect with industry leaders, innovators, and like-minded professionals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/events"
+              <Link 
+                href="/events" 
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
                 View All Events
               </Link>
-              <Link
-                href="/"
+              <Link 
+                href="/" 
                 className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all duration-200"
               >
                 Learn More About BizCivitas

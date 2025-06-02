@@ -13,7 +13,7 @@ export interface Event {
   location?: string;
   description?: string;
   cover_url?: string;
-  type: "upcoming" | "past" | "featured" | " ";
+  type: "upcoming" | "past" | "featured";
   image_urls?: string | string[]; // Your schema has this field
   youtube_links?: string | string[]; // Your schema has this field
   created_at?: string;
