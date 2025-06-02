@@ -7,9 +7,9 @@ export default async function sitemap(): MetadataRoute.Sitemap {
   
   const eventUrls = events.map((event) => ({
     url: `https://bizcivitas.com/events/${event.slug}`,
-    lastModified: new Date(),
+    lastModified: event.updated_at ? new Date(event.updated_at) : new Date(),
     changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    priority: event.type === 'featured' ? 0.9 : 0.8,
   }));
 
   return [

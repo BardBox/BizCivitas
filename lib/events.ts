@@ -1,6 +1,10 @@
 
-// This is a placeholder for your Supabase integration
-// Replace this with your actual Supabase client and database calls
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export interface Event {
   id: number;
@@ -12,80 +16,87 @@ export interface Event {
   cover_url: string;
   type: 'upcoming' | 'past' | 'featured';
   long_description?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string[];
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
 }
 
-// Mock data - replace with actual Supabase calls
-const mockEvents: Event[] = [
-  {
-    id: 1,
-    slug: "quarterly-business-summit-2024",
-    event_name: "Quarterly Business Summit 2024",
-    date: "2024-03-15",
-    location: "Grand Convention Center, NYC",
-    description: "Join industry leaders for our quarterly business summit featuring keynote speakers, networking sessions, and strategic discussions about the future of business.",
-    cover_url: "https://via.placeholder.com/480x260?text=Business+Summit+2024",
-    type: "upcoming",
-    long_description: "Our Quarterly Business Summit brings together the most innovative minds in business for a day of learning, networking, and strategic planning. This premier event features keynote speeches from industry titans, interactive workshops, and unparalleled networking opportunities."
-  },
-  {
-    id: 2,
-    slug: "entrepreneur-networking-breakfast",
-    event_name: "Entrepreneur Networking Breakfast",
-    date: "2024-02-20",
-    location: "Downtown Business Hub, San Francisco",
-    description: "Start your day with fellow entrepreneurs over breakfast and meaningful conversations about business growth and innovation.",
-    cover_url: "https://via.placeholder.com/480x260?text=Networking+Breakfast",
-    type: "upcoming",
-    long_description: "Join us for an intimate networking breakfast where entrepreneurs share insights, challenges, and opportunities in a relaxed setting. Perfect for early-stage startups and seasoned business owners alike."
-  },
-  {
-    id: 3,
-    slug: "annual-gala-2023",
-    event_name: "Annual BizCivitas Gala 2023",
-    date: "2023-12-15",
-    location: "Metropolitan Hotel, Chicago",
-    description: "Our annual celebration of business excellence featuring awards, dinner, and entertainment.",
-    cover_url: "https://via.placeholder.com/480x260?text=Annual+Gala+2023",
-    type: "past",
-    long_description: "The Annual BizCivitas Gala was a night to remember, celebrating outstanding achievements in business and community impact. The evening featured award presentations, a gourmet dinner, and live entertainment."
-  },
-  {
-    id: 4,
-    slug: "digital-transformation-workshop",
-    event_name: "Digital Transformation Workshop",
-    date: "2023-11-10",
-    location: "Tech Innovation Center, Austin",
-    description: "Learn about the latest digital trends and how to implement transformation strategies in your business.",
-    cover_url: "https://via.placeholder.com/480x260?text=Digital+Workshop",
-    type: "past",
-    long_description: "This intensive workshop covered the fundamentals of digital transformation, featuring case studies, hands-on exercises, and expert guidance on modernizing business processes and technology infrastructure."
-  }
-];
-
 export async function getAllEvents(): Promise<Event[]> {
-  // Simulate async database call
-  await new Promise(resolve => setTimeout(resolve, 100));
-  // Replace with: const { data, error } = await supabase.from('events').select('*').order('date', { ascending: true });
-  return mockEvents;
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .order('date', { ascending: true });
+  
+  if (error) {
+    console.error('Error fetching events:', error);
+    return [];
+  }
+  
+  return data || [];
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | null> {
-  // Simulate async database call
-  await new Promise(resolve => setTimeout(resolve, 100));
-  // Replace with: const { data, error } = await supabase.from('events').select('*').eq('slug', slug).single();
-  return mockEvents.find(event => event.slug === slug) || null;
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+  
+  if (error) {
+    console.error('Error fetching event by slug:', error);
+    return null;
+  }
+  
+  return data;
 }
 
 export async function getUpcomingEvents(): Promise<Event[]> {
-  // Simulate async database call
-  await new Promise(resolve => setTimeout(resolve, 100));
-  // Replace with: const { data, error } = await supabase.from('events').select('*').in('type', ['upcoming', 'featured']).order('date', { ascending: true });
-  return mockEvents.filter(event => event.type === 'upcoming' || event.type === 'featured');
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .in('type', ['upcoming', 'featured'])
+    .order('date', { ascending: true });
+  
+  if (error) {
+    console.error('Error fetching upcoming events:', error);
+    return [];
+  }
+  
+  return data || [];
 }
 
 export async function getPastEvents(): Promise<Event[]> {
-  // Simulate async database call
-  await new Promise(resolve => setTimeout(resolve, 100));
-  // Replace with: const { data, error } = await supabase.from('events').select('*').eq('type', 'past').order('date', { ascending: false });
-  return mockEvents.filter(event => event.type === 'past');
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .eq('type', 'past')
+    .order('date', { ascending: false });
+  
+  if (error) {
+    console.error('Error fetching past events:', error);
+    return [];
+  }
+  
+  return data || [];
+}
+
+// SEO helper functions
+export function getEventSEOData(event: Event) {
+  return {
+    title: event.meta_title || `${event.event_name} | BizCivitas Events`,
+    description: event.meta_description || event.description,
+    keywords: event.meta_keywords || [`${event.event_name}`, "business event", "networking", "BizCivitas", event.location],
+    ogTitle: event.og_title || event.meta_title || `${event.event_name} | BizCivitas`,
+    ogDescription: event.og_description || event.meta_description || event.description,
+    ogImage: event.og_image || event.cover_url,
+    twitterTitle: event.twitter_title || event.meta_title || `${event.event_name} | BizCivitas`,
+    twitterDescription: event.twitter_description || event.meta_description || event.description,
+    twitterImage: event.twitter_image || event.og_image || event.cover_url,
+  };
 }

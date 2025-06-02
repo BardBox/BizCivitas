@@ -19,30 +19,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const seoData = getEventSEOData(event);
+
   return {
-    title: `${event.event_name} | BizCivitas Events`,
-    description: event.description,
-    keywords: [`${event.event_name}`, "business event", "networking", "BizCivitas", event.location],
+    title: seoData.title,
+    description: seoData.description,
+    keywords: seoData.keywords,
     openGraph: {
-      title: `${event.event_name} | BizCivitas`,
-      description: event.description,
+      title: seoData.ogTitle,
+      description: seoData.ogDescription,
       type: "article",
       url: `https://bizcivitas.com/events/${event.slug}`,
       images: [
         {
-          url: event.cover_url,
+          url: seoData.ogImage,
           width: 1200,
-          height: 400,
+          height: 630,
           alt: event.event_name,
         },
       ],
       publishedTime: event.date,
+      siteName: "BizCivitas",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${event.event_name} | BizCivitas`,
-      description: event.description,
-      images: [event.cover_url],
+      title: seoData.twitterTitle,
+      description: seoData.twitterDescription,
+      images: [seoData.twitterImage],
     },
     alternates: {
       canonical: `/events/${event.slug}`,
