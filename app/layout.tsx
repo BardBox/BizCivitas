@@ -110,7 +110,22 @@ export default function RootLayout({
                 "@type": "ContactPoint",
                 "contactType": "customer service",
                 "availableLanguage": "English"
-              }
+              },
+              "event": [
+                {
+                  "@type": "BusinessEvent",
+                  "name": "Quarterly Business Summit 2024",
+                  "startDate": "2024-03-15",
+                  "location": {
+                    "@type": "Place",
+                    "name": "Grand Convention Center, NYC"
+                  },
+                  "organizer": {
+                    "@type": "Organization",
+                    "name": "BizCivitas"
+                  }
+                }
+              ]
             })
           }}
         />
