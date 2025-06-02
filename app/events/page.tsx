@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -102,14 +101,14 @@ export default async function EventsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      
+
       <div className="bg-gray-50">
       {/* Hero Video Section */}
       <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-         
+
         </div>
-        
+
         {/* Video Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
           <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
@@ -129,7 +128,7 @@ export default async function EventsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
