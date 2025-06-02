@@ -48,40 +48,43 @@ export default async function EventsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container">
+      <div className="max-w-screen-xl mx-auto p-5">
         {/* Upcoming Events Section */}
         <section className="mb-12">
-          <h2>Upcoming Events</h2>
+          <h2 className="text-xl font-semibold mb-8 text-center bg-gray-200 w-full text-black border-none p-2 md:text-lg md:p-1.5">
+            Upcoming Events
+          </h2>
           <div className="space-y-6">
             {upcomingEvents.length === 0 ? (
-              <div className="no-events">
+              <div className="bg-white rounded-xl p-8 text-center text-red-600 text-base shadow-sm">
                 No upcoming events available at this time.
               </div>
             ) : (
               upcomingEvents.map((event) => (
-                <Link key={event.id} href={`/events/${event.slug}`} className="event-card-link">
-                  <div className="event-card">
-                    <div className="event-image">
+                <Link key={event.id} href={`/events/${event.slug}`} className="block no-underline text-inherit">
+                  <div className="flex bg-white rounded-3xl mb-5 overflow-hidden transition-all duration-300 relative cursor-pointer p-6 border-3 border-gray-200 hover:scale-105 hover:shadow-lg hover:bg-gray-800 hover:text-white hover:border-none group">
+                    <div className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                    <div className="flex-shrink-0 w-120 bg-cover bg-center min-h-36 rounded-2xl overflow-hidden">
                       <Image
                         src={event.cover_url}
                         alt={event.event_name}
                         width={480}
                         height={260}
-                        className="event-image-img"
+                        className="w-full h-full object-cover"
                         priority={event.id <= 2}
                       />
                     </div>
-                    <div className="event-content">
-                      <div className="event-date">
+                    <div className="flex-1 p-5 relative z-20">
+                      <div className="text-sm text-gray-500 font-medium mb-1 group-hover:text-gray-300">
                         {formatDate(event.date)}
                       </div>
-                      <div className="event-name">
+                      <div className="text-2xl font-semibold text-green-600 mb-2 group-hover:text-white">
                         {event.event_name}
                       </div>
-                      <div className="event-location">
+                      <div className="text-base text-gray-700 mb-2.5 flex items-center before:content-['📍'] before:mr-1 group-hover:text-gray-300">
                         {event.location}
                       </div>
-                      <div className="event-description">
+                      <div className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-300">
                         {event.description}
                       </div>
                     </div>
@@ -94,36 +97,39 @@ export default async function EventsPage() {
 
         {/* Past Events Section */}
         <section>
-          <h2>Past Events</h2>
+          <h2 className="text-xl font-semibold mb-8 text-center bg-gray-200 w-full text-black border-none p-2 md:text-lg md:p-1.5">
+            Past Events
+          </h2>
           <div className="space-y-6">
             {pastEvents.length === 0 ? (
-              <div className="no-events">
+              <div className="bg-white rounded-xl p-8 text-center text-red-600 text-base shadow-sm">
                 No past events available at this time.
               </div>
             ) : (
               pastEvents.map((event) => (
-                <Link key={event.id} href={`/events/${event.slug}`} className="event-card-link">
-                  <div className="event-card">
-                    <div className="event-image">
+                <Link key={event.id} href={`/events/${event.slug}`} className="block no-underline text-inherit">
+                  <div className="flex bg-white rounded-3xl mb-5 overflow-hidden transition-all duration-300 relative cursor-pointer p-6 border-3 border-gray-200 hover:scale-105 hover:shadow-lg hover:bg-gray-800 hover:text-white hover:border-none group md:flex-col md:p-4">
+                    <div className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                    <div className="flex-shrink-0 w-120 bg-cover bg-center min-h-36 rounded-2xl overflow-hidden md:flex-none md:w-full md:mb-4">
                       <Image
                         src={event.cover_url}
                         alt={event.event_name}
                         width={480}
                         height={260}
-                        className="event-image-img"
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="event-content">
-                      <div className="event-date">
+                    <div className="flex-1 p-5 relative z-20 md:p-0">
+                      <div className="text-sm text-gray-500 font-medium mb-1 group-hover:text-gray-300">
                         {formatDate(event.date)}
                       </div>
-                      <div className="event-name">
+                      <div className="text-2xl font-semibold text-green-600 mb-2 group-hover:text-white">
                         {event.event_name}
                       </div>
-                      <div className="event-location">
+                      <div className="text-base text-gray-700 mb-2.5 flex items-center before:content-['📍'] before:mr-1 group-hover:text-gray-300">
                         {event.location}
                       </div>
-                      <div className="event-description">
+                      <div className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-300">
                         {event.description}
                       </div>
                     </div>
@@ -134,178 +140,6 @@ export default async function EventsPage() {
           </div>
         </section>
       </div>
-
-      <styles>{`
-        .container {
-          max-width: 1440px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-
-        h2 {
-          font-size: 28px;
-          font-weight: 600;
-          margin-bottom: 30px;
-          color: #2c3e50;
-          text-align: center;
-          border-bottom: 2px solid #28a745;
-          display: inline-block;
-          padding-bottom: 5px;
-          background: #E6E6E6;
-          width: 100%;
-          color: #000000;
-          border: none;
-          font-size: 20px;
-          padding: 8px;
-        }
-
-        .event-card-link {
-          text-decoration: none;
-          color: inherit;
-          display: block;
-        }
-
-        .event-card {
-          display: flex;
-          background-color: #ffffff;
-          border-radius: 24px;
-          margin-bottom: 20px;
-          overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          position: relative;
-          cursor: pointer;
-          padding: 24px 24px 24px 24px;
-          border: 3px solid #e6e6e6;
-        }
-
-        .event-card:hover {
-          transform: scale(1.02);
-          box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
-          background-color: #333333;
-          color: #fff;
-          border: none;
-        }
-
-        .event-card:hover::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.1);
-          z-index: 1;
-          transition: background-color 0.3s ease;
-        }
-
-        .event-image {
-          flex: 0 0 480px;
-          background-size: cover;
-          background-position: center;
-          min-height: 150px;
-          border-radius: 16px;
-          overflow: hidden;
-        }
-
-        .event-image-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .event-content {
-          flex: 1;
-          padding: 20px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .event-date {
-          font-size: 14px;
-          color: #7f8c8d;
-          font-weight: 500;
-          margin-bottom: 5px;
-        }
-
-        .event-card:hover .event-date {
-          color: #ccc;
-        }
-
-        .event-name {
-          font-size: 26px;
-          font-weight: 600;
-          color: #28a745;
-          margin: 0 0 8px;
-        }
-
-        .event-card:hover .event-name {
-          color: #fff;
-        }
-
-        .event-location {
-          font-size: 16px;
-          color: #34495e;
-          margin-bottom: 10px;
-          display: flex;
-          align-items: center;
-        }
-
-        .event-location::before {
-          content: "📍";
-          margin-right: 5px;
-        }
-
-        .event-card:hover .event-location {
-          color: #ddd;
-        }
-
-        .event-description {
-          font-size: 14px;
-          color: #5c6b73;
-          line-height: 1.6;
-        }
-
-        .event-card:hover .event-description {
-          color: #ccc;
-        }
-
-        .no-events {
-          background-color: #ffffff;
-          border-radius: 12px;
-          padding: 30px;
-          text-align: center;
-          color: #e74c3c;
-          font-size: 16px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        @media (max-width: 768px) {
-          .container {
-            padding: 10px;
-          }
-
-          .event-card {
-            flex-direction: column;
-            padding: 16px;
-          }
-
-          .event-image {
-            flex: none;
-            width: 100%;
-            min-height: 150px;
-            margin-bottom: 16px;
-          }
-
-          .event-content {
-            padding: 0;
-          }
-
-          h2 {
-            font-size: 18px;
-            padding: 6px;
-          }
-        }
-      `}</styles>
     </div>
   );
 }

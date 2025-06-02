@@ -9,7 +9,8 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const event = await getEventBySlug(params.slug);
+  const { slug } = await params;
+  const event = await getEventBySlug(slug);
 
   if (!event) {
     return {
@@ -65,7 +66,8 @@ function formatDate(dateString: string) {
 }
 
 export default async function EventDetailPage({ params }: PageProps) {
-  const event = await getEventBySlug(params.slug);
+  const { slug } = await params;
+  const event = await getEventBySlug(slug);
 
   if (!event) {
     notFound();
