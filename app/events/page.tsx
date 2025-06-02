@@ -66,12 +66,12 @@ export default async function EventsPage() {
                     <div className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                     <div className="flex-shrink-0 w-120 bg-cover bg-center min-h-36 rounded-2xl overflow-hidden">
                       <Image
-                        src={event.cover_url}
+                        src={event.cover_url || '/placeholder-event.jpg'}
                         alt={event.event_name}
                         width={480}
                         height={260}
                         className="w-full h-full object-cover"
-                        priority={event.id <= 2}
+                        priority={typeof event.id === 'string' ? false : event.id <= 2}
                       />
                     </div>
                     <div className="flex-1 p-5 relative z-20">
@@ -112,7 +112,7 @@ export default async function EventsPage() {
                     <div className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                     <div className="flex-shrink-0 w-120 bg-cover bg-center min-h-36 rounded-2xl overflow-hidden md:flex-none md:w-full md:mb-4">
                       <Image
-                        src={event.cover_url}
+                        src={event.cover_url || '/placeholder-event.jpg'}
                         alt={event.event_name}
                         width={480}
                         height={260}

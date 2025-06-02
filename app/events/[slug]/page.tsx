@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getEventBySlug, getAllEvents } from '@/lib/events';
+import { getEventBySlug, getAllEvents, getEventSEOData } from '@/lib/events';
 
 interface PageProps {
   params: { slug: string };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const event = await getEventBySlug(slug);
 
   if (!event) {
@@ -69,7 +69,7 @@ function formatDate(dateString: string) {
 }
 
 export default async function EventDetailPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const event = await getEventBySlug(slug);
 
   if (!event) {
@@ -83,7 +83,7 @@ export default async function EventDetailPage({ params }: PageProps) {
           {/* Event Banner */}
           <div 
             className="relative w-full min-h-[400px] bg-cover bg-center flex flex-col justify-center items-center text-center text-white"
-            style={{ backgroundImage: `url('${event.cover_url}')` }}
+            style={{ backgroundImage: `url('${event.cover_url || '/placeholder-event.jpg'}')` }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
             <div className="relative z-20 p-5">
