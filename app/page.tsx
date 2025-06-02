@@ -1,103 +1,275 @@
+
 import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home - BizCivitas | Business Networking & Events Platform",
+  description: "Join BizCivitas, the premier business networking platform. Discover events, connect with professionals, and grow your business through our exclusive memberships and networking opportunities.",
+  keywords: ["business networking", "professional events", "entrepreneur community", "corporate networking", "business growth", "networking events"],
+  openGraph: {
+    title: "BizCivitas - Premier Business Networking Platform",
+    description: "Join BizCivitas for exclusive networking events, professional development, and business growth opportunities.",
+    type: "website",
+  },
+};
+
+const navigation = [
+  { name: 'Home', href: '/' },
+  { name: 'Discover BizCivitas', href: '/discover' },
+  { name: 'Our Team', href: '/team' },
+  { name: 'Insights', href: '/insights' },
+  { name: 'Events', href: '/events' },
+  { name: 'Memberships', href: '/memberships' },
+  { name: 'Contact', href: '/contact' },
+];
+
+const footerLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'Discover Bizcivitas', href: '/discover' },
+  { name: 'Our Team', href: '/team' },
+  { name: 'Insights', href: '/insights' },
+  { name: 'Events', href: '/events' },
+  { name: 'Membership', href: '/memberships' },
+  { name: 'Contact', href: '/contact' },
+  { name: 'Corporate Networking', href: '/corporate-networking' },
+  { name: 'Entrepreneur Networking', href: '/entrepreneur-networking' },
+  { name: 'Travel Networking', href: '/travel-networking' },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Link href="/" className="flex items-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-2"></div>
+                <span className="text-xl font-bold text-gray-900">BizCivitas</span>
+              </Link>
+            </div>
+            
+            {/* Navigation */}
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                type="button"
+                className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      {/* Main Content */}
+      <main>
+        {/* Hero Section */}
+        <section className="relative bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                  TURNING VISIONS INTO REALITY, ONE EVENT AT A TIME
+                </h1>
+                <p className="text-xl mb-8 text-blue-100">
+                  Bringing your vision to life with seamless execution and unforgettable experiences.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link
+                    href="/events"
+                    className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-center"
+                  >
+                    Explore Events
+                  </Link>
+                  <Link
+                    href="/memberships"
+                    className="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors text-center"
+                  >
+                    Join Membership
+                  </Link>
+                </div>
+              </div>
+              <div className="lg:text-right">
+                <div className="inline-block">
+                  <h3 className="text-2xl font-semibold mb-4">STAY IN THE LOOP - JOIN OUR NEWSLETTER!</h3>
+                  <div className="flex max-w-md">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      className="flex-1 px-4 py-3 rounded-l-lg text-gray-900"
+                      aria-label="Email address"
+                    />
+                    <button
+                      type="submit"
+                      className="bg-gray-800 text-white px-6 py-3 rounded-r-lg hover:bg-gray-700 transition-colors"
+                    >
+                      SUBSCRIBE
+                    </button>
+                  </div>
+                  <div className="mt-6">
+                    <h4 className="text-lg font-semibold mb-4">GET THE APP</h4>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link href="#" className="inline-block">
+                        <Image
+                          src="/app-store.png"
+                          alt="Download on the App Store"
+                          width={140}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                      </Link>
+                      <Link href="#" className="inline-block">
+                        <Image
+                          src="/google-play.png"
+                          alt="Get it on Google Play"
+                          width={140}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Why Choose BizCivitas?
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                We provide comprehensive business networking solutions to help you grow, connect, and succeed in your professional journey.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center p-6">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Premium Networking</h3>
+                <p className="text-gray-600">Connect with like-minded professionals and industry leaders in exclusive networking events.</p>
+              </div>
+              
+              <div className="text-center p-6">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Curated Events</h3>
+                <p className="text-gray-600">Attend carefully curated events designed to maximize your learning and networking opportunities.</p>
+              </div>
+              
+              <div className="text-center p-6">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Business Growth</h3>
+                <p className="text-gray-600">Accelerate your business growth through strategic partnerships and valuable insights.</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Company Info */}
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center mb-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-2"></div>
+                <span className="text-xl font-bold">BizCivitas</span>
+              </div>
+              <p className="text-gray-300 mb-4 max-w-md">
+                TURNING VISIONS INTO REALITY, ONE EVENT AT A TIME
+              </p>
+              <p className="text-gray-400 text-sm mb-4">
+                Bringing your vision to life with seamless execution and unforgettable experiences.
+              </p>
+            </div>
+            
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                {footerLinks.slice(0, 5).map((link) => (
+                  <li key={link.name}>
+                    <Link href={link.href} className="text-gray-300 hover:text-white transition-colors">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Services */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Services</h3>
+              <ul className="space-y-2">
+                {footerLinks.slice(5).map((link) => (
+                  <li key={link.name}>
+                    <Link href={link.href} className="text-gray-300 hover:text-white transition-colors">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-sm">
+              © 2024 BizCivitas. All rights reserved.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-gray-400 hover:text-white text-sm">
+                Terms of Service
+              </Link>
+              <Link href="/sitemap" className="text-gray-400 hover:text-white text-sm">
+                Sitemap
+              </Link>
+            </div>
+          </div>
+        </div>
       </footer>
-    </div>
+    </>
   );
 }

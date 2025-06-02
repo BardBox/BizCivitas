@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 :root {
@@ -22,5 +23,23 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Performance optimizations */
+img {
+  height: auto;
+  width: auto;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus states for accessibility */
+a:focus,
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
