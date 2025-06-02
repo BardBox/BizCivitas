@@ -9,7 +9,7 @@ export default async function sitemap(): MetadataRoute.Sitemap {
     url: `https://bizcivitas.com/events/${event.slug}`,
     lastModified: event.updated_at ? new Date(event.updated_at) : new Date(),
     changeFrequency: 'weekly' as const,
-    priority: event.type === 'featured' ? 0.9 : 0.8,
+    priority: event.type === 'featured' ? 0.95 : 0.85,
   }));
 
   return [
