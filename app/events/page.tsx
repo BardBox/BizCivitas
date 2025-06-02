@@ -104,7 +104,6 @@ export default async function EventsPage() {
       />
       
       <div className="bg-gray-50">
-    <div className="bg-gray-50">
       {/* Hero Video Section */}
       <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
