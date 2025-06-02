@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "BizCivitas - Turning Visions Into Reality, One Event at a Time",
     description: "Bringing your vision to life with seamless execution and unforgettable experiences.",
     type: "website",
-    url: "https://bizcivitas.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
     images: [
       {
         url: "/og-image.jpg",

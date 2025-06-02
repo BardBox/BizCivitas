@@ -8,7 +8,7 @@ export default async function sitemap() {
   const blogs = await getAllBlogs();
   const teamMembers = await getAllTeamMembers();
 
-  const baseUrl = 'https://bizcivitas.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com';
 
   const eventUrls = events.map((event) => ({
     url: `${baseUrl}/events/${event.slug}`,

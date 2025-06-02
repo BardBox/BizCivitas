@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description:
       "Join BizCivitas events for networking, professional development, and business growth opportunities.",
     type: "website",
-    url: "https://bizcivitas.com/events",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/events`,
     images: [
       {
         url: "/og-events.jpg",
@@ -80,7 +80,7 @@ export default async function EventsPage() {
     name: "Business Events | BizCivitas",
     description:
       "Discover upcoming and past business networking events at BizCivitas.",
-    url: "https://bizcivitas.com/events",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/events`,
     mainEntity: {
       "@type": "VideoObject",
       name: "Business Innovation - Transform Your Vision Into Reality",
@@ -110,7 +110,9 @@ export default async function EventsPage() {
           "@type": "ListItem",
           position: 2,
           name: "Events",
-          item: "https://bizcivitas.com/events",
+          item: `${
+            process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
+          }/events`,
         },
       ],
     },

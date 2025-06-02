@@ -1,7 +1,7 @@
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://bizcivitas.com',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com',
   generateRobotsText: true,
   generateIndexSitemap: false,
   exclude: ['/private/*', '/admin/*'],
@@ -14,7 +14,7 @@ module.exports = {
       }
     ],
     additionalSitemaps: [
-      'https://bizcivitas.com/sitemap.xml',
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/sitemap.xml`,
     ],
   },
   transform: async (config, path) => {

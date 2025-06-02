@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Business Insights & Blogs | BizCivitas - Expert Analysis & Trends",
     description: "Discover expert business insights, industry analysis, and thought leadership articles from BizCivitas.",
     type: "website",
-    url: "https://bizcivitas.com/insights",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
     images: [
       {
         url: "/og-insights.jpg",

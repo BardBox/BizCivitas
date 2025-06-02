@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://bizcivitas.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'),
   alternates: {
     canonical: '/',
   },
@@ -90,7 +89,7 @@ export default function RootLayout({
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-M85WZNMH');`}
         </Script>
-        
+
         {/* Structured Data */}
         <Script
           id="structured-data"
@@ -144,7 +143,7 @@ export default function RootLayout({
             style={{display: 'none', visibility: 'hidden'}}
           />
         </noscript>
-        
+
         <Navbar />
         <main className="min-h-screen">
           {children}

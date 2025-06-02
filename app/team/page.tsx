@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Our Team | BizCivitas - Meet Our Business Experts",
     description: "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
     type: "website",
-    url: "https://bizcivitas.com/team",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/team`,
     images: [
       {
         url: "/og-team.jpg",
