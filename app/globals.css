@@ -2,8 +2,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ecf0f1;
+  --foreground: #2c3e50;
+  --surface: #ffffff;
+  --border: #bdc3c7;
+  --text-secondary: #7f8c8d;
 }
 
 @theme inline {
@@ -15,8 +18,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #34495e;
+    --foreground: #ecf0f1;
+    --surface: #2c3e50;
+    --border: #7f8c8d;
+    --text-secondary: #bdc3c7;
   }
 }
 
@@ -24,6 +30,71 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+/* Flat UI Base Styles */
+.flat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.flat-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.flat-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+.flat-btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.flat-btn-primary:hover {
+  background: #2980b9;
+}
+
+.flat-btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.flat-btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+.flat-btn-success {
+  background: #2ecc71;
+  color: white;
+}
+
+.flat-btn-success:hover {
+  background: #27ae60;
+}
+
+.flat-btn-outline {
+  background: transparent;
+  border: 2px solid #3498db;
+  color: #3498db;
+}
+
+.flat-btn-outline:hover {
+  background: #3498db;
+  color: white;
 }
 
 /* Performance optimizations */
@@ -40,7 +111,7 @@ html {
 /* Focus states for accessibility */
 a:focus,
 button:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #3498db;
   outline-offset: 2px;
 }
 
@@ -83,4 +154,59 @@ button:focus {
   .video-container {
     height: 70vh;
   }
+}
+
+/* Flat UI specific utilities */
+.flat-shadow-sm {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.flat-shadow {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.flat-shadow-lg {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+/* Input styles */
+.flat-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.flat-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Text styles */
+.flat-text-heading {
+  color: var(--foreground);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.flat-text-body {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.flat-text-muted {
+  color: #95a5a6;
 }
