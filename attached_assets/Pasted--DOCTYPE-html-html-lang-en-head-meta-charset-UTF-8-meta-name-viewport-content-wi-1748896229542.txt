@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events Page - Enhanced Design</title>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+    }
+    #app h2{
+    background: #E6E6E6;
+    width: 100%;
+    color: #000000;
+    border: none;
+    font-size: 20px;
+    padding: 8px;
+}
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #2c3e50;
+      text-align: center;
+      border-bottom: 2px solid #28a745;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    /* Event Card Styling */
+ .event-card {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 24px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    
+    padding: 24px 24px 24px 24px;
+    border:3px solid #e6e6e6;
+    
+}
+    .event-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+      background-color: #333333;
+      color: #fff;
+      border:none;
+    }
+    .event-card:hover::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      transition: background-color 0.3s ease;
+    }
+    .event-image {
+      flex: 0 0 480px;
+      background-size: cover;
+      background-position: center;
+      min-height: 150px;
+    }
+    .event-content {
+      flex: 1;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .event-date {
+      font-size: 14px;
+      color: #7f8c8d;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .event-name {
+      font-size: 26px;
+      font-weight: 600;
+      color: #28a745;
+      margin: 0 0 8px;
+    }
+    .event-location {
+      font-size: 16px;
+      color: #34495e;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .event-location::before {
+      content: "📍";
+      margin-right: 5px;
+    }
+    .event-description {
+      font-size: 14px;
+      color: #5c6b73;
+      line-height: 1.6;
+    }
+    /* Event Details Styling with Banner */
+    .event-details {
+      background-color: #ffffff;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    .event-details-banner {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+    }
+    .event-details-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+    .event-details-banner-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+    }
+    .event-details-banner h3 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #f5a623;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+    .event-details-banner h3 span {
+      display: block;
+      font-size: 2rem;
+      color: #fff;
+      margin-top: 5px;
+    }
+    .event-details-banner .date-location {
+      font-size: 1.2rem;
+      color: #ddd;
+      margin-top: 15px;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 15px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+    .event-details-content {
+      padding: 30px;
+    }
+    .event-details-content p {
+      font-size: 16px;
+      color: #34495e;
+      margin-bottom: 10px;
+    }
+    .event-details-content .description {
+      font-size: 1rem;
+      color: #5c6b73;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .event-details-content .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+    }
+    .event-details-content .back-button:hover {
+      background-color: #218838;
+    }
+    /* Error Message */
+    .error-message {
+      text-align: center;
+      color: #dc2626;
+      font-size: 16px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 20px 0;
+    }
+    /* Section Styling */
+    .upcoming-events, .past-events {
+      margin-bottom: 40px;
+    }
+    .upcoming-events h2, .past-events h2 {
+      color: #2c3e50;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .event-card {
+        flex-direction: column;
+      }
+      .event-image {
+        flex: none;
+        width: 100%;
+        min-height: 150px;
+      }
+      .event-content {
+        padding: 15px;
+      }
+      .event-details-banner {
+        min-height: 300px;
+      }
+      .event-details-banner h3 {
+        font-size: 2rem;
+      }
+      .event-details-banner h3 span {
+        font-size: 1.5rem;
+      }
+      .event-details-banner .date-location {
+        font-size: 1rem;
+      }
+      .event-details-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <!-- Content will be dynamically rendered here -->
+  </div>
+
+  <script type="module">
+    // Supabase client setup
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://vxgwzfourhzoxwejijxl.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4Z3d6Zm91cmh6b3h3ZWppanhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxMDAzNzEsImV4cCI6MjA2MzY3NjM3MX0.CcSPEYkbp9gXmCXGOrr0STqh88pfE_1j5U6zBkaTZeU';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Main app container
+    const appContainer = document.getElementById('app');
+
+    // Simple client-side router
+    function router() {
+      const path = window.location.pathname;
+      if (path.startsWith('/event/')) {
+        const eventId = path.split('/event/')[1];
+        renderEventDetails(eventId);
+      } else {
+        renderEventsList();
+      }
+    }
+
+    // Render main events list
+    async function renderEventsList() {
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .order('date', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching events:', error);
+        appContainer.innerHTML = '<p class="error-message">Error loading events. Please try again later.</p>';
+        return;
+      }
+
+      const upcomingEvents = data.filter(event => event.type === 'upcoming' || event.type === 'featured');
+      const pastEvents = data.filter(event => event.type === 'past');
+
+      let html = `
+        <h2>Upcoming Events</h2>
+        <div class="upcoming-events" id="upcoming-events">
+          ${upcomingEvents.length === 0 ? '<p class="error-message">No upcoming events available at this time.</p>' : ''}
+        </div>
+        <h2>Past Events</h2>
+        <div class="past-events" id="past-events">
+          ${pastEvents.length === 0 ? '<p class="error-message">No past events available at this time.</p>' : ''}
+        </div>
+      `;
+
+      appContainer.innerHTML = html;
+
+      const upcomingContainer = document.getElementById('upcoming-events');
+      upcomingEvents.forEach(event => {
+        const eventCard = document.createElement('div');
+        eventCard.className = 'event-card';
+        eventCard.innerHTML = `
+          <div class="event-image" style="background-image: url('${event.cover_url || 'https://via.placeholder.com/400x260?text=Event+Image'}');"></div>
+          <div class="event-content">
+            <div class="event-date">${new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</div>
+            <div class="event-name">${event.event_name || 'Untitled Event'}</div>
+            <div class="event-location">${event.location || 'Location TBD'}</div>
+            <div class="event-description">${event.description || 'No description available.'}</div>
+          </div>
+        `;
+        eventCard.addEventListener('click', () => {
+          history.pushState({ eventId: event.id }, '', `/event/${event.id}`);
+          router();
+        });
+        upcomingContainer.appendChild(eventCard);
+      });
+
+      const pastContainer = document.getElementById('past-events');
+      pastEvents.forEach(event => {
+        const eventCard = document.createElement('div');
+        eventCard.className = 'event-card';
+        eventCard.innerHTML = `
+          <div class="event-image" style="background-image: url('${event.cover_url || 'https://via.placeholder.com/400x260?text=Event+Image'}');"></div>
+          <div class="event-content">
+            <div class="event-date">${new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</div>
+            <div class="event-name">${event.event_name || 'Untitled Event'}</div>
+            <div class="event-location">${event.location || 'Location TBD'}</div>
+            <div class="event-description">${event.description || 'No description available.'}</div>
+          </div>
+        `;
+        eventCard.addEventListener('click', () => {
+          history.pushState({ eventId: event.id }, '', `/event/${event.id}`);
+          router();
+        });
+        pastContainer.appendChild(eventCard);
+      });
+    }
+
+    // Render event details with banner
+    async function renderEventDetails(eventId) {
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .eq('id', eventId)
+        .single();
+
+      if (error || !data) {
+        console.error('Error fetching event details:', error);
+        appContainer.innerHTML = '<p class="error-message">Error loading event details. Please try again later.</p>';
+        return;
+      }
+
+      appContainer.innerHTML = `
+        <div class="event-details">
+        
+          <div class="event-details-banner" style="background-image: url('${data.cover_url || 'https://via.placeholder.com/1200x400?text=Event+Banner'}');">
+          
+            <div class="event-details-banner-content">
+              <h3>
+              ${data.event_name}
+              </h3>
+              <div class="date-location">${new Date(data.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })} • ${data.location || 'Location TBD'}</div>
+            </div>
+          </div>
+          <div class="event-details-content">
+          
+            <p class="description">
+              ${data.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}
+            </p>
+          </div>
+          
+            <button class="back-button" id="back-button">Back to Events</button>
+        </div>
+      `;
+
+      // Add event listener to the back button
+      document.getElementById('back-button').addEventListener('click', () => {
+        history.pushState({}, '', '/');
+        router();
+      });
+    }
+
+    // Handle browser navigation (back/forward buttons)
+    window.addEventListener('popstate', router);
+
+    // Initial render
+    router();
+  </script>
+</body>
+</html>
