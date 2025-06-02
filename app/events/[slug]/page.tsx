@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -5,7 +6,7 @@ import Link from 'next/link';
 import { getEventBySlug, getAllEvents, getEventSEOData } from '@/lib/events';
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -224,6 +225,48 @@ export default async function EventPage({ params }: PageProps) {
                             {paragraph}
                           </p>
                         ))}
+                      </div>
+                    )}
+                    
+                    {/* Image Gallery */}
+                    {event.image_urls && (
+                      <div className="mt-8">
+                        <h3 className="text-xl font-bold text-gray-900 mb-4">Event Gallery</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                          {event.image_urls.split(',').map((imageUrl, index) => (
+                            <div key={index} className="relative h-32 rounded-lg overflow-hidden">
+                              <Image
+                                src={imageUrl.trim()}
+                                alt={`${event.event_name} gallery image ${index + 1}`}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* YouTube Videos */}
+                    {event.youtube_links && (
+                      <div className="mt-8">
+                        <h3 className="text-xl font-bold text-gray-900 mb-4">Event Videos</h3>
+                        <div className="space-y-4">
+                          {event.youtube_links.split(',').map((youtubeLink, index) => {
+                            const videoId = youtubeLink.trim().split('v=')[1]?.split('&')[0];
+                            return (
+                              <div key={index} className="relative aspect-video rounded-lg overflow-hidden">
+                                <iframe
+                                  src={`https://www.youtube.com/embed/${videoId}`}
+                                  title={`${event.event_name} video ${index + 1}`}
+                                  className="w-full h-full"
+                                  allowFullScreen
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>

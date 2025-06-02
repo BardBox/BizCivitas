@@ -13,9 +13,9 @@ export interface Event {
   location?: string;
   description?: string;
   cover_url?: string;
-  type: "upcoming" | "past" | "featured";
-  image_urls?: string | string[]; // Your schema has this field
-  youtube_links?: string | string[]; // Your schema has this field
+  type: string; // This matches the enum in your database
+  image_urls?: string; // Your schema has this field as text
+  youtube_links?: string; // Your schema has this field as text
   created_at?: string;
   updated_at?: string;
 }
@@ -50,10 +50,11 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
 }
 
 export async function getUpcomingEvents(): Promise<Event[]> {
+  const today = new Date().toISOString().split('T')[0];
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .in("type", ["upcoming", "featured"])
+    .gte("date", today)
     .order("date", { ascending: true });
 
   if (error) {
@@ -65,10 +66,11 @@ export async function getUpcomingEvents(): Promise<Event[]> {
 }
 
 export async function getPastEvents(): Promise<Event[]> {
+  const today = new Date().toISOString().split('T')[0];
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .eq("type", "past")
+    .lt("date", today)
     .order("date", { ascending: false });
 
   if (error) {
