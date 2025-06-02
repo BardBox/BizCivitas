@@ -2,40 +2,40 @@
 export const theme = {
   colors: {
     primary: {
-      50: '#f0f9ff',
-      100: '#e0f2fe', 
-      200: '#bae6fd',
-      300: '#7dd3fc',
-      400: '#38bdf8',
-      500: '#0ea5e9', // Main primary
-      600: '#0284c7',
-      700: '#0369a1',
-      800: '#075985',
-      900: '#0c4a6e',
+      50: '#fff7ed',
+      100: '#ffedd5', 
+      200: '#fed7aa',
+      300: '#fdba74',
+      400: '#fb923c',
+      500: '#f97316', // Main primary - orange
+      600: '#ea580c',
+      700: '#c2410c',
+      800: '#9a3412',
+      900: '#7c2d12',
     },
     secondary: {
-      50: '#fafafa',
-      100: '#f4f4f5',
-      200: '#e4e4e7',
-      300: '#d4d4d8',
-      400: '#a1a1aa',
-      500: '#71717a', // Main secondary
-      600: '#52525b',
-      700: '#3f3f46',
-      800: '#27272a',
-      900: '#18181b',
+      50: '#f0fdf4',
+      100: '#dcfce7',
+      200: '#bbf7d0',
+      300: '#86efac',
+      400: '#4ade80',
+      500: '#22c55e', // Main secondary - green
+      600: '#16a34a',
+      700: '#15803d',
+      800: '#166534',
+      900: '#14532d',
     },
     accent: {
-      50: '#fdf4ff',
-      100: '#fae8ff',
-      200: '#f5d0fe',
-      300: '#f0abfc',
-      400: '#e879f9',
-      500: '#d946ef', // Main accent
-      600: '#c026d3',
-      700: '#a21caf',
-      800: '#86198f',
-      900: '#701a75',
+      50: '#fffbeb',
+      100: '#fef3c7',
+      200: '#fde68a',
+      300: '#fcd34d',
+      400: '#fbbf24',
+      500: '#f59e0b', // Main accent - amber/yellow
+      600: '#d97706',
+      700: '#b45309',
+      800: '#92400e',
+      900: '#78350f',
     },
     success: {
       50: '#f0fdf4',
@@ -87,34 +87,34 @@ export const theme = {
     }
   },
   flatUI: {
-    // Flat UI specific colors - no gradients, clean and minimal
-    background: '#ecf0f1',
+    // Brand-focused flat UI colors
+    background: '#ffffff',
     surface: '#ffffff',
     surfaceAlt: '#f8f9fa',
-    border: '#bdc3c7',
-    borderLight: '#ecf0f1',
+    border: '#e5e7eb',
+    borderLight: '#f3f4f6',
     text: {
-      primary: '#2c3e50',
-      secondary: '#7f8c8d',
-      muted: '#95a5a6',
+      primary: '#1f2937',
+      secondary: '#4b5563',
+      muted: '#6b7280',
       inverse: '#ffffff'
     },
     button: {
-      primary: '#5865f2',
-      primaryHover: '#4752c4',
-      secondary: '#95a5a6',
-      secondaryHover: '#7f8c8d',
-      success: '#2ecc71',
-      successHover: '#27ae60',
-      warning: '#f39c12',
-      warningHover: '#e67e22',
-      danger: '#e74c3c',
-      dangerHover: '#c0392b'
+      primary: '#f97316', // Orange
+      primaryHover: '#ea580c',
+      secondary: '#22c55e', // Green
+      secondaryHover: '#16a34a',
+      success: '#22c55e',
+      successHover: '#16a34a',
+      warning: '#f59e0b',
+      warningHover: '#d97706',
+      danger: '#ef4444',
+      dangerHover: '#dc2626'
     },
     card: {
       background: '#ffffff',
-      border: '#ecf0f1',
-      shadow: '0 2px 4px rgba(0,0,0,0.1)'
+      border: '#e5e7eb',
+      shadow: '0 1px 3px rgba(0,0,0,0.1)'
     }
   },
   spacing: {

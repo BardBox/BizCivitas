@@ -88,15 +88,15 @@ export default async function TeamPage() {
 
       <div className="bg-gray-50 min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20">
+        <section className="py-20" style={{ backgroundColor: '#f39c12' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
               Meet Our{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-white">
                 Expert Team
               </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
               Get to know the passionate professionals who drive BizCivitas forward and help businesses transform their visions into reality.
             </p>
           </div>
@@ -126,7 +126,7 @@ export default async function TeamPage() {
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="full-width absolute inset-0 hero-overlay"></div>
                     </div>
 
                     <div className="p-6 text-center">
