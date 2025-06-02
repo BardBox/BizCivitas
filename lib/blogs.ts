@@ -77,3 +77,47 @@ export function getBlogSEOData(blog: Blog) {
     twitterImage: blog.cover_url || '/og-blog.jpg',
   };
 }
+
+export async function getRecentBlogs(limit: number = 5): Promise<Blog[]> {
+  const { data, error } = await supabase
+    .from('blogs')
+    .select('*')
+    .order('date', { ascending: false })
+    .limit(limit);
+  
+  if (error) {
+    console.error('Error fetching recent blogs:', error);
+    return [];
+  }
+  
+  return data || [];
+}
+
+export async function getBlogsByAuthor(authorName: string): Promise<Blog[]> {
+  const { data, error } = await supabase
+    .from('blogs')
+    .select('*')
+    .eq('author_name', authorName)
+    .order('date', { ascending: false });
+  
+  if (error) {
+    console.error('Error fetching blogs by author:', error);
+    return [];
+  }
+  
+  return data || [];
+}
+
+export function formatBlogDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+}
+
+export function getBlogReadTime(content: string): number {
+  const wordsPerMinute = 200;
+  const wordCount = content.split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
+}
