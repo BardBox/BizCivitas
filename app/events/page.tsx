@@ -135,7 +135,7 @@ export default async function EventsPage() {
         </section>
       </div>
 
-      <style jsx>{`
+      <styles>{`
         .container {
           max-width: 1440px;
           margin: 0 auto;
@@ -305,7 +305,7 @@ export default async function EventsPage() {
             padding: 6px;
           }
         }
-      `}</style>
+      `}</styles>
     </div>
   );
 }
