@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -32,7 +31,7 @@ export default function Navbar() {
               </span>
             </Link>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="ml-10 flex items-baseline space-x-1">
@@ -47,7 +46,7 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          
+
           {/* CTA Button */}
           <div className="hidden lg:block">
             <Link
@@ -57,7 +56,7 @@ export default function Navbar() {
               Get Started
             </Link>
           </div>
-          
+
           {/* Mobile menu button */}
           <div className="lg:hidden">
             <button
