@@ -282,7 +282,7 @@ export default async function EventPage({ params }: PageProps) {
                             if (event.image_urls instanceof Array) {
                               return event.image_urls;
                             }
-                            return event.image_urls.split(',');
+                            return event.image_urls.split(",");
                           })().map((imageUrl, index) => (
                             <div
                               key={index}
@@ -312,9 +312,12 @@ export default async function EventPage({ params }: PageProps) {
                             if (event.youtube_links instanceof Array) {
                               return event.youtube_links;
                             }
-                            return event.youtube_links.split(',');
+                            return event.youtube_links.split(",");
                           })().map((youtubeLink, index) => {
-                            const linkStr = typeof youtubeLink === 'string' ? youtubeLink.trim() : String(youtubeLink).trim();
+                            const linkStr =
+                              typeof youtubeLink === "string"
+                                ? youtubeLink.trim()
+                                : String(youtubeLink).trim();
                             const videoId = linkStr
                               .split("v=")[1]
                               ?.split("&")[0];
