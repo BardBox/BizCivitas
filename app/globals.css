@@ -271,3 +271,372 @@ button {
 .hero-overlay {
   background: linear-gradient(135deg, rgba(249, 115, 22, 0.8) 0%, rgba(34, 197, 94, 0.8) 100%);
 }
+
+/* Enhanced Share Button Animations */
+.share-button-wrapper {
+  position: relative;
+  display: inline-block;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  overflow: visible;
+}
+
+.share-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--color-flat-btn-primary), #ea580c);
+  color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+  transform: translateY(0);
+}
+
+.share-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.share-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2.5;
+}
+
+.share-text {
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.share-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* Hover Effects */
+.share-button-wrapper:hover .share-button {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+  background: linear-gradient(135deg, #ea580c, var(--color-flat-btn-primary));
+}
+
+.share-button-wrapper:hover .share-icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.share-button-wrapper:hover .share-text {
+  transform: translateX(2px);
+}
+
+/* Active/Click Effects */
+.share-button-wrapper:active .share-button {
+  transform: translateY(0px) scale(0.98);
+  transition: all 0.1s ease;
+}
+
+.share-button-wrapper:active .share-ripple {
+  width: 300px;
+  height: 300px;
+  transition: all 0.3s ease-out;
+}
+
+/* Pulse Animation */
+@keyframes sharePulse {
+  0% { box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
+  50% { box-shadow: 0 4px 20px rgba(249, 115, 22, 0.5), 0 0 0 5px rgba(249, 115, 22, 0.1); }
+  100% { box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
+}
+
+.share-button-wrapper:focus .share-button {
+  animation: sharePulse 2s infinite;
+  outline: none;
+}
+
+/* Enhanced CTA Components */
+.enhanced-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateY(0);
+  isolation: isolate;
+}
+
+/* CTA Sizes */
+.enhanced-cta-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+}
+
+.enhanced-cta-md {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+.enhanced-cta-lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  border-radius: 0.75rem;
+}
+
+/* CTA Variants */
+.enhanced-cta-primary {
+  background: linear-gradient(135deg, var(--color-flat-btn-primary) 0%, #ea580c 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+}
+
+.enhanced-cta-secondary {
+  background: linear-gradient(135deg, var(--color-flat-btn-success) 0%, #16a34a 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.enhanced-cta-outline {
+  background: transparent;
+  color: var(--color-flat-btn-primary);
+  border: 2px solid var(--color-flat-btn-primary);
+  box-shadow: none;
+}
+
+/* CTA Internal Elements */
+.cta-content {
+  position: relative;
+  z-index: 3;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.cta-background {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.cta-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(0deg);
+  transition: transform 0.6s ease;
+  z-index: 2;
+  opacity: 0;
+}
+
+.cta-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+/* Hover Effects for CTAs */
+.enhanced-cta:hover {
+  transform: translateY(-3px);
+}
+
+.enhanced-cta-primary:hover {
+  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+  background: linear-gradient(135deg, #ea580c 0%, var(--color-flat-btn-primary) 100%);
+}
+
+.enhanced-cta-secondary:hover {
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+  background: linear-gradient(135deg, #16a34a 0%, var(--color-flat-btn-success) 100%);
+}
+
+.enhanced-cta-outline:hover {
+  background: var(--color-flat-btn-primary);
+  color: white;
+  transform: translateY(-3px) scale(1.02);
+}
+
+.enhanced-cta:hover .cta-content {
+  transform: scale(1.02);
+}
+
+.enhanced-cta:hover .cta-background {
+  left: 100%;
+}
+
+.enhanced-cta:hover .cta-shine {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+/* Particle Animations on Hover */
+.enhanced-cta:hover .particle-1 {
+  animation: particleFloat1 1s ease-out;
+}
+
+.enhanced-cta:hover .particle-2 {
+  animation: particleFloat2 1s ease-out 0.1s;
+}
+
+.enhanced-cta:hover .particle-3 {
+  animation: particleFloat3 1s ease-out 0.2s;
+}
+
+.enhanced-cta:hover .particle-4 {
+  animation: particleFloat4 1s ease-out 0.3s;
+}
+
+.enhanced-cta:hover .particle-5 {
+  animation: particleFloat5 1s ease-out 0.4s;
+}
+
+.enhanced-cta:hover .particle-6 {
+  animation: particleFloat6 1s ease-out 0.5s;
+}
+
+/* Particle Keyframes */
+@keyframes particleFloat1 {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(-20px, -20px); }
+}
+
+@keyframes particleFloat2 {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(20px, -20px); }
+}
+
+@keyframes particleFloat3 {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(-20px, 20px); }
+}
+
+@keyframes particleFloat4 {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(20px, 20px); }
+}
+
+@keyframes particleFloat5 {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(0, -25px); }
+}
+
+@keyframes particleFloat6 {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(0, 25px); }
+}
+
+/* Active States */
+.enhanced-cta:active {
+  transform: translateY(-1px) scale(0.98);
+  transition: all 0.1s ease;
+}
+
+/* White Share Button Variant */
+.enhanced-share-white .share-button {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-share-white:hover .share-button {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-flat-btn-primary);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.enhanced-share-white:active .share-ripple {
+  background: rgba(249, 115, 22, 0.3);
+}
+
+/* Focus States */
+.enhanced-cta:focus {
+  outline: none;
+}
+
+.enhanced-cta-primary:focus {
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3), 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+.enhanced-cta-secondary:focus {
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3), 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+.enhanced-cta-outline:focus {
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+/* Loading State Animation */
+@keyframes ctaLoading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.enhanced-cta.loading .cta-background {
+  animation: ctaLoading 1.5s infinite;
+  left: -100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .enhanced-cta-lg {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+  
+  .share-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.8rem;
+  }
+}

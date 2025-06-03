@@ -7,6 +7,7 @@ import {
   getPastEvents,
   Event,
 } from "@/lib/events";
+import EnhancedCTA from "@/components/EnhancedCTA";
 
 export const metadata: Metadata = {
   title: "Business Events | BizCivitas - Transform Your Vision Into Reality",
@@ -159,12 +160,12 @@ export default async function EventsPage() {
                 professionals, share insights, and drive business growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="flat-btn flat-btn-primary">
+                <EnhancedCTA href="/contact" variant="primary" size="lg">
                   Register for Events
-                </button>
-                <button className="flat-btn flat-btn-outline">
+                </EnhancedCTA>
+                <EnhancedCTA href="/about" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-900">
                   Learn More
-                </button>
+                </EnhancedCTA>
               </div>
             </div>
           </div>

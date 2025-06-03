@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from 'next/link';
 import { theme } from '@/lib/theme';
 import ContentSection from '@/components/ContentSection';
+import EnhancedCTA from '@/components/EnhancedCTA';
 
 export const metadata: Metadata = {
   title: "BizCivitas - Where Ventures and Voyages Intersect | Business Networking Platform",
@@ -105,18 +106,12 @@ export default function HomePage() {
                 The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Link 
-                  href="/events" 
-                  className="bg-flat-btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-flat-btn-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
+                <EnhancedCTA href="/events" variant="primary" size="lg">
                   Join Us
-                </Link>
-                <Link 
-                  href="/insights" 
-                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-all duration-200"
-                >
+                </EnhancedCTA>
+                <EnhancedCTA href="/insights" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-900">
                   Learn More
-                </Link>
+                </EnhancedCTA>
               </div>
             </div>
           </div>
@@ -212,18 +207,12 @@ export default function HomePage() {
               Join our community of entrepreneurs and business leaders who are turning their visions into reality.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/events" 
-                className="flat-btn bg-flat-text-inverse text-flat-btn-primary hover:bg-flat-surface"
-              >
+              <EnhancedCTA href="/events" variant="secondary" size="lg">
                 Join Our Events
-              </Link>
-              <Link 
-                href="/team" 
-                className="flat-btn bg-transparent border-2 border-flat-text-inverse text-flat-text-inverse hover:bg-flat-text-inverse hover:text-flat-btn-primary"
-              >
+              </EnhancedCTA>
+              <EnhancedCTA href="/team" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-flat-btn-primary">
                 Meet Our Team
-              </Link>
+              </EnhancedCTA>
             </div>
           </div>
         </section>

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getEventBySlug, getAllEvents, getEventSEOData } from "@/lib/events";
 import ImageCarousel from "@/components/ImageCarousel";
+import ShareButton from "@/components/ShareButton";
+import EnhancedCTA from "@/components/EnhancedCTA";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -212,13 +214,16 @@ export default async function EventPage({ params }: PageProps) {
                   {event.description}
                 </p>
               )}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <EnhancedCTA href="/contact" variant="primary" size="lg">
                   Register Now
-                </button>
-                <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all duration-200">
-                  Share Event
-                </button>
+                </EnhancedCTA>
+                <ShareButton 
+                  url={`https://bizcivitas.com/events/${event.slug}`}
+                  title={event.event_name}
+                  description={event.description}
+                  className="enhanced-share-white"
+                />
               </div>
             </div>
           </div>
@@ -434,29 +439,25 @@ export default async function EventPage({ params }: PageProps) {
                   </div>
 
                   <div className="mt-8 space-y-3">
-                    <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <EnhancedCTA href="/contact" variant="primary" size="md" className="w-full">
                       Register for Event
-                    </button>
-                    <button className="w-full border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-lg font-medium hover:border-blue-600 hover:text-blue-600 transition-all duration-200">
+                    </EnhancedCTA>
+                    <EnhancedCTA href="#" variant="outline" size="md" className="w-full">
                       Add to Calendar
-                    </button>
+                    </EnhancedCTA>
                   </div>
 
                   {/* Social Share */}
                   <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-sm font-medium text-gray-900 mb-3">
+                    <p className="text-sm font-medium text-gray-900 mb-4">
                       Share this event
                     </p>
-                    <div className="flex space-x-3">
-                      <button className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 transition-colors">
-                        Facebook
-                      </button>
-                      <button className="flex-1 bg-blue-400 text-white py-2 px-3 rounded text-sm hover:bg-blue-500 transition-colors">
-                        Twitter
-                      </button>
-                      <button className="flex-1 bg-blue-700 text-white py-2 px-3 rounded text-sm hover:bg-blue-800 transition-colors">
-                        LinkedIn
-                      </button>
+                    <div className="flex justify-center">
+                      <ShareButton 
+                        url={`https://bizcivitas.com/events/${event.slug}`}
+                        title={event.event_name}
+                        description={event.description}
+                      />
                     </div>
                   </div>
                 </div>
@@ -476,18 +477,12 @@ export default async function EventPage({ params }: PageProps) {
               innovators, and like-minded professionals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/events"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
+              <EnhancedCTA href="/events" variant="primary" size="lg">
                 View All Events
-              </Link>
-              <Link
-                href="/"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all duration-200"
-              >
+              </EnhancedCTA>
+              <EnhancedCTA href="/" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-900">
                 Learn More About BizCivitas
-              </Link>
+              </EnhancedCTA>
             </div>
           </div>
         </section>
