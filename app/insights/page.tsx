@@ -1,9 +1,8 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
-import "./blog-cards.css";
+import "../../blog-cards.css";
 
 // Enable ISR with 60-second revalidation
 export const revalidate = 60;
@@ -47,50 +46,59 @@ export const metadata: Metadata = {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
   },
   other: {
-    'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-    'og:locale': 'en_US',
-    'og:site_name': 'BizCivitas',
+    robots:
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    "og:locale": "en_US",
+    "og:site_name": "BizCivitas",
   },
 };
 
 // Define topic types matching your enum
 const TOPIC_TYPES = [
-  'All',
-  'Blogs',
-  'BizCivitas',
-  'Business Travel',
-  'Networking',
-  'Tech',
-  'Business',
-  'Marketing',
-  'Design',
-  'others'
+  "All",
+  "Blogs",
+  "BizCivitas",
+  "Business Travel",
+  "Networking",
+  "Tech",
+  "Business",
+  "Marketing",
+  "Design",
+  "others",
 ];
 
 interface InsightsPageProps {
   searchParams: Promise<{ topic?: string }>;
 }
 
-export default async function InsightsPage({ searchParams }: InsightsPageProps) {
+export default async function InsightsPage({
+  searchParams,
+}: InsightsPageProps) {
   const params = await searchParams;
-  const selectedTopic = params.topic || 'All';
-  
+  const selectedTopic = params.topic || "All";
+
   const allBlogs = await getAllBlogs();
-  
+
   // Filter blogs based on selected topic
-  const filteredBlogs = selectedTopic === 'All' 
-    ? allBlogs 
-    : allBlogs.filter(blog => blog.type_of_topic === selectedTopic);
+  const filteredBlogs =
+    selectedTopic === "All"
+      ? allBlogs
+      : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
 
   // Count blogs per topic for tab counters
-  const topicCounts = TOPIC_TYPES.reduce((acc, topic) => {
-    if (topic === 'All') {
-      acc[topic] = allBlogs.length;
-    } else {
-      acc[topic] = allBlogs.filter(blog => blog.type_of_topic === topic).length;
-    }
-    return acc;
-  }, {} as Record<string, number>);
+  const topicCounts = TOPIC_TYPES.reduce(
+    (acc, topic) => {
+      if (topic === "All") {
+        acc[topic] = allBlogs.length;
+      } else {
+        acc[topic] = allBlogs.filter(
+          (blog) => blog.type_of_topic === topic,
+        ).length;
+      }
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -105,8 +113,8 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
       url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
       logo: {
         "@type": "ImageObject",
-        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/logo.png`
-      }
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/logo.png`,
+      },
     },
     mainEntity: {
       "@type": "ItemList",
@@ -118,11 +126,11 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights/${blog.slug}`,
         author: {
           "@type": "Person",
-          name: blog.author_name || "BizCivitas"
+          name: blog.author_name || "BizCivitas",
         },
         datePublished: blog.date,
-        image: blog.cover_url
-      }))
+        image: blog.cover_url,
+      })),
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -175,25 +183,32 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
               {TOPIC_TYPES.map((topic) => {
                 const isActive = selectedTopic === topic;
                 const count = topicCounts[topic] || 0;
-                
+
                 return (
                   <Link
                     key={topic}
-                    href={topic === 'All' ? '/insights' : `/insights?topic=${encodeURIComponent(topic)}`}
+                    href={
+                      topic === "All"
+                        ? "/insights"
+                        : `/insights?topic=${encodeURIComponent(topic)}`
+                    }
                     className={`
                       inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-                      ${isActive 
-                        ? 'bg-flat-btn-primary text-white shadow-lg' 
-                        : 'bg-gray-100 text-gray-700 hover:bg-flat-btn-primary hover:text-white'
+                      ${
+                        isActive
+                          ? "bg-flat-btn-primary text-white shadow-lg"
+                          : "bg-gray-100 text-gray-700 hover:bg-flat-btn-primary hover:text-white"
                       }
                     `}
                   >
                     {topic}
-                    <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                      isActive 
-                        ? 'bg-white/20 text-white' 
-                        : 'bg-gray-300 text-gray-600'
-                    }`}>
+                    <span
+                      className={`ml-2 px-2 py-1 rounded-full text-xs ${
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-gray-300 text-gray-600"
+                      }`}
+                    >
                       {count}
                     </span>
                   </Link>
@@ -209,10 +224,9 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
             {/* Results Summary */}
             <header className="mb-8 text-center">
               <p className="text-gray-600">
-                {selectedTopic === 'All' 
+                {selectedTopic === "All"
                   ? `Showing all ${filteredBlogs.length} insights`
-                  : `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`
-                }
+                  : `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`}
               </p>
             </header>
 
@@ -233,20 +247,18 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                     />
                   </svg>
                   <h2 className="text-lg text-gray-900 font-semibold">
-                    {selectedTopic === 'All' 
-                      ? 'No insights available at this time.'
-                      : `No insights found in "${selectedTopic}" category.`
-                    }
+                    {selectedTopic === "All"
+                      ? "No insights available at this time."
+                      : `No insights found in "${selectedTopic}" category.`}
                   </h2>
                   <p className="text-sm text-gray-500 mt-2">
-                    {selectedTopic === 'All' 
-                      ? 'Check back soon for new expert insights!'
-                      : 'Try selecting a different category or view all insights.'
-                    }
+                    {selectedTopic === "All"
+                      ? "Check back soon for new expert insights!"
+                      : "Try selecting a different category or view all insights."}
                   </p>
-                  {selectedTopic !== 'All' && (
-                    <Link 
-                      href="/insights" 
+                  {selectedTopic !== "All" && (
+                    <Link
+                      href="/insights"
                       className="inline-block mt-4 px-4 py-2 bg-flat-btn-primary text-white rounded-lg hover:bg-flat-btn-primary/90 transition-colors"
                     >
                       View All Insights
@@ -256,10 +268,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
               ) : (
                 filteredBlogs.map((blog) => (
                   <article key={blog.id}>
-                    <Link
-                      href={`/insights/${blog.slug}`}
-                      className="block"
-                    >
+                    <Link href={`/insights/${blog.slug}`} className="block">
                       <div className="custom-blog-card">
                         <div className="image-container">
                           <Image
@@ -278,19 +287,34 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                               </div>
                             )}
                             <div className="icon-circle">
-                              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16.7714 16.7702V1.30797M16.7714 1.30797H1.30922M16.7714 1.30797L1.30922 16.7702" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 18 18"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M16.7714 16.7702V1.30797M16.7714 1.30797H1.30922M16.7714 1.30797L1.30922 16.7702"
+                                  stroke="white"
+                                  strokeWidth="3.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
                               </svg>
                             </div>
                           </div>
                           <h3>{blog.topic_name}</h3>
-                          {blog.description && (
-                            <p>{blog.description}</p>
-                          )}
+                          {blog.description && <p>{blog.description}</p>}
                           <div className="meta-info">
-                            <div>By {blog.author_name || "BizCivitas"} on {formatBlogDate(blog.date)}</div>
+                            <div>
+                              By {blog.author_name || "BizCivitas"} on{" "}
+                              {formatBlogDate(blog.date)}
+                            </div>
                             {blog.content && (
-                              <div className="mt-1">{getBlogReadTime(blog.content)} min read</div>
+                              <div className="mt-1">
+                                {getBlogReadTime(blog.content)} min read
+                              </div>
                             )}
                           </div>
                         </div>
