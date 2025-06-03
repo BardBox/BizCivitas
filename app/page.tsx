@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from 'next/link';
 import { theme } from '@/lib/theme';
+import ContentSection from '@/components/ContentSection';
 
 export const metadata: Metadata = {
   title: "BizCivitas - Where Ventures and Voyages Intersect | Business Networking Platform",
@@ -36,6 +37,18 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  // Content section configuration - change these variables to update content
+  const networkingSectionData = {
+    title: "The New Era Of Networking",
+    description: "Leo tellus id sit vitae rhoncus sagittis. Egestas non facilisis mauris varius condimentum. Magna pharetra pellent esque nulla risus metus massa viverra adipiscing ut. Ornare pellentesque augue pellentesque eras sed ultrices. Tincidunt massa ac tincidunt sed. Enim ornare rutrum tempor bibendum accumsan.",
+    buttonText: "Explore US",
+    buttonHref: "/discover",
+    imageSrc: "/placeholder-event.jpg", // Replace with actual image path
+    imageAlt: "Professional networking event with diverse business people",
+    imagePosition: "right" as const,
+    backgroundColor: "bg-flat-surface"
+  };
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -116,6 +129,18 @@ export default function HomePage() {
             </svg>
           </div>
         </section>
+
+        {/* Content Section - The New Era Of Networking */}
+        <ContentSection
+          title={networkingSectionData.title}
+          description={networkingSectionData.description}
+          buttonText={networkingSectionData.buttonText}
+          buttonHref={networkingSectionData.buttonHref}
+          imageSrc={networkingSectionData.imageSrc}
+          imageAlt={networkingSectionData.imageAlt}
+          imagePosition={networkingSectionData.imagePosition}
+          backgroundColor={networkingSectionData.backgroundColor}
+        />
 
         {/* Features Section */}
         <section className="py-16 bg-flat-surface">
