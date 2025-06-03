@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { theme } from '@/lib/theme';
 
 export const metadata: Metadata = {
-  title: "BizCivitas - Turning Visions Into Reality, One Event at a Time",
-  description: "Bringing your vision to life with seamless execution and unforgettable experiences. Join BizCivitas for networking, events, memberships and business growth opportunities.",
-  keywords: ["BizCivitas", "business networking", "events", "memberships", "entrepreneur networking", "corporate networking", "business community", "professional development"],
+  title: "BizCivitas - Where Ventures and Voyages Intersect | Business Networking Platform",
+  description: "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations. Join BizCivitas for networking, events, and business growth opportunities.",
+  keywords: ["BizCivitas", "business networking", "ventures", "voyages", "business travel", "entrepreneur networking", "corporate networking", "business community", "professional development", "business collaborations", "networking events"],
   openGraph: {
-    title: "BizCivitas - Turning Visions Into Reality, One Event at a Time",
-    description: "Bringing your vision to life with seamless execution and unforgettable experiences.",
+    title: "BizCivitas - Where Ventures and Voyages Intersect",
+    description: "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.",
     type: "website",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
     images: [
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "BizCivitas - Business Networking Platform",
+        alt: "BizCivitas - Where Ventures and Voyages Intersect",
       },
     ],
     videos: [
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BizCivitas - Turning Visions Into Reality",
-    description: "Bringing your vision to life with seamless execution and unforgettable experiences.",
+    title: "BizCivitas - Where Ventures and Voyages Intersect",
+    description: "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.",
   },
 };
 
@@ -40,9 +40,10 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "BizCivitas",
-    "description": "Business networking platform for events, memberships and professional growth",
+    "description": "Where ventures and voyages intersect. Business networking platform for events, business travel, and professional growth through meaningful collaborations.",
     "url": "https://bizcivitas.com",
     "logo": "https://bizcivitas.com/logo.png",
+    "slogan": "Where Ventures and Voyages Intersect",
     "sameAs": [
       "https://linkedin.com/company/bizcivitas",
       "https://twitter.com/bizcivitas"
@@ -77,28 +78,32 @@ export default function HomePage() {
             />
           </div>
 
-          {/* Flat UI Overlay */}
-          <div className="absolute inset-0 bg-flat-text-primary bg-opacity-40 flex items-center justify-center">
-            <div className="text-center text-flat-text-inverse px-4 sm:px-6 lg:px-8 max-w-4xl">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight flat-text-heading">
-                Turn Your <span className="text-flat-btn-primary">Vision</span> Into Reality
-              </h1>
-              <p className="text-xl lg:text-2xl mb-8 text-flat-text-inverse max-w-3xl mx-auto flat-text-body">
-                Bringing your vision to life with seamless execution and unforgettable experiences. 
-                Join BizCivitas for networking, events, and business growth opportunities.
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+            <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl">
+              <div className="mb-8">
+                <p className="text-lg lg:text-xl font-light mb-4 tracking-wider italic">
+                  Welcome to BizCivitas !
+                </p>
+                <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                  Where <span className="text-flat-btn-primary">Ventures</span> and <span className="text-flat-btn-primary">Voyages</span> Intersect
+                </h1>
+              </div>
+              <p className="text-xl lg:text-2xl mb-12 text-white max-w-4xl mx-auto leading-relaxed">
+                The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link 
                   href="/events" 
-                  className="flat-btn flat-btn-primary"
+                  className="bg-flat-btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-flat-btn-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  Explore Events
+                  Join Us
                 </Link>
                 <Link 
                   href="/insights" 
-                  className="flat-btn flat-btn-outline"
+                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-all duration-200"
                 >
-                  Read Insights
+                  Learn More
                 </Link>
               </div>
             </div>
