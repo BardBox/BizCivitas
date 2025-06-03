@@ -22,6 +22,57 @@ export async function generateMetadata({
       title: "Event Not Found - BizCivitas",
       description: "The requested event could not be found.",
     };
+
+'use client';
+
+import { useEffect } from 'react';
+
+function ImageCarouselScript() {
+  useEffect(() => {
+    const carousel = document.getElementById('imageCarousel');
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll('[data-slide]');
+    const indicators = carousel.querySelectorAll('[data-indicator]');
+    let currentSlide = 0;
+
+    const nextSlide = () => {
+      if (slides.length <= 1) return;
+      
+      slides[currentSlide].classList.remove('opacity-100');
+      slides[currentSlide].classList.add('opacity-0');
+      indicators[currentSlide].classList.remove('bg-white');
+      indicators[currentSlide].classList.add('bg-white/50');
+      
+      currentSlide = (currentSlide + 1) % slides.length;
+      
+      slides[currentSlide].classList.remove('opacity-0');
+      slides[currentSlide].classList.add('opacity-100');
+      indicators[currentSlide].classList.remove('bg-white/50');
+      indicators[currentSlide].classList.add('bg-white');
+    };
+
+    // Auto-advance slides every 4 seconds
+    const autoplayInterval = setInterval(nextSlide, 4000);
+
+    // Pause autoplay on hover
+    carousel.addEventListener('mouseenter', () => {
+      clearInterval(autoplayInterval);
+    });
+
+    // Resume autoplay when mouse leaves
+    carousel.addEventListener('mouseleave', () => {
+      const newInterval = setInterval(nextSlide, 4000);
+      return () => clearInterval(newInterval);
+    });
+
+    return () => clearInterval(autoplayInterval);
+  }, []);
+
+  return null;
+}
+
+
   }
 
   const seoData = getEventSEOData(event);
@@ -142,6 +193,7 @@ export default async function EventPage({ params }: PageProps) {
       />
 
       <div className="min-h-screen bg-gray-50">
+        <ImageCarouselScript />
         {/* Hero Video Section */}
         <section className="relative w-full h-screen overflow-hidden">
           <div className="absolute inset-0 w-full h-full">
@@ -274,32 +326,182 @@ export default async function EventPage({ params }: PageProps) {
                       </div>
                     )}
 
-                    {/* Image Gallery */}
+                    {/* Image Gallery with Autoplay Carousel */}
                     {event.image_urls && (
                       <div className="mt-8">
                         <h3 className="text-xl font-bold text-gray-900 mb-4">
                           Event Gallery
                         </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          {(() => {
-                            if (event.image_urls instanceof Array) {
-                              return event.image_urls;
-                            }
-                            return event.image_urls.split(",");
-                          })().map((imageUrl, index) => (
-                            <div
-                              key={index}
-                              className="relative h-32 rounded-lg overflow-hidden"
+                        <div className="relative">
+                          {/* Main Carousel */}
+                          <div 
+                            className="relative h-96 rounded-xl overflow-hidden shadow-lg"
+                            id="imageCarousel"
+                          >
+                            {(() => {
+                              const images = event.image_urls instanceof Array 
+                                ? event.image_urls 
+                                : event.image_urls.split(",");
+                              
+                              return images.map((imageUrl, index) => (
+                                <div
+                                  key={index}
+                                  className={`absolute inset-0 transition-opacity duration-500 ${
+                                    index === 0 ? 'opacity-100' : 'opacity-0'
+                                  }`}
+                                  data-slide={index}
+                                >
+                                  <Image
+                                    src={imageUrl.trim()}
+                                    alt={`${event.event_name} gallery image ${index + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 66vw"
+                                  />
+                                </div>
+                              ));
+                            })()}
+                            
+                            {/* Navigation Arrows */}
+                            <button
+                              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                              onClick={() => {
+                                if (typeof window !== 'undefined') {
+                                  const carousel = document.getElementById('imageCarousel');
+                                  const slides = carousel?.querySelectorAll('[data-slide]');
+                                  const current = carousel?.querySelector('[data-slide].opacity-100');
+                                  if (slides && current) {
+                                    const currentIndex = parseInt(current.getAttribute('data-slide') || '0');
+                                    const prevIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+                                    current.classList.remove('opacity-100');
+                                    current.classList.add('opacity-0');
+                                    slides[prevIndex].classList.remove('opacity-0');
+                                    slides[prevIndex].classList.add('opacity-100');
+                                  }
+                                }
+                              }}
                             >
-                              <Image
-                                src={imageUrl.trim()}
-                                alt={`${event.event_name} gallery image ${index + 1}`}
-                                fill
-                                className="object-cover hover:scale-105 transition-transform duration-300"
-                                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                              />
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                              </svg>
+                            </button>
+                            
+                            <button
+                              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                              onClick={() => {
+                                if (typeof window !== 'undefined') {
+                                  const carousel = document.getElementById('imageCarousel');
+                                  const slides = carousel?.querySelectorAll('[data-slide]');
+                                  const current = carousel?.querySelector('[data-slide].opacity-100');
+                                  if (slides && current) {
+                                    const currentIndex = parseInt(current.getAttribute('data-slide') || '0');
+                                    const nextIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+                                    current.classList.remove('opacity-100');
+                                    current.classList.add('opacity-0');
+                                    slides[nextIndex].classList.remove('opacity-0');
+                                    slides[nextIndex].classList.add('opacity-100');
+                                  }
+                                }
+                              }}
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </button>
+                            
+                            {/* Slide Indicators */}
+                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                              {(() => {
+                                const images = event.image_urls instanceof Array 
+                                  ? event.image_urls 
+                                  : event.image_urls.split(",");
+                                
+                                return images.map((_, index) => (
+                                  <button
+                                    key={index}
+                                    className={`w-3 h-3 rounded-full transition-colors ${
+                                      index === 0 ? 'bg-white' : 'bg-white/50'
+                                    }`}
+                                    data-indicator={index}
+                                    onClick={() => {
+                                      if (typeof window !== 'undefined') {
+                                        const carousel = document.getElementById('imageCarousel');
+                                        const slides = carousel?.querySelectorAll('[data-slide]');
+                                        const indicators = carousel?.querySelectorAll('[data-indicator]');
+                                        const current = carousel?.querySelector('[data-slide].opacity-100');
+                                        
+                                        if (slides && indicators && current) {
+                                          current.classList.remove('opacity-100');
+                                          current.classList.add('opacity-0');
+                                          slides[index].classList.remove('opacity-0');
+                                          slides[index].classList.add('opacity-100');
+                                          
+                                          indicators.forEach((indicator, i) => {
+                                            if (i === index) {
+                                              indicator.classList.remove('bg-white/50');
+                                              indicator.classList.add('bg-white');
+                                            } else {
+                                              indicator.classList.remove('bg-white');
+                                              indicator.classList.add('bg-white/50');
+                                            }
+                                          });
+                                        }
+                                      }
+                                    }}
+                                  />
+                                ));
+                              })()}
                             </div>
-                          ))}
+                          </div>
+                          
+                          {/* Thumbnail Strip */}
+                          <div className="mt-4 grid grid-cols-4 md:grid-cols-6 gap-2">
+                            {(() => {
+                              const images = event.image_urls instanceof Array 
+                                ? event.image_urls 
+                                : event.image_urls.split(",");
+                              
+                              return images.map((imageUrl, index) => (
+                                <button
+                                  key={index}
+                                  className="relative h-20 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition-all"
+                                  onClick={() => {
+                                    if (typeof window !== 'undefined') {
+                                      const carousel = document.getElementById('imageCarousel');
+                                      const slides = carousel?.querySelectorAll('[data-slide]');
+                                      const indicators = carousel?.querySelectorAll('[data-indicator]');
+                                      const current = carousel?.querySelector('[data-slide].opacity-100');
+                                      
+                                      if (slides && indicators && current) {
+                                        current.classList.remove('opacity-100');
+                                        current.classList.add('opacity-0');
+                                        slides[index].classList.remove('opacity-0');
+                                        slides[index].classList.add('opacity-100');
+                                        
+                                        indicators.forEach((indicator, i) => {
+                                          if (i === index) {
+                                            indicator.classList.remove('bg-white/50');
+                                            indicator.classList.add('bg-white');
+                                          } else {
+                                            indicator.classList.remove('bg-white');
+                                            indicator.classList.add('bg-white/50');
+                                          }
+                                        });
+                                      }
+                                    }
+                                  }}
+                                >
+                                  <Image
+                                    src={imageUrl.trim()}
+                                    alt={`${event.event_name} thumbnail ${index + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 25vw, (max-width: 1200px) 16vw, 16vw"
+                                  />
+                                </button>
+                              ));
+                            })()}
+                          </div>
                         </div>
                       </div>
                     )}
@@ -310,34 +512,62 @@ export default async function EventPage({ params }: PageProps) {
                         <h3 className="text-xl font-bold text-gray-900 mb-4">
                           Event Videos
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                           {(() => {
-                            if (event.youtube_links instanceof Array) {
-                              return event.youtube_links;
-                            }
-                            return event.youtube_links.split(",");
-                          })().map((youtubeLink, index) => {
-                            const linkStr =
-                              typeof youtubeLink === "string"
-                                ? youtubeLink.trim()
+                            const links = event.youtube_links instanceof Array 
+                              ? event.youtube_links 
+                              : event.youtube_links.split(",");
+                            
+                            return links.map((youtubeLink, index) => {
+                              const linkStr = typeof youtubeLink === "string" 
+                                ? youtubeLink.trim() 
                                 : String(youtubeLink).trim();
-                            const videoId = linkStr
-                              .split("v=")[1]
-                              ?.split("&")[0];
-                            return (
-                              <div
-                                key={index}
-                                className="relative aspect-video rounded-lg overflow-hidden"
-                              >
-                                <iframe
-                                  src={`https://www.youtube.com/embed/${videoId}`}
-                                  title={`${event.event_name} video ${index + 1}`}
-                                  className="w-full h-full"
-                                  allowFullScreen
-                                />
-                              </div>
-                            );
-                          })}
+                              
+                              // Extract video ID from various YouTube URL formats
+                              let videoId = '';
+                              
+                              if (linkStr.includes('youtu.be/')) {
+                                videoId = linkStr.split('youtu.be/')[1]?.split('?')[0];
+                              } else if (linkStr.includes('youtube.com/watch?v=')) {
+                                videoId = linkStr.split('v=')[1]?.split('&')[0];
+                              } else if (linkStr.includes('youtube.com/embed/')) {
+                                videoId = linkStr.split('embed/')[1]?.split('?')[0];
+                              }
+                              
+                              if (!videoId) return null;
+                              
+                              return (
+                                <div key={index} className="bg-gray-50 rounded-xl p-4">
+                                  <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg bg-black">
+                                    <iframe
+                                      src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1`}
+                                      title={`${event.event_name} video ${index + 1}`}
+                                      className="w-full h-full"
+                                      allowFullScreen
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                  <div className="mt-3 flex items-center justify-between">
+                                    <p className="text-sm text-gray-600">
+                                      Video {index + 1} of {links.length}
+                                    </p>
+                                    <a
+                                      href={linkStr}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                                    >
+                                      Watch on YouTube
+                                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                      </svg>
+                                    </a>
+                                  </div>
+                                </div>
+                              );
+                            }).filter(Boolean);
+                          })()}
                         </div>
                       </div>
                     )}
