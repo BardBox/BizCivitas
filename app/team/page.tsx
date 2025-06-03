@@ -151,12 +151,12 @@ export default async function TeamPage() {
 
       <div className="bg-white min-h-screen">
         {/* Hero Section */}
-        <header className="py-20 bg-gradient-to-br from-flat-btn-primary/10 to-white">
+        <header className="py-20 bg-gradient-to-br from-orange-400 to-orange-600">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-flat-text-primary mb-6 flat-text-heading">
-              Our <span className="text-flat-btn-primary">Team</span>
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 flat-text-heading">
+              Our Team
             </h1>
-            <p className="text-xl text-flat-text-secondary mb-8 max-w-3xl mx-auto flat-text-body">
+            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto flat-text-body">
               The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
             </p>
           </div>
