@@ -1,11 +1,11 @@
-'use client';
 
-import { useEffect, useState } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
 
+// Enable ISR with 60-second revalidation
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Business Insights | BizCivitas - Expert Analysis & Trends",
@@ -47,61 +47,79 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InsightsPage() {
-  const [blogs, setBlogs] = useState([]);
-  const [structuredData, setStructuredData] = useState(null);
+// Define topic types matching your enum
+const TOPIC_TYPES = [
+  'All',
+  'Blogs',
+  'BizCivitas',
+  'Business Travel',
+  'Networking',
+  'Tech',
+  'Business',
+  'Marketing',
+  'Design',
+  'others'
+];
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      const allBlogs = await getAllBlogs();
-      setBlogs(allBlogs);
-    };
+interface InsightsPageProps {
+  searchParams: Promise<{ topic?: string }>;
+}
 
-    fetchBlogs();
-  }, []);
+export default async function InsightsPage({ searchParams }: InsightsPageProps) {
+  const params = await searchParams;
+  const selectedTopic = params.topic || 'All';
+  
+  const allBlogs = await getAllBlogs();
+  
+  // Filter blogs based on selected topic
+  const filteredBlogs = selectedTopic === 'All' 
+    ? allBlogs 
+    : allBlogs.filter(blog => blog.type_of_topic === selectedTopic);
 
-  useEffect(() => {
-    if (blogs.length > 0) {
-      const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Business Insights | BizCivitas",
-        description:
-          "Expert business insights, industry analysis, and growth strategies from BizCivitas.",
-        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
-        breadcrumb: {
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Home",
-              item: "https://bizcivitas.com",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Insights",
-              item: `${
-                process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
-              }/insights`,
-            },
-          ],
-        },
-      };
-      setStructuredData(structuredData);
+  // Count blogs per topic for tab counters
+  const topicCounts = TOPIC_TYPES.reduce((acc, topic) => {
+    if (topic === 'All') {
+      acc[topic] = allBlogs.length;
+    } else {
+      acc[topic] = allBlogs.filter(blog => blog.type_of_topic === topic).length;
     }
-  }, [blogs]);
+    return acc;
+  }, {} as Record<string, number>);
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Business Insights | BizCivitas",
+    description:
+      "Expert business insights, industry analysis, and growth strategies from BizCivitas.",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://bizcivitas.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Insights",
+          item: `${
+            process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
+          }/insights`,
+        },
+      ],
+    },
+  };
 
   return (
     <>
-      {structuredData && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <div className="bg-flat-bg">
         {/* Hero Section */}
@@ -119,11 +137,56 @@ export default function InsightsPage() {
           </div>
         </section>
 
+        {/* Topic Filter Tabs */}
+        <section className="py-8 bg-flat-surface border-b border-flat-border">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {TOPIC_TYPES.map((topic) => {
+                const isActive = selectedTopic === topic;
+                const count = topicCounts[topic] || 0;
+                
+                return (
+                  <Link
+                    key={topic}
+                    href={topic === 'All' ? '/insights' : `/insights?topic=${encodeURIComponent(topic)}`}
+                    className={`
+                      inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                      ${isActive 
+                        ? 'bg-flat-btn-primary text-white shadow-lg' 
+                        : 'bg-flat-bg text-flat-text-secondary hover:bg-flat-btn-primary hover:text-white'
+                      }
+                    `}
+                  >
+                    {topic}
+                    <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
+                      isActive 
+                        ? 'bg-white/20 text-white' 
+                        : 'bg-flat-text-muted/10 text-flat-text-muted'
+                    }`}>
+                      {count}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
         {/* Insights Grid */}
         <section className="py-16">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Results Summary */}
+            <div className="mb-8 text-center">
+              <p className="text-flat-text-secondary">
+                {selectedTopic === 'All' 
+                  ? `Showing all ${filteredBlogs.length} insights`
+                  : `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`
+                }
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogs.length === 0 ? (
+              {filteredBlogs.length === 0 ? (
                 <div className="col-span-full flat-card p-8 text-center text-flat-text-secondary">
                   <svg
                     className="w-16 h-16 text-flat-text-muted mx-auto mb-4"
@@ -139,14 +202,28 @@ export default function InsightsPage() {
                     />
                   </svg>
                   <p className="text-lg flat-text-heading">
-                    No insights available at this time.
+                    {selectedTopic === 'All' 
+                      ? 'No insights available at this time.'
+                      : `No insights found in "${selectedTopic}" category.`
+                    }
                   </p>
                   <p className="text-sm text-flat-text-muted mt-2">
-                    Check back soon for new expert insights!
+                    {selectedTopic === 'All' 
+                      ? 'Check back soon for new expert insights!'
+                      : 'Try selecting a different category or view all insights.'
+                    }
                   </p>
+                  {selectedTopic !== 'All' && (
+                    <Link 
+                      href="/insights" 
+                      className="inline-block mt-4 px-4 py-2 bg-flat-btn-primary text-white rounded-lg hover:bg-flat-btn-primary/90 transition-colors"
+                    >
+                      View All Insights
+                    </Link>
+                  )}
                 </div>
               ) : (
-                blogs.map((blog) => (
+                filteredBlogs.map((blog) => (
                   <Link
                     key={blog.id}
                     href={`/insights/${blog.slug}`}
