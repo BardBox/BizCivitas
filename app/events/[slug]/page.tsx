@@ -275,12 +275,12 @@ export default async function EventPage({ params }: PageProps) {
                       </div>
                     )}
 
-                    {/* Image Gallery with Autoplay Carousel */}
+                    {/* Image Gallery with Framer Motion Carousel */}
                     {event.image_urls && (
                       <ImageCarousel
-                        images={event.image_urls instanceof Array 
+                        images={Array.isArray(event.image_urls) 
                           ? event.image_urls 
-                          : event.image_urls.split(",")}
+                          : event.image_urls.split(",").map(url => url.trim()).filter(url => url.length > 0)}
                         eventName={event.event_name}
                       />
                     )}
