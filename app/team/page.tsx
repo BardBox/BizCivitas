@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TeamMember, getAllTeamMembers } from "@/lib/team";
 import { FaLinkedin, FaGlobe } from "react-icons/fa";
-import "../../styles/team-styles.css";
+import "./team-styles.css";
 
 // Define the props interface for TeamPage (not needed for App Router, but kept for type safety)
 interface TeamPageProps {
