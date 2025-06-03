@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -115,103 +114,103 @@ export default function MembershipsPage() {
     },
   };
 
-  const handlePayment = async (plan: MembershipPlan) => {
-    if (plan.id === "enterprise") {
-      // For enterprise, redirect to contact or handle differently
-      window.location.href = "/contact";
-      return;
-    }
+  // TODO: Integrate Razorpay payment processing
+  // const handlePayment = async (plan: MembershipPlan) => {
+  //   setIsLoading(plan.id);
 
-    setIsLoading(plan.id);
+  //   try {
+  //     // Create order on backend
+  //     const response = await fetch('/api/create-order', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         amount: plan.amount,
+  //         currency: 'INR',
+  //         receipt: `membership_${plan.id}_${Date.now()}`,
+  //         notes: {
+  //           plan_id: plan.id,
+  //           plan_name: plan.name,
+  //         },
+  //       }),
+  //     });
 
-    try {
-      // Create order on backend
-      const response = await fetch('/api/create-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: plan.amount,
-          currency: 'INR',
-          receipt: `membership_${plan.id}_${Date.now()}`,
-          notes: {
-            plan_id: plan.id,
-            plan_name: plan.name,
-          },
-        }),
-      });
+  //     const order = await response.json();
 
-      const order = await response.json();
+  //     if (!order.id) {
+  //       throw new Error('Failed to create order');
+  //     }
 
-      if (!order.id) {
-        throw new Error('Failed to create order');
-      }
+  //     // Initialize Razorpay
+  //     const options = {
+  //       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+  //       amount: order.amount,
+  //       currency: order.currency,
+  //       name: 'BizCivitas',
+  //       description: `${plan.name} Membership`,
+  //       order_id: order.id,
+  //       handler: async function (response: any) {
+  //         // Payment successful
+  //         try {
+  //           const verifyResponse = await fetch('/api/verify-payment', {
+  //             method: 'POST',
+  //             headers: {
+  //               'Content-Type': 'application/json',
+  //             },
+  //             body: JSON.stringify({
+  //               razorpay_order_id: response.razorpay_order_id,
+  //               razorpay_payment_id: response.razorpay_payment_id,
+  //               razorpay_signature: response.razorpay_signature,
+  //               plan_id: plan.id,
+  //             }),
+  //           });
 
-      // Initialize Razorpay
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-        name: 'BizCivitas',
-        description: `${plan.name} Membership`,
-        order_id: order.id,
-        handler: async function (response: any) {
-          // Payment successful
-          try {
-            const verifyResponse = await fetch('/api/verify-payment', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                plan_id: plan.id,
-              }),
-            });
+  //           const verifyResult = await verifyResponse.json();
 
-            const verifyResult = await verifyResponse.json();
+  //           if (verifyResult.success) {
+  //             alert('Payment successful! Welcome to BizCivitas!');
+  //             // Redirect to success page or dashboard
+  //             window.location.href = '/memberships/success';
+  //           } else {
+  //             alert('Payment verification failed. Please contact support.');
+  //           }
+  //         } catch (error) {
+  //           console.error('Payment verification error:', error);
+  //           alert('Payment verification failed. Please contact support.');
+  //         }
+  //       },
+  //       prefill: {
+  //         name: '',
+  //         email: '',
+  //         contact: '',
+  //       },
+  //       notes: {
+  //         plan_id: plan.id,
+  //       },
+  //       theme: {
+  //         color: '#F97316',
+  //       },
+  //       modal: {
+  //         ondismiss: function() {
+  //           setIsLoading(null);
+  //         }
+  //       }
+  //     };
 
-            if (verifyResult.success) {
-              alert('Payment successful! Welcome to BizCivitas!');
-              // Redirect to success page or dashboard
-              window.location.href = '/memberships/success';
-            } else {
-              alert('Payment verification failed. Please contact support.');
-            }
-          } catch (error) {
-            console.error('Payment verification error:', error);
-            alert('Payment verification failed. Please contact support.');
-          }
-        },
-        prefill: {
-          name: '',
-          email: '',
-          contact: '',
-        },
-        notes: {
-          plan_id: plan.id,
-        },
-        theme: {
-          color: '#F97316',
-        },
-        modal: {
-          ondismiss: function() {
-            setIsLoading(null);
-          }
-        }
-      };
+  //     const razorpay = new window.Razorpay(options);
+  //     razorpay.open();
+  //   } catch (error) {
+  //     console.error('Payment error:', error);
+  //     alert('Failed to initiate payment. Please try again.');
+  //   } finally {
+  //     setIsLoading(null);
+  //   }
+  // };
 
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-    } catch (error) {
-      console.error('Payment error:', error);
-      alert('Failed to initiate payment. Please try again.');
-    } finally {
-      setIsLoading(null);
-    }
+  const handlePayment = (plan: MembershipPlan) => {
+    // Temporary placeholder - payment integration will be added later
+    alert(`Payment integration coming soon for ${plan.name} plan!`);
   };
 
   const getButtonClass = (plan: MembershipPlan) => {
@@ -230,12 +229,12 @@ export default function MembershipsPage() {
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
       />
-      
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      
+
       <div className="min-h-screen bg-gradient-to-br from-white to-gray-50">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-orange-500 to-green-500 flex items-center justify-center text-white">
