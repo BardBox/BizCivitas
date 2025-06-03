@@ -9,7 +9,7 @@ interface PageProps {
 }
 
 // Enable ISR with 300-second (5 minutes) revalidation for individual events
-export const revalidate = 300;
+export const revalidate = 30;
 
 export async function generateMetadata({
   params,
