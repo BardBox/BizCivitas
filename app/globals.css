@@ -1,23 +1,19 @@
 
 @import "tailwindcss";
+@theme {
+ /* consisten spacing max-width 1440px , video and all full width layover */
+  --breakpoint-3xl: 120rem;
 
-:root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --surface: #ffffff;
-  --border: #e5e7eb;
-  --text-secondary: #374151;
-  --primary: #f97316;
-  --secondary: #22c55e;
-  --accent: #f59e0b;
+  /* font */
+  --font-poppins: Poppins, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* color */
+  --color-mint-500: oklch(0.72 0.11 178);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
 body {
   background: var(--background);
