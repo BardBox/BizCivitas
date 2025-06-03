@@ -151,12 +151,12 @@ export default async function TeamPage() {
 
       <div className="bg-white min-h-screen">
         {/* Hero Section */}
-        <header className="py-20 bg-gradient-to-br from-orange-400 to-orange-600">
+        <header className="py-20 bg-[#FF9D00]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 flat-text-heading">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 ">
               Our Team
             </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto flat-text-body">
+            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto ">
               The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
             </p>
           </div>
@@ -180,97 +180,39 @@ export default async function TeamPage() {
                     </header>
 
                     {/* Members Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div className="flex flex-wrap justify-center items-start gap-8 lg:gap-10 max-w-7xl mx-auto">
                       {members.map((member) => (
-                        <article key={member.id} className="team-member-card group">
+                        <article key={member.id} className="team-member-card group w-full max-w-[300px] flex-shrink-0">
                           <Link 
                             href={`/team/${member.slug}`}
                             className="block h-full"
                             aria-label={`View ${member.name}'s profile`}
                           >
-                            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 h-full flex flex-col">
+                            <div className="bg-white rounded-2xl  transition-all duration-300 overflow-hidden h-full flex flex-col p-6">
                               {/* Member Image */}
-                              <div className="relative p-6 pb-4">
-                                <div className="relative w-24 h-24 mx-auto rounded-full overflow-hidden shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                              <div className="relative mb-4">
+                                <div className="relative w-[250px] team-member-img h-[250px] mx-auto rounded-full overflow-hidden">
                                   <Image
                                     src={member.img_url || "/placeholder-team.jpg"}
                                     alt={`${member.name} - ${member.designation} at ${member.company_name || 'BizCivitas'}`}
                                     fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                                    sizes="96px"
+                                    className="object-cover"
                                   />
                                 </div>
                               </div>
 
                               {/* Member Info */}
-                              <div className="px-6 pb-4 text-center flex-1 flex flex-col">
-                                <h3 className="text-lg font-bold text-flat-text-primary mb-2 group-hover:text-flat-btn-primary transition-colors duration-300 flat-text-heading">
+                              <div className="text-center flex-1 flex flex-col">
+                                <h3 className="text-base font-semibold text-gray-900 mb-1 line-clamp-2">
                                   {member.name}
                                 </h3>
 
                                 {member.designation && (
-                                  <p className="text-flat-btn-primary font-medium text-sm mb-2">
+                                  <p className="text-orange-600 font-medium text-sm mb-3 line-clamp-2">
                                     {member.designation}
                                   </p>
                                 )}
 
-                                {member.leading_in_domain && (
-                                  <p className="text-flat-text-secondary text-sm mb-4 leading-relaxed flex-1">
-                                    {member.leading_in_domain}
-                                  </p>
-                                )}
-
-                                {/* Company Info with Logo */}
-                                {(member.company_name || member.company_logo || member.company_logo_url) && (
-                                  <div className="mt-auto pt-4 border-t border-gray-100">
-                                    <div className="flex items-center justify-center space-x-3">
-                                      {(member.company_logo || member.company_logo_url) && (
-                                        <div className="relative w-8 h-8 flex-shrink-0">
-                                          <Image
-                                            src={member.company_logo || member.company_logo_url || "/placeholder-company.png"}
-                                            alt={`${member.company_name || 'Company'} Logo`}
-                                            fill
-                                            className="object-contain rounded"
-                                            sizes="32px"
-                                          />
-                                        </div>
-                                      )}
-                                      {member.company_name && (
-                                        <span className="text-xs text-flat-text-secondary font-medium">
-                                          {member.company_name}
-                                        </span>
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
-
-                                {/* Social Links */}
-                                {(member.linkedin_link || member.website_link) && (
-                                  <div className="flex items-center justify-center space-x-4 mt-4 pt-3 border-t border-gray-100">
-                                    {member.linkedin_link && (
-                                      <a
-                                        href={member.linkedin_link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-flat-btn-primary hover:text-flat-btn-primary/80 transition-colors duration-300"
-                                        aria-label={`${member.name}'s LinkedIn`}
-                                      >
-                                        <FaLinkedin className="w-4 h-4" />
-                                      </a>
-                                    )}
-                                    {member.website_link && (
-                                      <a
-                                        href={member.website_link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-flat-btn-primary hover:text-flat-btn-primary/80 transition-colors duration-300"
-                                        aria-label={`${member.name}'s Website`}
-                                      >
-                                        <FaGlobe className="w-4 h-4" />
-                                      </a>
-                                    )}
-                                  </div>
-                                )}
                               </div>
                             </div>
                           </Link>
@@ -282,7 +224,7 @@ export default async function TeamPage() {
               })
             ) : (
               <section className="text-center py-16">
-                <div className="bg-white rounded-xl p-8 shadow-sm border max-w-md mx-auto">
+                <div className="bg-white rounded-xl p-8 max-w-md mx-auto">
                   <svg
                     className="w-16 h-16 text-gray-300 mx-auto mb-4"
                     fill="none"
