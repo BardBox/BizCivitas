@@ -14,8 +14,8 @@ export interface Event {
   description?: string;
   cover_url?: string;
   type: string; // This matches the enum in your database
-  image_urls?: string; // Your schema has this field as text
-  youtube_links?: string; // Your schema has this field as text
+  image_urls?: string | string[]; // Can be text or array depending on database response
+  youtube_links?: string | string[]; // Can be text or array depending on database response
   created_at?: string;
   updated_at?: string;
 }
