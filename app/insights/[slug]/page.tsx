@@ -278,16 +278,18 @@ export default async function EventPage({ params }: PageProps) {
                           Event Gallery
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          {(Array.isArray(event.image_urls) 
-                            ? event.image_urls 
-                            : event.image_urls.split(',')
-                          ).map((imageUrl, index) => (
+                          {(() => {
+                            if (event.image_urls instanceof Array) {
+                              return event.image_urls;
+                            }
+                            return event.image_urls.split(',');
+                          })().map((imageUrl, index) => (
                             <div
                               key={index}
                               className="relative h-32 rounded-lg overflow-hidden"
                             >
                               <Image
-                                src={typeof imageUrl === 'string' ? imageUrl.trim() : imageUrl}
+                                src={imageUrl.trim()}
                                 alt={`${event.event_name} gallery image ${index + 1}`}
                                 fill
                                 className="object-cover hover:scale-105 transition-transform duration-300"
@@ -306,10 +308,12 @@ export default async function EventPage({ params }: PageProps) {
                           Event Videos
                         </h3>
                         <div className="space-y-4">
-                          {(Array.isArray(event.youtube_links) 
-                            ? event.youtube_links 
-                            : event.youtube_links.split(',')
-                          ).map((youtubeLink, index) => {
+                          {(() => {
+                            if (event.youtube_links instanceof Array) {
+                              return event.youtube_links;
+                            }
+                            return event.youtube_links.split(',');
+                          })().map((youtubeLink, index) => {
                             const linkStr = typeof youtubeLink === 'string' ? youtubeLink.trim() : String(youtubeLink).trim();
                             const videoId = linkStr
                               .split("v=")[1]
