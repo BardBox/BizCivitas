@@ -92,10 +92,9 @@ export default function HomePage() {
           </div>
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
-            <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl">
+          <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">  <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl">
               <div className="mb-8">
-                <p className="text-lg lg:text-xl font-light mb-4 tracking-wider italic">
+                <p className="text-5xl font-light mb-4 tracking-wider italic" >
                   Welcome to BizCivitas !
                 </p>
                 <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
