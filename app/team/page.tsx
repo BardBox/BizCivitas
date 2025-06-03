@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllTeamMembers } from "@/lib/team";
 import Script from "next/script";
+import TeamPageClient from "@/components/TeamPageClient";
 
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts",
@@ -149,106 +150,12 @@ export default async function TeamPage() {
           </div>
         </section></div>
 
-        {/* Team Members Section - Grouped by Position */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-
-        
-            {sortedPositions.length > 0 ? (
-              sortedPositions.map((position) => {
-                const members = groupedMembers[position];
-                const memberCount = members.length;
-                
-                // Determine grid layout based on member count
-                let gridCols = 'grid-cols-1';
-                if (memberCount === 2) {
-                  gridCols = 'grid-cols-1 md:grid-cols-2';
-                } else if (memberCount === 3) {
-                  gridCols = 'grid-cols-1 md:grid-cols-3';
-                } else if (memberCount >= 4) {
-                  gridCols = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
-                }
-
-                const displayName = positionDisplayNames[position] || position;
-                
-                return (
-                  <div key={position} className="mb-20">
-                    {/* Position Title */}
-                    <div className="text-center mb-12">
-                      <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-6">
-                        {displayName}
-                      </h2>
-                    </div>
-
-                    {/* Members Grid - Centered layout */}
-                    <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
-                      {members.map((member) => (
-                        <Link
-                          key={member.id}
-                          href={`/team/${member.slug}`}
-                          className="block group"
-                        >
-                          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 w-72">
-                            {/* Circular Image Container */}
-                            <div className="flex justify-center pt-6 pb-4">
-                              <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-lg">
-                                <Image
-                                  src={member.img_url || "/placeholder-team.jpg"}
-                                  alt={member.name}
-                                  fill
-                                  className="object-cover group-hover:scale-110 transition-transform duration-300"
-                                  sizes="128px"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Member Info */}
-                            <div className="px-6 pb-6 text-center">
-                              <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                                {member.name}
-                              </h3>
-                              {member.leading_in_domain && (
-                                <p className="text-gray-600 text-sm leading-relaxed">
-                                  {member.leading_in_domain}
-                                </p>
-                              )}
-                              {member.designation && (
-                                <p className="text-blue-600 font-medium text-sm mt-2">
-                                  {member.designation}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="text-center py-16">
-                <div className="bg-white rounded-xl p-8 shadow-sm border max-w-md mx-auto">
-                  <svg
-                    className="w-16 h-16 text-gray-300 mx-auto mb-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                  <p className="text-lg text-gray-600">
-                    Team members will be added soon.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
+        {/* Team Members Section */}
+        <TeamPageClient 
+          groupedMembers={groupedMembers}
+          sortedPositions={sortedPositions}
+          positionDisplayNames={positionDisplayNames}
+        />
     </>
   );
 }
