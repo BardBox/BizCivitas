@@ -1,19 +1,10 @@
 import type { Metadata } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { TeamMember, getAllTeamMembers } from "@/lib/team";
+import { getAllTeamMembers } from "@/lib/team";
 import { FaLinkedin, FaGlobe } from "react-icons/fa";
 import "./team-styles.css";
 
-// Define the props interface for TeamPage (not needed for App Router, but kept for type safety)
-interface TeamPageProps {
-  groupedMembers: Record<string, TeamMember[]>;
-  sortedPositions: string[];
-  error?: string;
-}
-
-// Generate metadata for SEO
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts & Leaders",
   description:
@@ -30,7 +21,7 @@ export const metadata: Metadata = {
     "consulting directors",
     "business strategy experts",
     "innovation leaders",
-    "digital growth specialists",
+    "digital growth specialists"
   ],
   openGraph: {
     title: "Our Team | BizCivitas - Meet Our Business Experts & Leaders",
@@ -52,13 +43,13 @@ export const metadata: Metadata = {
     title: "Our Team | BizCivitas - Meet Our Business Experts & Leaders",
     description:
       "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
-    images: "/og-team.jpg",
   },
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/team`,
   },
   other: {
-    robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    robots:
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     "og:locale": "en_US",
     "og:site_name": "BizCivitas",
   },
@@ -67,57 +58,40 @@ export const metadata: Metadata = {
 // Enable ISR with 60-second revalidation
 export const revalidate = 60;
 
-// The TeamPage component (async for direct data fetching)
 export default async function TeamPage() {
-  // Fetch team members directly in the component
-  let groupedMembers: Record<string, TeamMember[]> = {};
-  let sortedPositions: string[] = [];
-  let error: string | undefined;
+  const teamMembers = await getAllTeamMembers();
 
-  try {
-    const teamMembers = await getAllTeamMembers();
-
-    if (teamMembers && teamMembers.length > 0) {
-      // Group team members by position
-      groupedMembers = teamMembers.reduce(
-        (groups: Record<string, TeamMember[]>, member: TeamMember) => {
-          const position = member.position || "Other";
-          if (!groups[position]) {
-            groups[position] = [];
-          }
-          groups[position].push(member);
-          return groups;
-        },
-        {}
-      );
-
-      // Define position order for display
-      const positionOrder = [
-        "Founder",
-        "Co-Founders",
-        "Consulting Directors",
-        "Core-Team-Members",
-        "Team-Member",
-      ];
-
-      // Sort positions according to defined order
-      sortedPositions = positionOrder.filter((position) => groupedMembers[position]);
+  // Group team members by position
+  const groupedMembers = teamMembers.reduce((groups, member) => {
+    const position = member.position || 'Other';
+    if (!groups[position]) {
+      groups[position] = [];
     }
-  } catch (err) {
-    console.error("Error fetching team members:", err);
-    error = "Failed to load team members.";
-  }
+    groups[position].push(member);
+    return groups;
+  }, {} as Record<string, typeof teamMembers>);
+
+  // Define position order for display (matching the enum)
+  const positionOrder = [
+    'Founder',
+    'Co-Founders',
+    'Consulting Directors',
+    'Core-Team-Members',
+    'Team-Member'
+  ];
 
   // Display names for positions
   const positionDisplayNames: Record<string, string> = {
-    Founder: "Founders",
-    "Co-Founders": "Founders",
-    "Consulting Directors": "Consulting Directors",
-    "Core-Team-Members": "Core Team Members",
-    "Team-Member": "Team Members",
+    'Founder': 'Founders',
+    'Co-Founders': 'Founders',
+    'Consulting Directors': 'Consulting Directors',
+    'Core-Team-Members': 'Core Team Members',
+    'Team-Member': 'Team Members'
   };
 
-  // Structured data for SEO
+  // Sort positions according to defined order
+  const sortedPositions = positionOrder.filter(position => groupedMembers[position]);
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -129,23 +103,24 @@ export default async function TeamPage() {
       "@type": "Organization",
       name: "BizCivitas",
       url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
-      employee: Object.values(groupedMembers)
-        .flat()
-        .map((member) => ({
-          "@type": "Person",
-          name: member.name,
-          jobTitle: member.designation,
-          description: member.leading_in_domain,
-          image: member.img_url,
-          url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/team/${member.slug}`,
-          worksFor: {
-            "@type": "Organization",
-            name: member.company_name || "BizCivitas",
-            logo: member.company_logo || member.company_logo_url,
-          },
-          sameAs: [member.linkedin_link, member.website_link].filter(Boolean),
-          knowsAbout: member.leading_in_domain,
-        })),
+      employee: teamMembers.map((member) => ({
+        "@type": "Person",
+        name: member.name,
+        jobTitle: member.designation,
+        description: member.leading_in_domain,
+        image: member.img_url,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/team/${member.slug}`,
+        worksFor: {
+          "@type": "Organization",
+          name: member.company_name || "BizCivitas",
+          logo: member.company_logo || member.company_logo_url,
+        },
+        sameAs: [
+          member.linkedin_link,
+          member.website_link
+        ].filter(Boolean),
+        knowsAbout: member.leading_in_domain
+      })),
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -169,23 +144,20 @@ export default async function TeamPage() {
   return (
     <>
       {/* Structured Data for SEO */}
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <div className="bg-white min-h-screen">
         {/* Hero Section */}
         <header className="py-20 bg-[#FF9D00]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 ">
               Our Team
             </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              The world is your network. Expand your business by exploring new
-              destinations and forming meaningful collaborations.
+            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto ">
+              The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
             </p>
           </div>
         </header>
@@ -193,18 +165,7 @@ export default async function TeamPage() {
         {/* Team Members Section */}
         <main className="py-16 bg-flat-surface">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-            {error ? (
-              <section className="text-center py-16">
-                <div className="bg-white rounded-xl p-8 max-w-md mx-auto">
-                  <h2 className="text-lg text-flat-text-primary font-semibold mb-2">
-                    Error Loading Team Members
-                  </h2>
-                  <p className="text-sm text-flat-text-secondary">
-                    We encountered an issue loading the team. Please try again later.
-                  </p>
-                </div>
-              </section>
-            ) : sortedPositions.length > 0 ? (
+            {sortedPositions.length > 0 ? (
               sortedPositions.map((position) => {
                 const members = groupedMembers[position];
                 const displayName = positionDisplayNames[position] || position;
@@ -221,25 +182,21 @@ export default async function TeamPage() {
                     {/* Members Grid */}
                     <div className="flex flex-wrap justify-center items-start gap-8 lg:gap-10 max-w-7xl mx-auto">
                       {members.map((member) => (
-                        <article
-                          key={member.id}
-                          className="team-member-card group w-full max-w-[300px] flex-shrink-0"
-                        >
-                          <Link
+                        <article key={member.id} className="team-member-card group w-full max-w-[300px] flex-shrink-0">
+                          <Link 
                             href={`/team/${member.slug}`}
                             className="block h-full"
                             aria-label={`View ${member.name}'s profile`}
                           >
-                            <div className="bg-white rounded-2xl transition-all duration-300 overflow-hidden h-full flex flex-col p-6">
+                            <div className="bg-white rounded-2xl  transition-all duration-300 overflow-hidden h-full flex flex-col p-6">
                               {/* Member Image */}
                               <div className="relative mb-4">
-                                <div className="relative w-[250px] h-[250px] mx-auto rounded-full overflow-hidden">
+                                <div className="relative w-[250px] team-member-img h-[250px] mx-auto rounded-full overflow-hidden">
                                   <Image
                                     src={member.img_url || "/placeholder-team.jpg"}
-                                    alt={`${member.name} - ${member.designation} at ${member.company_name || "BizCivitas"}`}
-                                    width={250}
-                                    height={250}
-                                    className="object-cover rounded-full"
+                                    alt={`${member.name} - ${member.designation} at ${member.company_name || 'BizCivitas'}`}
+                                    fill
+                                    className="object-cover"
                                   />
                                 </div>
                               </div>
@@ -256,38 +213,6 @@ export default async function TeamPage() {
                                   </p>
                                 )}
 
-                                {member.leading_in_domain && (
-                                  <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
-                                    {member.leading_in_domain}
-                                  </p>
-                                )}
-
-                                {(member.linkedin_link || member.website_link) && (
-                                  <div className="flex justify-center items-center space-x-4">
-                                    {member.linkedin_link && (
-                                      <a
-                                        href={member.linkedin_link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-orange-600 hover:text-orange-700 transition-colors duration-200"
-                                        aria-label={`${member.name}'s LinkedIn`}
-                                      >
-                                        <FaLinkedin className="w-5 h-5" />
-                                      </a>
-                                    )}
-                                    {member.website_link && (
-                                      <a
-                                        href={member.website_link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-orange-600 hover:text-orange-700 transition-colors duration-200"
-                                        aria-label={`${member.name}'s Website`}
-                                      >
-                                        <FaGlobe className="w-5 h-5" />
-                                      </a>
-                                    )}
-                                  </div>
-                                )}
                               </div>
                             </div>
                           </Link>
