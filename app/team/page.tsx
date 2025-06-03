@@ -1,10 +1,9 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllTeamMembers } from "@/lib/team";
 import Script from "next/script";
-import { FaLinkedin, FaGlobe } from "react-icons/fa";
+import { FaLinkedin, FaGlobe, FaArrowRight } from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts",
@@ -33,20 +32,19 @@ export const metadata: Metadata = {
         alt: "BizCivitas Team - Business Experts",
       },
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Our Team | BizCivitas - Meet Our Business Experts",
-    description:
-      "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
-  },
-  alternates: {
-    canonical: "/team",
-  },
-  other: {
-    robots:
-      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-  },
+    twitter: {
+      card: "summary_large_image",
+      title: "Our Team | BizCivitas - Meet Our Business Experts",
+      description:
+        "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
+    },
+    alternates: {
+      canonical: "/team",
+    },
+    other: {
+      robots:
+        "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    },
 };
 
 // Enable ISR with 60-second revalidation
@@ -171,97 +169,252 @@ export default async function TeamPage() {
                     <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
                       {members.map((member) => (
                         <div key={member.id} className="group">
-                          {/* Enhanced Team Member Card */}
-                          <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 w-96 transform group-hover:-translate-y-2">
-                            {/* Background gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            
-                            <div className="relative p-8">
-                              {/* Header Section */}
-                              <div className="flex items-start space-x-6 mb-6">
-                                {/* Member Image */}
-                                <div className="flex-shrink-0">
-                                  <div className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-xl ring-4 ring-white group-hover:ring-blue-100 transition-all duration-300">
-                                    <Image
-                                      src={member.img_url || "/placeholder-team.jpg"}
-                                      alt={member.name}
-                                      fill
-                                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                      sizes="96px"
-                                    />
-                                  </div>
+                          <style jsx>{`
+                            .modern-team-card {
+                              background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                              border-radius: 20px;
+                              padding: 2rem;
+                              width: 380px;
+                              position: relative;
+                              overflow: hidden;
+                              box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                              border: 1px solid rgba(255, 255, 255, 0.2);
+                            }
+
+                            .modern-team-card::before {
+                              content: '';
+                              position: absolute;
+                              top: 0;
+                              left: -100%;
+                              width: 100%;
+                              height: 100%;
+                              background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+                              transition: left 0.5s ease;
+                            }
+
+                            .modern-team-card:hover::before {
+                              left: 100%;
+                            }
+
+                            .modern-team-card:hover {
+                              transform: translateY(-10px);
+                              box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+                            }
+
+                            .member-avatar {
+                              width: 120px;
+                              height: 120px;
+                              border-radius: 50%;
+                              margin: 0 auto 1.5rem;
+                              position: relative;
+                              overflow: hidden;
+                              border: 4px solid #ffffff;
+                              box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                              transition: all 0.3s ease;
+                            }
+
+                            .member-avatar:hover {
+                              transform: scale(1.05);
+                              box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+                            }
+
+                            .avatar-ring {
+                              position: absolute;
+                              top: -8px;
+                              left: -8px;
+                              right: -8px;
+                              bottom: -8px;
+                              border-radius: 50%;
+                              background: conic-gradient(from 0deg, #667eea, #764ba2, #667eea);
+                              z-index: -1;
+                              animation: ring-rotate 3s linear infinite;
+                              opacity: 0;
+                              transition: opacity 0.3s ease;
+                            }
+
+                            .modern-team-card:hover .avatar-ring {
+                              opacity: 1;
+                            }
+
+                            @keyframes ring-rotate {
+                              from { transform: rotate(0deg); }
+                              to { transform: rotate(360deg); }
+                            }
+
+                            .member-info {
+                              text-align: center;
+                            }
+
+                            .member-name {
+                              font-size: 1.5rem;
+                              font-weight: 700;
+                              color: #1a202c;
+                              margin-bottom: 0.5rem;
+                              transition: color 0.3s ease;
+                            }
+
+                            .modern-team-card:hover .member-name {
+                              background: linear-gradient(135deg, #667eea, #764ba2);
+                              -webkit-background-clip: text;
+                              -webkit-text-fill-color: transparent;
+                              background-clip: text;
+                            }
+
+                            .member-title {
+                              color: #4a5568;
+                              font-weight: 500;
+                              margin-bottom: 1rem;
+                              font-size: 1rem;
+                            }
+
+                            .expertise-tag {
+                              background: linear-gradient(135deg, #667eea, #764ba2);
+                              color: white;
+                              padding: 0.5rem 1rem;
+                              border-radius: 20px;
+                              font-size: 0.875rem;
+                              font-weight: 500;
+                              display: inline-block;
+                              margin-bottom: 1.5rem;
+                              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                              transition: all 0.3s ease;
+                            }
+
+                            .modern-team-card:hover .expertise-tag {
+                              transform: translateY(-2px);
+                              box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+                            }
+
+                            .company-badge {
+                              background: rgba(102, 126, 234, 0.1);
+                              color: #667eea;
+                              padding: 0.5rem 1rem;
+                              border-radius: 15px;
+                              font-size: 0.875rem;
+                              font-weight: 500;
+                              display: inline-flex;
+                              align-items: center;
+                              gap: 0.5rem;
+                              margin-bottom: 1.5rem;
+                            }
+
+                            .social-section {
+                              display: flex;
+                              justify-content: space-between;
+                              align-items: center;
+                              margin-top: 1.5rem;
+                            }
+
+                            .social-links {
+                              display: flex;
+                              gap: 0.75rem;
+                            }
+
+                            .social-link {
+                              width: 40px;
+                              height: 40px;
+                              border-radius: 50%;
+                              background: rgba(102, 126, 234, 0.1);
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                              color: #667eea;
+                              transition: all 0.3s ease;
+                              border: 2px solid transparent;
+                            }
+
+                            .social-link:hover {
+                              background: #667eea;
+                              color: white;
+                              transform: translateY(-2px);
+                              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                            }
+
+                            .view-profile-btn {
+                              background: linear-gradient(135deg, #667eea, #764ba2);
+                              color: white;
+                              padding: 0.75rem 1.5rem;
+                              border-radius: 25px;
+                              font-weight: 600;
+                              font-size: 0.875rem;
+                              text-decoration: none;
+                              display: inline-flex;
+                              align-items: center;
+                              gap: 0.5rem;
+                              transition: all 0.3s ease;
+                              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                            }
+
+                            .view-profile-btn:hover {
+                              transform: translateY(-2px);
+                              box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+                              color: white;
+                            }
+
+                            .company-logo-small {
+                              width: 24px;
+                              height: 24px;
+                              border-radius: 4px;
+                              background: white;
+                              padding: 2px;
+                            }
+                          `}</style>
+
+                          {/* Modern Team Member Card */}
+                          <div className="modern-team-card">
+                            {/* Member Avatar */}
+                            <div className="member-avatar">
+                              <div className="avatar-ring"></div>
+                              <Image
+                                src={member.img_url || "/placeholder-team.jpg"}
+                                alt={member.name}
+                                fill
+                                className="object-cover"
+                                sizes="120px"
+                              />
+                            </div>
+
+                            {/* Member Info */}
+                            <div className="member-info">
+                              <h3 className="member-name">{member.name}</h3>
+                              <p className="member-title">{member.designation}</p>
+
+                              {/* Expertise Tag */}
+                              {member.leading_in_domain && (
+                                <div className="expertise-tag">
+                                  {member.leading_in_domain}
                                 </div>
+                              )}
 
-                                {/* Member Info */}
-                                <div className="flex-1 min-w-0">
-                                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                                    {member.name}
-                                  </h3>
-                                  {member.designation && (
-                                    <p className="text-blue-600 font-semibold text-sm mb-3 bg-blue-50 px-3 py-1 rounded-full inline-block">
-                                      {member.designation}
-                                    </p>
-                                  )}
-                                  
-                                  {/* Leading Domain Badge */}
-                                  {member.leading_in_domain && (
-                                    <div className="mb-3">
-                                      <span className="inline-block bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">
-                                        Expert in {member.leading_in_domain}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-
-                                {/* Company Logo */}
-                                {member.company_logo && (
-                                  <div className="flex-shrink-0">
-                                    <div className="relative w-16 h-16 flex items-center justify-center bg-gray-50 rounded-xl p-2">
-                                      <Image
-                                        src={member.company_logo}
-                                        alt={`${member.company_name || 'Company'} Logo`}
-                                        fill
-                                        className="object-contain"
-                                        sizes="64px"
-                                      />
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Company Info */}
+                              {/* Company Badge */}
                               {(member.company_name && member.company_name !== 'BizCivitas') && (
-                                <div className="mb-4">
-                                  <div className="flex items-center text-gray-600">
-                                    <svg className="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                    </svg>
-                                    <span className="text-sm font-medium">{member.company_name}</span>
-                                  </div>
+                                <div className="company-badge">
+                                  {member.company_logo && (
+                                    <Image
+                                      src={member.company_logo}
+                                      alt={member.company_name}
+                                      width={24}
+                                      height={24}
+                                      className="company-logo-small"
+                                    />
+                                  )}
+                                  {member.company_name}
                                 </div>
                               )}
 
-                              {/* Description Preview */}
-                              {member.description && (
-                                <div className="mb-6">
-                                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                                    {member.description.replace(/<[^>]*>/g, '').substring(0, 150)}...
-                                  </p>
-                                </div>
-                              )}
-
-                              {/* Social Links */}
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-4">
+                              {/* Social Links and View Profile */}
+                              <div className="social-section">
+                                <div className="social-links">
                                   {member.website_link && (
                                     <Link
                                       href={member.website_link}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-gray-500 hover:text-blue-600 transition-colors duration-300 p-2 hover:bg-blue-50 rounded-lg"
+                                      className="social-link"
                                       aria-label={`${member.name}'s Website`}
                                     >
-                                      <FaGlobe className="w-5 h-5" />
+                                      <FaGlobe className="w-4 h-4" />
                                     </Link>
                                   )}
                                   {member.linkedin_link && (
@@ -269,30 +422,21 @@ export default async function TeamPage() {
                                       href={member.linkedin_link}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-gray-500 hover:text-blue-600 transition-colors duration-300 p-2 hover:bg-blue-50 rounded-lg"
+                                      className="social-link"
                                       aria-label={`${member.name}'s LinkedIn`}
                                     >
-                                      <FaLinkedin className="w-5 h-5" />
+                                      <FaLinkedin className="w-4 h-4" />
                                     </Link>
                                   )}
                                 </div>
 
                                 {/* View Profile Button */}
-                                <Link
-                                  href={`/team/${member.slug}`}
-                                  className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
-                                >
+                                <Link href={`/team/${member.slug}`} className="view-profile-btn">
                                   View Profile
-                                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                  </svg>
+                                  <FaArrowRight className="w-3 h-3" />
                                 </Link>
                               </div>
                             </div>
-
-                            {/* Decorative elements */}
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-pink-400/10 to-yellow-400/10 rounded-tr-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                           </div>
                         </div>
                       ))}
