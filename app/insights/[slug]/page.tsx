@@ -264,7 +264,17 @@ export default async function BlogPage({ params }: PageProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-12">
               {blog.content ? (
                 <div 
-                  className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-em:text-gray-600 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-li:text-gray-700 prose-blockquote:text-gray-600 prose-blockquote:border-blue-200 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 prose-pre:border prose-pre:border-gray-200"
+                  className="prose prose-lg max-w-none
+                    prose-headings:text-gray-900 prose-headings:font-semibold
+                    prose-p:text-gray-800 prose-p:leading-relaxed
+                    prose-a:text-flat-btn-primary prose-a:no-underline hover:prose-a:underline
+                    prose-strong:text-gray-900
+                    prose-ul:text-gray-800 prose-ol:text-gray-800
+                    prose-li:text-gray-800
+                    prose-blockquote:text-gray-700 prose-blockquote:border-flat-btn-primary
+                    prose-code:text-flat-btn-primary prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                    prose-pre:bg-gray-100 prose-pre:border prose-pre:border-gray-200
+                    [&>*]:text-gray-800 [&_*]:text-gray-800"
                   dangerouslySetInnerHTML={{ __html: blog.content }}
                 />
               ) : (
