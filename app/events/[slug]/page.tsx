@@ -278,7 +278,12 @@ export default async function EventPage({ params }: PageProps) {
                           Event Gallery
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          {event.image_urls.map((imageUrl, index) => (
+                          {(() => {
+                            if (event.image_urls instanceof Array) {
+                              return event.image_urls;
+                            }
+                            return event.image_urls.split(",");
+                          })().map((imageUrl, index) => (
                             <div
                               key={index}
                               className="relative h-32 rounded-lg overflow-hidden"
@@ -303,9 +308,17 @@ export default async function EventPage({ params }: PageProps) {
                           Event Videos
                         </h3>
                         <div className="space-y-4">
-                          {event.youtube_links.map((youtubeLink, index) => {
-                            const videoId = youtubeLink
-                              .trim()
+                          {(() => {
+                            if (event.youtube_links instanceof Array) {
+                              return event.youtube_links;
+                            }
+                            return event.youtube_links.split(",");
+                          })().map((youtubeLink, index) => {
+                            const linkStr =
+                              typeof youtubeLink === "string"
+                                ? youtubeLink.trim()
+                                : String(youtubeLink).trim();
+                            const videoId = linkStr
                               .split("v=")[1]
                               ?.split("&")[0];
                             return (
