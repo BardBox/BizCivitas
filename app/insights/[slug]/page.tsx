@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -8,6 +7,9 @@ import { getBlogBySlug, getAllBlogs, getBlogSEOData } from '@/lib/blogs';
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+// Enable ISR with 300-second (5 minutes) revalidation for individual blogs
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -193,11 +195,11 @@ export default async function BlogPage({ params }: PageProps) {
                   {blog.type_of_topic}
                 </div>
               )}
-              
+
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
                 {blog.topic_name || 'Untitled Post'}
               </h1>
-              
+
               {blog.description && (
                 <p className="text-xl text-gray-600 mb-8 leading-relaxed">
                   {blog.description}
@@ -213,7 +215,7 @@ export default async function BlogPage({ params }: PageProps) {
                     <span className="font-medium">{blog.author_name}</span>
                   </div>
                 )}
-                
+
                 <div className="flex items-center">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -8,6 +7,9 @@ import { getTeamMemberBySlug, getAllTeamMembers, getTeamMemberSEOData } from '@/
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+// Enable ISR with 3600-second (1 hour) revalidation for team members
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -175,7 +177,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
                 <h2 className="text-2xl text-blue-600 font-semibold mb-6">
                   {member.designation}
                 </h2>
-                
+
                 {member.leading_in_domain && (
                   <div className="mb-6">
                     <span className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
@@ -216,7 +218,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
                       </svg>
                     </a>
                   )}
-                  
+
                   {member.linkedin_link && (
                     <a
                       href={member.linkedin_link}

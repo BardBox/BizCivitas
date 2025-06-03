@@ -1,16 +1,25 @@
-
 import type { Metadata } from "next";
-import { theme } from '@/lib/theme';
+import { theme } from "@/lib/theme";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "About BizCivitas - Turning Visions Into Reality",
-  description: "Learn about BizCivitas, our mission to bring your vision to life with seamless execution and unforgettable experiences. Discover our story, values, and commitment to business networking excellence.",
-  keywords: ["about BizCivitas", "company mission", "business networking", "vision to reality", "company values", "our story"],
+  description:
+    "Learn about BizCivitas, our mission to bring your vision to life with seamless execution and unforgettable experiences. Discover our story, values, and commitment to business networking excellence.",
+  keywords: [
+    "about BizCivitas",
+    "company mission",
+    "business networking",
+    "vision to reality",
+    "company values",
+    "our story",
+  ],
   openGraph: {
     title: "About BizCivitas - Turning Visions Into Reality",
-    description: "Learn about BizCivitas, our mission to bring your vision to life with seamless execution and unforgettable experiences.",
+    description:
+      "Learn about BizCivitas, our mission to bring your vision to life with seamless execution and unforgettable experiences.",
     type: "website",
-    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/about`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/about`,
     images: [
       {
         url: "/og-about.jpg",
@@ -23,7 +32,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "About BizCivitas - Turning Visions Into Reality",
-    description: "Learn about BizCivitas, our mission to bring your vision to life with seamless execution and unforgettable experiences.",
+    description:
+      "Learn about BizCivitas, our mission to bring your vision to life with seamless execution and unforgettable experiences.",
   },
   alternates: {
     canonical: "/about",
@@ -35,13 +45,14 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "BizCivitas",
-    description: "Bringing your vision to life with seamless execution and unforgettable experiences",
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com',
+    description:
+      "Bringing your vision to life with seamless execution and unforgettable experiences",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
     foundingDate: "2024",
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
-      url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/contact`,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/contact`,
     },
     sameAs: [
       "https://linkedin.com/company/bizcivitas",
@@ -51,17 +62,19 @@ export default function AboutPage() {
 
   return (
     <>
-      <script
+      <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      
+
       <div className="min-h-screen bg-gradient-to-br from-white to-gray-50">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-orange-500 to-green-500 flex items-center justify-center text-white">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h1 className="text-5xl font-bold mb-6">About BizCivitas</h1>
-            <p className="text-xl opacity-90">Turning Visions Into Reality, One Connection at a Time</p>
+            <p className="text-xl opacity-90">
+              Turning Visions Into Reality, One Connection at a Time
+            </p>
           </div>
         </section>
 
@@ -69,23 +82,30 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-4 py-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Story
+              </h2>
               <p className="text-lg text-gray-700 mb-6">
-                BizCivitas was founded with a simple yet powerful vision: to create meaningful connections 
-                that transform business ideas into reality. We believe that every great venture starts with 
-                the right network, the right insights, and the right opportunities.
+                BizCivitas was founded with a simple yet powerful vision: to
+                create meaningful connections that transform business ideas into
+                reality. We believe that every great venture starts with the
+                right network, the right insights, and the right opportunities.
               </p>
               <p className="text-lg text-gray-700 mb-6">
-                Through our carefully curated events, insightful content, and vibrant community, we provide 
-                entrepreneurs, business leaders, and innovators with the platform they need to thrive in 
-                today's competitive landscape.
+                Through our carefully curated events, insightful content, and
+                vibrant community, we provide entrepreneurs, business leaders,
+                and innovators with the platform they need to thrive in today's
+                competitive landscape.
               </p>
             </div>
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Our Mission
+              </h3>
               <p className="text-gray-700 mb-6">
-                To bring your vision to life with seamless execution and unforgettable experiences, 
-                fostering a community where business dreams become sustainable realities.
+                To bring your vision to life with seamless execution and
+                unforgettable experiences, fostering a community where business
+                dreams become sustainable realities.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center">

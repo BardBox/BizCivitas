@@ -70,6 +70,9 @@ function formatDate(dateString: string) {
   });
 }
 
+// Enable ISR with 60-second revalidation
+export const revalidate = 60;
+
 export default async function EventsPage() {
   const upcomingEvents = await getUpcomingEvents();
   const pastEvents = await getPastEvents();

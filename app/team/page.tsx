@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
-import Image from 'next/image';
-import Link from 'next/link';
-import { getAllTeamMembers } from '@/lib/team';
-
+import Image from "next/image";
+import Link from "next/link";
+import { getAllTeamMembers } from "@/lib/team";
+import Script from "next/script";
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts",
-  description: "Meet the expert team behind BizCivitas. Our professionals bring years of experience in business consulting, digital growth, photography, and more to help your business succeed.",
-  keywords: ["BizCivitas team", "business experts", "team members", "business consultants", "professional team", "business leaders", "company team"],
+  description:
+    "Meet the expert team behind BizCivitas. Our professionals bring years of experience in business consulting, digital growth, photography, and more to help your business succeed.",
+  keywords: [
+    "BizCivitas team",
+    "business experts",
+    "team members",
+    "business consultants",
+    "professional team",
+    "business leaders",
+    "company team",
+  ],
   openGraph: {
     title: "Our Team | BizCivitas - Meet Our Business Experts",
-    description: "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
+    description:
+      "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
     type: "website",
     url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/team`,
     images: [
@@ -24,15 +34,20 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Our Team | BizCivitas - Meet Our Business Experts",
-    description: "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
+    description:
+      "Meet the expert team behind BizCivitas. Our professionals bring years of experience to help your business succeed.",
   },
   alternates: {
     canonical: "/team",
   },
   other: {
-    'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    robots:
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   },
 };
+
+// Enable ISR with 60-second revalidation
+export const revalidate = 60;
 
 export default async function TeamPage() {
   const teamMembers = await getAllTeamMembers();
@@ -40,64 +55,63 @@ export default async function TeamPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Our Team | BizCivitas",
-    "description": "Meet the expert team behind BizCivitas. Our professionals bring years of experience in business consulting and growth.",
-    "url": "https://bizcivitas.com/team",
-    "mainEntity": {
+    name: "Our Team | BizCivitas",
+    description:
+      "Meet the expert team behind BizCivitas. Our professionals bring years of experience in business consulting and growth.",
+    url: "https://bizcivitas.com/team",
+    mainEntity: {
       "@type": "Organization",
-      "name": "BizCivitas",
-      "url": "https://bizcivitas.com",
-      "employee": teamMembers.map(member => ({
+      name: "BizCivitas",
+      url: "https://bizcivitas.com",
+      employee: teamMembers.map((member) => ({
         "@type": "Person",
-        "name": member.name,
-        "jobTitle": member.designation,
-        "image": member.img_url,
-        "url": `https://bizcivitas.com/team/${member.slug}`,
-        "worksFor": {
+        name: member.name,
+        jobTitle: member.designation,
+        image: member.img_url,
+        url: `https://bizcivitas.com/team/${member.slug}`,
+        worksFor: {
           "@type": "Organization",
-          "name": member.company_name || "BizCivitas"
-        }
-      }))
+          name: member.company_name || "BizCivitas",
+        },
+      })),
     },
-    "breadcrumb": {
+    breadcrumb: {
       "@type": "BreadcrumbList",
-      "itemListElement": [
+      itemListElement: [
         {
           "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://bizcivitas.com"
+          position: 1,
+          name: "Home",
+          item: "https://bizcivitas.com",
         },
         {
           "@type": "ListItem",
-          "position": 2,
-          "name": "Team",
-          "item": "https://bizcivitas.com/team"
-        }
-      ]
-    }
+          position: 2,
+          name: "Team",
+          item: "https://bizcivitas.com/team",
+        },
+      ],
+    },
   };
 
   return (
     <>
       {/* Structured Data for SEO */}
-      <script
+      <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
       <div className="bg-gray-50 min-h-screen">
         {/* Hero Section */}
-        <section className="py-20" style={{ backgroundColor: '#f39c12' }}>
+        <section className="py-20" style={{ backgroundColor: "#f39c12" }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              Meet Our{' '}
-              <span className="text-white">
-                Expert Team
-              </span>
+              Meet Our <span className="text-white">Expert Team</span>
             </h1>
             <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
-              Get to know the passionate professionals who drive BizCivitas forward and help businesses transform their visions into reality.
+              Get to know the passionate professionals who drive BizCivitas
+              forward and help businesses transform their visions into reality.
             </p>
           </div>
         </section>
@@ -110,17 +124,22 @@ export default async function TeamPage() {
                 Core Team Members
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Our diverse team brings together expertise from various domains to provide comprehensive business solutions.
+                Our diverse team brings together expertise from various domains
+                to provide comprehensive business solutions.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {teamMembers.map((member) => (
-                <Link key={member.id} href={`/team/${member.slug}`} className="block group">
+                <Link
+                  key={member.id}
+                  href={`/team/${member.slug}`}
+                  className="block group"
+                >
                   <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 group-hover:scale-105">
                     <div className="relative h-80 overflow-hidden">
                       <Image
-                        src={member.img_url || '/placeholder-team.jpg'}
+                        src={member.img_url || "/placeholder-team.jpg"}
                         alt={member.name}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
@@ -164,10 +183,22 @@ export default async function TeamPage() {
             {teamMembers.length === 0 && (
               <div className="text-center py-16">
                 <div className="bg-white rounded-xl p-8 shadow-sm border max-w-md mx-auto">
-                  <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  <svg
+                    className="w-16 h-16 text-gray-300 mx-auto mb-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
                   </svg>
-                  <p className="text-lg text-gray-600">Team members will be added soon.</p>
+                  <p className="text-lg text-gray-600">
+                    Team members will be added soon.
+                  </p>
                 </div>
               </div>
             )}
