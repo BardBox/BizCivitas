@@ -69,28 +69,64 @@ export function getBlogSEOData(blog: Blog) {
   const textContent = blog.content ? blog.content.replace(/<[^>]*>/g, '').trim() : '';
   const contentPreview = textContent.length > 160 ? textContent.substring(0, 157) + '...' : textContent;
   
-  const fallbackDescription = `Read our latest insights on ${blog.topic_name || 'business topics'} by ${blog.author_name || 'BizCivitas team'}.`;
-  const description = blog.description || contentPreview || fallbackDescription;
+  // Clean description from HTML if present
+  const cleanDescription = blog.description ? 
+    blog.description.replace(/<[^>]*>/g, '').trim() : '';
+  
+  const fallbackDescription = `Read our latest insights on ${blog.topic_name || 'business topics'} by ${blog.author_name || 'BizCivitas team'}. Published on ${new Date(blog.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. Discover valuable business strategies and industry analysis.`;
+  
+  const description = cleanDescription || contentPreview || fallbackDescription;
+  const shortDescription = description.length > 160 ? description.substring(0, 157) + '...' : description;
+  
+  // Generate comprehensive keywords
+  const keywords = [
+    blog.topic_name || 'business', 
+    blog.type_of_topic || 'insights', 
+    "business blog", 
+    "BizCivitas", 
+    blog.author_name || 'business insights',
+    "business strategy",
+    "industry analysis",
+    "thought leadership",
+    "professional development",
+    new Date(blog.date).getFullYear().toString(),
+    "business advice"
+  ].filter(Boolean);
   
   return {
     title: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
-    description: description,
-    keywords: [
-      blog.topic_name || 'business', 
-      blog.type_of_topic || 'insights', 
-      "business blog", 
-      "BizCivitas", 
-      blog.author_name || 'business insights',
-      "business strategy",
-      "industry analysis",
-      "thought leadership"
-    ],
+    description: shortDescription,
+    keywords,
     ogTitle: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
-    ogDescription: description,
+    ogDescription: shortDescription,
     ogImage: blog.cover_url || '/og-blog.jpg',
     twitterTitle: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
-    twitterDescription: description,
+    twitterDescription: shortDescription,
     twitterImage: blog.cover_url || '/og-blog.jpg',
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: blog.topic_name,
+      description: description,
+      image: blog.cover_url,
+      author: {
+        "@type": "Person",
+        name: blog.author_name || "BizCivitas Team"
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "BizCivitas",
+        url: "https://bizcivitas.com"
+      },
+      datePublished: blog.date,
+      dateModified: blog.updated_at || blog.date,
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://bizcivitas.com/insights/${blog.slug}`
+      },
+      articleSection: blog.type_of_topic || "Business Insights",
+      keywords: keywords.join(", ")
+    }
   };
 }
 

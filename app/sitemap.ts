@@ -9,20 +9,32 @@ export default async function sitemap() {
   const teamMembers = await getAllTeamMembers();
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com';
+  const now = new Date();
 
-  const eventUrls = events.map((event) => ({
-    url: `${baseUrl}/events/${event.slug}`,
-    lastModified: new Date(event.updated_at || event.created_at || event.date),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }));
+  const eventUrls = events.map((event) => {
+    const eventDate = new Date(event.date);
+    const isUpcoming = eventDate > now;
+    
+    return {
+      url: `${baseUrl}/events/${event.slug}`,
+      lastModified: new Date(event.updated_at || event.created_at || event.date),
+      changeFrequency: isUpcoming ? 'daily' as const : 'monthly' as const,
+      priority: isUpcoming ? 0.9 : 0.7,
+    };
+  });
 
-  const blogUrls = blogs.map((blog) => ({
-    url: `${baseUrl}/insights/${blog.slug}`,
-    lastModified: new Date(blog.updated_at || blog.created_at || blog.date),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }));
+  const blogUrls = blogs.map((blog) => {
+    const blogDate = new Date(blog.date);
+    const daysSincePublished = Math.floor((now.getTime() - blogDate.getTime()) / (1000 * 60 * 60 * 24));
+    const isRecent = daysSincePublished < 30;
+    
+    return {
+      url: `${baseUrl}/insights/${blog.slug}`,
+      lastModified: new Date(blog.updated_at || blog.created_at || blog.date),
+      changeFrequency: isRecent ? 'weekly' as const : 'monthly' as const,
+      priority: isRecent ? 0.8 : 0.6,
+    };
+  });
 
   const teamUrls = teamMembers.map((member) => ({
     url: `${baseUrl}/team/${member.slug}`,
