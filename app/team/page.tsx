@@ -167,49 +167,101 @@ export default async function TeamPage() {
                       </h2>
                     </div>
 
-                    {/* Members Grid - Centered layout */}
-                    <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+                    {/* Members Grid - Enhanced layout */}
+                    <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
                       {members.map((member) => (
                         <div key={member.id} className="group">
-                          {/* Team Member Card - Horizontal Layout */}
-                          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 w-80">
-                            <div className="flex p-6">
-                              {/* Left Side - Member Image */}
-                              <div className="flex-shrink-0 mr-6">
-                                <div className="relative w-20 h-20 rounded-full overflow-hidden shadow-lg">
-                                  <Image
-                                    src={member.img_url || "/placeholder-team.jpg"}
-                                    alt={member.name}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-300"
-                                    sizes="80px"
-                                  />
+                          {/* Enhanced Team Member Card */}
+                          <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 w-96 transform group-hover:-translate-y-2">
+                            {/* Background gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <div className="relative p-8">
+                              {/* Header Section */}
+                              <div className="flex items-start space-x-6 mb-6">
+                                {/* Member Image */}
+                                <div className="flex-shrink-0">
+                                  <div className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-xl ring-4 ring-white group-hover:ring-blue-100 transition-all duration-300">
+                                    <Image
+                                      src={member.img_url || "/placeholder-team.jpg"}
+                                      alt={member.name}
+                                      fill
+                                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                      sizes="96px"
+                                    />
+                                  </div>
                                 </div>
+
+                                {/* Member Info */}
+                                <div className="flex-1 min-w-0">
+                                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                                    {member.name}
+                                  </h3>
+                                  {member.designation && (
+                                    <p className="text-blue-600 font-semibold text-sm mb-3 bg-blue-50 px-3 py-1 rounded-full inline-block">
+                                      {member.designation}
+                                    </p>
+                                  )}
+                                  
+                                  {/* Leading Domain Badge */}
+                                  {member.leading_in_domain && (
+                                    <div className="mb-3">
+                                      <span className="inline-block bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">
+                                        Expert in {member.leading_in_domain}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Company Logo */}
+                                {member.company_logo && (
+                                  <div className="flex-shrink-0">
+                                    <div className="relative w-16 h-16 flex items-center justify-center bg-gray-50 rounded-xl p-2">
+                                      <Image
+                                        src={member.company_logo}
+                                        alt={`${member.company_name || 'Company'} Logo`}
+                                        fill
+                                        className="object-contain"
+                                        sizes="64px"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
                               </div>
 
-                              {/* Middle - Member Info */}
-                              <div className="flex-1 min-w-0">
-                                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                                  {member.name}
-                                </h3>
-                                {member.designation && (
-                                  <p className="text-gray-600 text-sm mb-2">
-                                    {member.designation}
+                              {/* Company Info */}
+                              {(member.company_name && member.company_name !== 'BizCivitas') && (
+                                <div className="mb-4">
+                                  <div className="flex items-center text-gray-600">
+                                    <svg className="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    <span className="text-sm font-medium">{member.company_name}</span>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Description Preview */}
+                              {member.description && (
+                                <div className="mb-6">
+                                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                                    {member.description.replace(/<[^>]*>/g, '').substring(0, 150)}...
                                   </p>
-                                )}
-                                
-                                {/* Social Links */}
-                                <div className="flex items-center space-x-3 mb-3">
+                                </div>
+                              )}
+
+                              {/* Social Links */}
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-4">
                                   {member.website_link && (
                                     <Link
                                       href={member.website_link}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-blue-600 hover:text-blue-800 transition-colors flex items-center text-sm"
+                                      className="text-gray-500 hover:text-blue-600 transition-colors duration-300 p-2 hover:bg-blue-50 rounded-lg"
                                       aria-label={`${member.name}'s Website`}
                                     >
-                                      <FaGlobe className="w-4 h-4 mr-1" />
-                                      Website
+                                      <FaGlobe className="w-5 h-5" />
                                     </Link>
                                   )}
                                   {member.linkedin_link && (
@@ -217,57 +269,30 @@ export default async function TeamPage() {
                                       href={member.linkedin_link}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-blue-600 hover:text-blue-800 transition-colors flex items-center text-sm"
+                                      className="text-gray-500 hover:text-blue-600 transition-colors duration-300 p-2 hover:bg-blue-50 rounded-lg"
                                       aria-label={`${member.name}'s LinkedIn`}
                                     >
-                                      <FaLinkedin className="w-4 h-4 mr-1" />
-                                      LinkedIn
+                                      <FaLinkedin className="w-5 h-5" />
                                     </Link>
                                   )}
                                 </div>
 
-                                {/* Company Info */}
-                                {(member.company_name && member.company_name !== 'BizCivitas') && (
-                                  <div className="text-xs text-gray-500">
-                                    {member.company_name}
-                                  </div>
-                                )}
+                                {/* View Profile Button */}
+                                <Link
+                                  href={`/team/${member.slug}`}
+                                  className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                                >
+                                  View Profile
+                                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                  </svg>
+                                </Link>
                               </div>
-
-                              {/* Right Side - Company Logo */}
-                              {member.company_logo && (
-                                <div className="flex-shrink-0 ml-4">
-                                  <div className="relative w-16 h-16 flex items-center justify-center">
-                                    <Image
-                                      src={member.company_logo}
-                                      alt={`${member.company_name || 'Company'} Logo`}
-                                      fill
-                                      className="object-contain"
-                                      sizes="64px"
-                                    />
-                                  </div>
-                                </div>
-                              )}
                             </div>
 
-                            {/* Description Preview */}
-                            {member.description && (
-                              <div className="px-6 pb-4">
-                                <div className="text-xs text-gray-500 line-clamp-2 border-t pt-3">
-                                  {member.description.replace(/<[^>]*>/g, '').substring(0, 120)}...
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Link to full profile page */}
-                          <div className="text-center mt-3">
-                            <Link
-                              href={`/team/${member.slug}`}
-                              className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
-                            >
-                              View Full Profile →
-                            </Link>
+                            {/* Decorative elements */}
+                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-pink-400/10 to-yellow-400/10 rounded-tr-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                           </div>
                         </div>
                       ))}
