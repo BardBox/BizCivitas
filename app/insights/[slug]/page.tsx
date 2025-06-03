@@ -165,10 +165,12 @@ export default async function BlogPage({ params }: PageProps) {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
       />
 
       <div className="min-h-screen bg-gray-50">
@@ -314,6 +316,6 @@ export default async function BlogPage({ params }: PageProps) {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }

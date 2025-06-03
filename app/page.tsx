@@ -54,6 +54,7 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        suppressHydrationWarning
       />
 
       <div className="bg-flat-bg min-h-screen">
@@ -69,9 +70,10 @@ export default function HomePage() {
               playsInline
               controlsList="nodownload nofullscreen noremoteplaybook"
               disablePictureInPicture
-              preload="auto"
+              preload="metadata"
               poster="/video-poster.jpg"
               aria-label="Business innovation video showcasing successful companies"
+              suppressHydrationWarning
             />
           </div>
 

@@ -12,8 +12,16 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '**',
       },
+      {
+        protocol: 'http',
+        hostname: 'deeppink-starling-710457.hostingersite.com',
+      },
     ],
   },
+  // Configure for deployment
+  output: 'standalone',
+  trailingSlash: false,
+  poweredByHeader: false,
 };
 
 export default nextConfig;
