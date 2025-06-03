@@ -64,16 +64,23 @@ export default async function TeamPage() {
     return groups;
   }, {} as Record<string, typeof teamMembers>);
 
-  // Define position order for display
+  // Define position order for display (matching the enum)
   const positionOrder = [
-    'Founders',
-    'Consulting Directors', 
-    'Core Team Members',
-    'Advisory Board',
-    'Senior Members',
-    'Team Members',
-    'Other'
+    'Founder',
+    'Co-Founders',
+    'Consulting Directors',
+    'Core-Team-Members',
+    'Team-Member'
   ];
+
+  // Display names for positions
+  const positionDisplayNames: Record<string, string> = {
+    'Founder': 'Founders',
+    'Co-Founders': 'Founders',
+    'Consulting Directors': 'Consulting Directors',
+    'Core-Team-Members': 'Core Team Members',
+    'Team-Member': 'Team Members'
+  };
 
   // Sort positions according to defined order
   const sortedPositions = positionOrder.filter(position => groupedMembers[position]);
@@ -128,23 +135,25 @@ export default async function TeamPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-white min-h-screen">
         {/* Hero Section */}
-        <section className="py-20" style={{ backgroundColor: "#f39c12" }}>
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              Meet Our <span className="text-white">Expert Team</span>
+            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
+              Meet Our <span className="text-blue-600">Expert Team</span>
             </h1>
-            <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
               Get to know the passionate professionals who drive BizCivitas
               forward and help businesses transform their visions into reality.
             </p>
           </div>
-        </section>
+        </section></div>
 
         {/* Team Members Section - Grouped by Position */}
-        <section className="py-16">
+        <section className="py-16 bg-gray-50">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+
+        
             {sortedPositions.length > 0 ? (
               sortedPositions.map((position) => {
                 const members = groupedMembers[position];
@@ -160,61 +169,53 @@ export default async function TeamPage() {
                   gridCols = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
                 }
 
+                const displayName = positionDisplayNames[position] || position;
+                
                 return (
-                  <div key={position} className="mb-16">
+                  <div key={position} className="mb-20">
                     {/* Position Title */}
                     <div className="text-center mb-12">
-                      <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                        {position}
+                      <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-6">
+                        {displayName}
                       </h2>
-                      <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
                     </div>
 
-                    {/* Members Grid */}
-                    <div className={`grid ${gridCols} gap-8 justify-items-center`}>
+                    {/* Members Grid - Centered layout */}
+                    <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
                       {members.map((member) => (
                         <Link
                           key={member.id}
                           href={`/team/${member.slug}`}
-                          className="block group w-full max-w-sm"
+                          className="block group"
                         >
-                          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 group-hover:scale-105">
-                            <div className="relative h-80 overflow-hidden">
-                              <Image
-                                src={member.img_url || "/placeholder-team.jpg"}
-                                alt={member.name}
-                                fill
-                                className="object-cover group-hover:scale-110 transition-transform duration-300"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 w-72">
+                            {/* Circular Image Container */}
+                            <div className="flex justify-center pt-6 pb-4">
+                              <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-lg">
+                                <Image
+                                  src={member.img_url || "/placeholder-team.jpg"}
+                                  alt={member.name}
+                                  fill
+                                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                  sizes="128px"
+                                />
+                              </div>
                             </div>
 
-                            <div className="p-6 text-center">
-                              <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                            {/* Member Info */}
+                            <div className="px-6 pb-6 text-center">
+                              <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                                 {member.name}
                               </h3>
-                              <p className="text-blue-600 font-medium mb-3">
-                                {member.designation}
-                              </p>
                               {member.leading_in_domain && (
-                                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                                <p className="text-gray-600 text-sm leading-relaxed">
                                   {member.leading_in_domain}
                                 </p>
                               )}
-                              {member.company_name && (
-                                <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
-                                  {member.company_logo && (
-                                    <Image
-                                      src={member.company_logo}
-                                      alt={member.company_name}
-                                      width={20}
-                                      height={20}
-                                      className="object-contain"
-                                    />
-                                  )}
-                                  <span>{member.company_name}</span>
-                                </div>
+                              {member.designation && (
+                                <p className="text-blue-600 font-medium text-sm mt-2">
+                                  {member.designation}
+                                </p>
                               )}
                             </div>
                           </div>
@@ -248,7 +249,6 @@ export default async function TeamPage() {
             )}
           </div>
         </section>
-      </div>
     </>
   );
 }
