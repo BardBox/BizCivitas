@@ -1,5 +1,3 @@
-'use client';
-
 import { TeamMember } from '@/lib/team';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,25 +10,6 @@ interface TeamMemberModalProps {
 }
 
 export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProps) {
-  // Handle escape key press
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
-
   if (!isOpen || !member) return null;
 
   return (
