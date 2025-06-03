@@ -1,8 +1,10 @@
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllTeamMembers } from "@/lib/team";
 import Script from "next/script";
+
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts",
   description:
@@ -51,6 +53,30 @@ export const revalidate = 60;
 
 export default async function TeamPage() {
   const teamMembers = await getAllTeamMembers();
+
+  // Group team members by position
+  const groupedMembers = teamMembers.reduce((groups, member) => {
+    const position = member.position || 'Other';
+    if (!groups[position]) {
+      groups[position] = [];
+    }
+    groups[position].push(member);
+    return groups;
+  }, {} as Record<string, typeof teamMembers>);
+
+  // Define position order for display
+  const positionOrder = [
+    'Founders',
+    'Consulting Directors', 
+    'Core Team Members',
+    'Advisory Board',
+    'Senior Members',
+    'Team Members',
+    'Other'
+  ];
+
+  // Sort positions according to defined order
+  const sortedPositions = positionOrder.filter(position => groupedMembers[position]);
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -116,71 +142,89 @@ export default async function TeamPage() {
           </div>
         </section>
 
-        {/* Team Members Section */}
+        {/* Team Members Section - Grouped by Position */}
         <section className="py-16">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Core Team Members
-              </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Our diverse team brings together expertise from various domains
-                to provide comprehensive business solutions.
-              </p>
-            </div>
+            {sortedPositions.length > 0 ? (
+              sortedPositions.map((position) => {
+                const members = groupedMembers[position];
+                const memberCount = members.length;
+                
+                // Determine grid layout based on member count
+                let gridCols = 'grid-cols-1';
+                if (memberCount === 2) {
+                  gridCols = 'grid-cols-1 md:grid-cols-2';
+                } else if (memberCount === 3) {
+                  gridCols = 'grid-cols-1 md:grid-cols-3';
+                } else if (memberCount >= 4) {
+                  gridCols = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
+                }
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teamMembers.map((member) => (
-                <Link
-                  key={member.id}
-                  href={`/team/${member.slug}`}
-                  className="block group"
-                >
-                  <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 group-hover:scale-105">
-                    <div className="relative h-80 overflow-hidden">
-                      <Image
-                        src={member.img_url || "/placeholder-team.jpg"}
-                        alt={member.name}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      <div className="full-width absolute inset-0 hero-overlay"></div>
+                return (
+                  <div key={position} className="mb-16">
+                    {/* Position Title */}
+                    <div className="text-center mb-12">
+                      <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                        {position}
+                      </h2>
+                      <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
                     </div>
 
-                    <div className="p-6 text-center">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                        {member.name}
-                      </h3>
-                      <p className="text-blue-600 font-medium mb-3">
-                        {member.designation}
-                      </p>
-                      {member.leading_in_domain && (
-                        <p className="text-gray-600 text-sm mb-4">
-                          {member.leading_in_domain}
-                        </p>
-                      )}
-                      {member.company_name && (
-                        <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
-                          {member.company_logo && (
-                            <Image
-                              src={member.company_logo}
-                              alt={member.company_name}
-                              width={20}
-                              height={20}
-                              className="object-contain"
-                            />
-                          )}
-                          <span>{member.company_name}</span>
-                        </div>
-                      )}
+                    {/* Members Grid */}
+                    <div className={`grid ${gridCols} gap-8 justify-items-center`}>
+                      {members.map((member) => (
+                        <Link
+                          key={member.id}
+                          href={`/team/${member.slug}`}
+                          className="block group w-full max-w-sm"
+                        >
+                          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 group-hover:scale-105">
+                            <div className="relative h-80 overflow-hidden">
+                              <Image
+                                src={member.img_url || "/placeholder-team.jpg"}
+                                alt={member.name}
+                                fill
+                                className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            </div>
+
+                            <div className="p-6 text-center">
+                              <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                                {member.name}
+                              </h3>
+                              <p className="text-blue-600 font-medium mb-3">
+                                {member.designation}
+                              </p>
+                              {member.leading_in_domain && (
+                                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                                  {member.leading_in_domain}
+                                </p>
+                              )}
+                              {member.company_name && (
+                                <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
+                                  {member.company_logo && (
+                                    <Image
+                                      src={member.company_logo}
+                                      alt={member.company_name}
+                                      width={20}
+                                      height={20}
+                                      className="object-contain"
+                                    />
+                                  )}
+                                  <span>{member.company_name}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-
-            {teamMembers.length === 0 && (
+                );
+              })
+            ) : (
               <div className="text-center py-16">
                 <div className="bg-white rounded-xl p-8 shadow-sm border max-w-md mx-auto">
                   <svg
