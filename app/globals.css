@@ -12,6 +12,19 @@
 
   /* Brand Colors */
   --color-mint-500: oklch(0.72 0.11 178);
+  --color-flat-bg: #f8fafc;
+  --color-flat-surface: #ffffff;
+  --color-flat-surface-alt: #f1f5f9;
+  --color-flat-border: #e2e8f0;
+  --color-flat-text-primary: #1e293b;
+  --color-flat-text-secondary: #475569;
+  --color-flat-text-muted: #64748b;
+  --color-flat-text-inverse: #ffffff;
+  --color-flat-btn-primary: #f97316;
+  --color-flat-btn-secondary: #22c55e;
+  --color-flat-btn-success: #22c55e;
+  --color-flat-btn-warning: #f59e0b;
+  --color-flat-btn-danger: #ef4444;
 
   /* Shadows */
   --shadow-flat-sm: 0 1px 3px rgba(0,0,0,0.1);
@@ -568,6 +581,7 @@ button {
 /* White Share Button Variant */
 .enhanced-share-white .share-button {
   background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -714,6 +728,7 @@ button {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 
