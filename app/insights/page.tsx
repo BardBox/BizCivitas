@@ -161,18 +161,52 @@ export default async function InsightsPage({
       />
 
       <div className="bg-white min-h-screen">
-        {/* Hero Section */}
-        <section className="py-16 bg-white">
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900 flat-text-heading">
+        {/* Hero Video Section */}
+        <section className="relative w-full h-screen overflow-hidden">
+          <div className="absolute inset-0 w-full h-full">
+            <video
+              className="w-full h-full object-cover"
+              src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controlsList="nodownload nofullscreen noremoteplayback"
+              disablePictureInPicture
+              preload="auto"
+              poster="/video-poster.jpg"
+              aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
+            />
+          </div>
+          
+          {/* Video Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white leading-tight flat-text-heading">
                 Business <span className="text-flat-btn-primary">Insights</span>
               </h1>
-              <p className="text-xl lg:text-2xl mb-8 text-gray-700 max-w-3xl mx-auto flat-text-body">
+              <p className="text-xl lg:text-2xl mb-8 text-white/90 max-w-3xl mx-auto flat-text-body">
                 Expert analysis, industry trends, and actionable insights to
                 drive your business forward.
               </p>
             </div>
+          </div>
+          
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
           </div>
         </section>
 
