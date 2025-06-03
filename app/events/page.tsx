@@ -289,9 +289,9 @@ export default async function EventsPage() {
               <h2 className="text-3xl font-bold text-flat-text-primary mb-8 flat-text-heading">
                 Past Events
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="space-y-6">
                 {pastEvents.length === 0 ? (
-                  <div className="col-span-full flat-card p-8 text-center text-flat-text-secondary">
+                  <div className="flat-card p-8 text-center text-flat-text-secondary">
                     <svg
                       className="w-16 h-16 text-flat-text-muted mx-auto mb-4"
                       fill="none"
@@ -317,51 +317,57 @@ export default async function EventsPage() {
                       className="block"
                     >
                       <div className="flat-card overflow-hidden group">
-                        <div className="h-48 relative overflow-hidden">
-                          <Image
-                            src={event.cover_url || "/placeholder-event.jpg"}
-                            alt={event.event_name}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                        </div>
-                        <div className="p-6">
-                          <div className="text-sm text-flat-text-muted font-medium mb-2">
-                            {formatDate(event.date)}
-                          </div>
-                          <h3 className="text-xl font-semibold text-flat-text-primary mb-2 group-hover:text-flat-btn-primary transition-colors line-clamp-2 flat-text-heading">
-                            {event.event_name}
-                          </h3>
-                          {event.location && (
-                            <div className="text-flat-text-secondary text-sm mb-3 flex items-center">
-                              <svg
-                                className="w-4 h-4 mr-1 text-flat-text-muted"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                />
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                              </svg>
-                              {event.location}
+                        <div className="flex flex-col lg:flex-row">
+                          <div className="lg:w-1/3">
+                            <div className="h-64 lg:h-full relative overflow-hidden">
+                              <Image
+                                src={
+                                  event.cover_url || "/placeholder-event.jpg"
+                                }
+                                alt={event.event_name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                              />
                             </div>
-                          )}
-                          {event.description && (
-                            <p className="text-flat-text-secondary text-sm leading-relaxed line-clamp-3 flat-text-body">
-                              {event.description}
-                            </p>
-                          )}
+                          </div>
+                          <div className="lg:w-2/3 p-8">
+                            <div className="text-sm text-flat-btn-primary font-semibold mb-2">
+                              {formatDate(event.date)}
+                            </div>
+                            <h3 className="text-2xl font-bold text-flat-text-primary mb-3 group-hover:text-flat-btn-primary transition-colors flat-text-heading">
+                              {event.event_name}
+                            </h3>
+                            {event.location && (
+                              <div className="text-flat-text-secondary mb-4 flex items-center">
+                                <svg
+                                  className="w-5 h-5 mr-2 text-flat-text-muted"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                  />
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                  />
+                                </svg>
+                                {event.location}
+                              </div>
+                            )}
+                            {event.description && (
+                              <p className="text-flat-text-secondary leading-relaxed line-clamp-3 flat-text-body">
+                                {event.description}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </Link>
