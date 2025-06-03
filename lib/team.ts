@@ -21,6 +21,7 @@ export interface TeamMember {
   website_link?: string;
   linkedin_link?: string;
   company_logo?: string;
+  company_logo_url?: string;
   company_name?: string;
   description?: string;
   leading_in_domain?: string;
