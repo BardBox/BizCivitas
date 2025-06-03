@@ -43,7 +43,12 @@ export const metadata: Metadata = {
       "Stay ahead with expert business insights and industry analysis from BizCivitas.",
   },
   alternates: {
-    canonical: "/insights",
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
+  },
+  other: {
+    'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    'og:locale': 'en_US',
+    'og:site_name': 'BizCivitas',
   },
 };
 
@@ -88,11 +93,36 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
+    "@type": "CollectionPage",
     name: "Business Insights | BizCivitas",
     description:
       "Expert business insights, industry analysis, and growth strategies from BizCivitas.",
     url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
+    publisher: {
+      "@type": "Organization",
+      name: "BizCivitas",
+      url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
+      logo: {
+        "@type": "ImageObject",
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/logo.png`
+      }
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: filteredBlogs.length,
+      itemListElement: filteredBlogs.slice(0, 10).map((blog, index) => ({
+        "@type": "Article",
+        position: index + 1,
+        name: blog.topic_name,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights/${blog.slug}`,
+        author: {
+          "@type": "Person",
+          name: blog.author_name || "BizCivitas"
+        },
+        datePublished: blog.date,
+        image: blog.cover_url
+      }))
+    },
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -100,7 +130,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://bizcivitas.com",
+          item: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
         },
         {
           "@type": "ListItem",

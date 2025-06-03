@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: seoData.ogTitle,
       description: seoData.ogDescription,
       type: "article",
-      url: `https://bizcivitas.com/insights/${blog.slug}`,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights/${blog.slug}`,
       images: [
         {
           url: seoData.ogImage,
