@@ -1,3 +1,4 @@
+"use server"
 import { MetadataRoute } from 'next'
 import { getAllEvents } from '@/lib/events';
 import { getAllBlogs } from '@/lib/blogs';
