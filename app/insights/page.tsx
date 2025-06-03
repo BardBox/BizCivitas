@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
+import "./blog-cards.css";
 
 // Enable ISR with 60-second revalidation
 export const revalidate = 60;
@@ -259,41 +260,39 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                       href={`/insights/${blog.slug}`}
                       className="block"
                     >
-                      <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-all duration-200">
-                        <div className="h-48 relative overflow-hidden">
+                      <div className="custom-blog-card">
+                        <div className="image-container">
                           <Image
                             src={blog.cover_url || "/placeholder-event.jpg"}
                             alt={blog.topic_name || "Blog post"}
                             fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="object-cover"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           />
                         </div>
-                        <div className="p-6">
-                          <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
-                            <time dateTime={blog.date}>{formatBlogDate(blog.date)}</time>
+                        <div className="content">
+                          <div className="hori">
+                            {blog.type_of_topic && (
+                              <div className="type-label">
+                                {blog.type_of_topic}
+                              </div>
+                            )}
+                            <div className="icon-circle">
+                              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.7714 16.7702V1.30797M16.7714 1.30797H1.30922M16.7714 1.30797L1.30922 16.7702" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            </div>
+                          </div>
+                          <h3>{blog.topic_name}</h3>
+                          {blog.description && (
+                            <p>{blog.description}</p>
+                          )}
+                          <div className="meta-info">
+                            <div>By {blog.author_name || "BizCivitas"} on {formatBlogDate(blog.date)}</div>
                             {blog.content && (
-                              <span>{getBlogReadTime(blog.content)} min read</span>
+                              <div className="mt-1">{getBlogReadTime(blog.content)} min read</div>
                             )}
                           </div>
-                          {blog.type_of_topic && (
-                            <div className="text-xs text-flat-btn-primary font-semibold mb-2 uppercase tracking-wide">
-                              {blog.type_of_topic}
-                            </div>
-                          )}
-                          <h2 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-flat-btn-primary transition-colors line-clamp-2">
-                            {blog.topic_name}
-                          </h2>
-                          {blog.author_name && (
-                            <div className="text-sm text-gray-600 mb-3">
-                              By {blog.author_name}
-                            </div>
-                          )}
-                          {blog.description && (
-                            <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                              {blog.description}
-                            </p>
-                          )}
                         </div>
                       </div>
                     </Link>
