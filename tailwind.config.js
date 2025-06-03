@@ -1,3 +1,6 @@
+
+import { theme } from './lib/theme.ts';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,57 +9,70 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem',
+      screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1440px',
+      },
+    },
     extend: {
       colors: {
-        // Flat design color palette based on lib/theme.ts
-        'flat-bg': '#f8fafc',
-        'flat-surface': '#ffffff',
-        'flat-surface-alt': '#f1f5f9',
-        'flat-text-primary': '#1e293b',
-        'flat-text-secondary': '#64748b',
-        'flat-text-inverse': '#ffffff',
-        'flat-border': '#e2e8f0',
-        'flat-btn-primary': '#3b82f6',
-        'flat-btn-secondary': '#6b7280',
-        'flat-btn-success': '#10b981',
-        'flat-btn-warning': '#f59e0b',
-        'flat-btn-danger': '#ef4444',
-        'flat-btn-info': '#06b6d4',
+        // Brand colors
+        primary: theme.colors.primary,
+        secondary: theme.colors.secondary,
+        accent: theme.colors.accent,
+        success: theme.colors.success,
+        warning: theme.colors.warning,
+        error: theme.colors.error,
+        neutral: theme.colors.neutral,
+        
+        // Brand-focused flat UI colors
+        'flat-bg': theme.flatUI.background,
+        'flat-surface': theme.flatUI.surface,
+        'flat-surface-alt': theme.flatUI.surfaceAlt,
+        'flat-border': theme.flatUI.border,
+        'flat-border-light': theme.flatUI.borderLight,
+        'flat-text-primary': theme.flatUI.text.primary,
+        'flat-text-secondary': theme.flatUI.text.secondary,
+        'flat-text-muted': theme.flatUI.text.muted,
+        'flat-text-inverse': theme.flatUI.text.inverse,
+        
+        // Brand buttons
+        'flat-btn-primary': theme.flatUI.button.primary,
+        'flat-btn-primary-hover': theme.flatUI.button.primaryHover,
+        'flat-btn-secondary': theme.flatUI.button.secondary,
+        'flat-btn-secondary-hover': theme.flatUI.button.secondaryHover,
+        'flat-btn-success': theme.flatUI.button.success,
+        'flat-btn-success-hover': theme.flatUI.button.successHover,
+        'flat-btn-warning': theme.flatUI.button.warning,
+        'flat-btn-warning-hover': theme.flatUI.button.warningHover,
+        'flat-btn-danger': theme.flatUI.button.danger,
+        'flat-btn-danger-hover': theme.flatUI.button.dangerHover,
+
+        // Brand specific colors
+        'brand-orange': '#f97316',
+        'brand-orange-dark': '#ea580c',
+        'brand-green': '#22c55e',
+        'brand-green-dark': '#16a34a',
+        'brand-yellow': '#f59e0b',
+        'brand-yellow-dark': '#d97706',
       },
+      spacing: theme.spacing,
+      borderRadius: theme.borderRadius,
+      boxShadow: theme.shadows,
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-geist-sans)', 'Arial', 'Helvetica', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'monospace'],
       },
-      spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-      },
-      borderRadius: {
-        'xl': '0.75rem',
-        '2xl': '1rem',
-        '3xl': '1.5rem',
-      },
-      boxShadow: {
-        'flat': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'flat-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'flat-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'flat-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.3s ease-out',
-        'pulse-slow': 'pulse 3s infinite',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-      },
+      maxWidth: {
+        'container': '1440px',
+      }
     },
   },
   plugins: [],
-}
+};
