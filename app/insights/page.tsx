@@ -1,10 +1,11 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
 
-// Enable ISR with 60-second revalidation
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Business Insights | BizCivitas - Expert Analysis & Trends",
@@ -46,43 +47,61 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function InsightsPage() {
-  const blogs = await getAllBlogs();
+export default function InsightsPage() {
+  const [blogs, setBlogs] = useState([]);
+  const [structuredData, setStructuredData] = useState(null);
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Business Insights | BizCivitas",
-    description:
-      "Expert business insights, industry analysis, and growth strategies from BizCivitas.",
-    url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://bizcivitas.com",
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const allBlogs = await getAllBlogs();
+      setBlogs(allBlogs);
+    };
+
+    fetchBlogs();
+  }, []);
+
+  useEffect(() => {
+    if (blogs.length > 0) {
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Business Insights | BizCivitas",
+        description:
+          "Expert business insights, industry analysis, and growth strategies from BizCivitas.",
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights`,
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: "https://bizcivitas.com",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Insights",
+              item: `${
+                process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
+              }/insights`,
+            },
+          ],
         },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Insights",
-          item: `${
-            process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
-          }/insights`,
-        },
-      ],
-    },
-  };
+      };
+      setStructuredData(structuredData);
+    }
+  }, [blogs]);
+
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      )}
 
       <div className="bg-flat-bg">
         {/* Hero Section */}
