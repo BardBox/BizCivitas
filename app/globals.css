@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body{
+  overflow-x: hidden;
+}
+
 @theme {
   /* Consistent spacing max-width 1440px, video and all full width layover */
   --breakpoint-3xl: 120rem;
