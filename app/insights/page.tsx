@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
-import "../../blog-cards.css";
+import "./blog-cards.css";
 
 // Enable ISR with 60-second revalidation
 export const revalidate = 60;
