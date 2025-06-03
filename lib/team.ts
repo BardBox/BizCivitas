@@ -107,7 +107,8 @@ export function getTeamMemberSEOData(member: TeamMember) {
       worksFor: member.company_name ? {
         "@type": "Organization",
         name: member.company_name,
-        logo: member.company_logo
+        logo: member.company_logo || member.company_logo_url,
+        url: member.website_link || "https://bizcivitas.com"
       } : {
         "@type": "Organization",
         name: "BizCivitas",
