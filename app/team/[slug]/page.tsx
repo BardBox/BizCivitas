@@ -187,20 +187,35 @@ export default async function TeamMemberPage({ params }: PageProps) {
                   </div>
                 )}
 
-                {member.company_name && (
-                  <div className="flex items-center justify-center lg:justify-start space-x-3 mb-6">
-                    {member.company_logo && (
-                      <Image
-                        src={member.company_logo}
-                        alt={member.company_name}
-                        width={40}
-                        height={40}
-                        className="object-contain"
-                      />
-                    )}
-                    <span className="text-lg text-gray-700 font-medium">
-                      {member.company_name}
-                    </span>
+                {/* Company Info */}
+                {(member.company_name || member.company_logo || member.company_logo_url) && (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                      Company
+                    </h3>
+                    <div className="flex items-center space-x-4">
+                      {(member.company_logo || member.company_logo_url) && (
+                        <div className="relative w-12 h-12 flex-shrink-0">
+                          <Image
+                            src={member.company_logo || member.company_logo_url || "/placeholder-company.png"}
+                            alt={`${member.company_name || 'Company'} Logo`}
+                            fill
+                            className="object-contain rounded"
+                            sizes="48px"
+                          />
+                        </div>
+                      )}
+                      {member.company_name && (
+                        <div>
+                          <p className="text-gray-900 font-medium">{member.company_name}</p>
+                          {member.leading_in_domain && (
+                            <p className="text-sm text-gray-600">
+                              Expert in {member.leading_in_domain}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 

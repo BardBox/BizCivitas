@@ -7,6 +7,7 @@ import {
   getPastEvents,
   Event,
 } from "@/lib/events";
+import EnhancedCTA from "@/components/EnhancedCTA";
 
 export const metadata: Metadata = {
   title: "Business Events | BizCivitas - Transform Your Vision Into Reality",
@@ -149,7 +150,7 @@ export default async function EventsPage() {
           </div>
 
           {/* Video Overlay */}
-          <div className="absolute inset-0 bg-flat-text-primary bg-opacity-40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-opacity-40 flex items-center justify-center">
             <div className="text-center text-flat-text-inverse px-4 sm:px-6 lg:px-8 max-w-4xl">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight flat-text-heading">
                 Business <span className="text-flat-btn-primary">Events</span>
@@ -159,12 +160,17 @@ export default async function EventsPage() {
                 professionals, share insights, and drive business growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="flat-btn flat-btn-primary">
+                <EnhancedCTA href="/contact" variant="primary" size="lg">
                   Register for Events
-                </button>
-                <button className="flat-btn flat-btn-outline">
+                </EnhancedCTA>
+                <EnhancedCTA
+                  href="/about"
+                  variant="outline"
+                  size="lg"
+                  className="border-white text-white hover:bg-white hover:text-gray-900"
+                >
                   Learn More
-                </button>
+                </EnhancedCTA>
               </div>
             </div>
           </div>

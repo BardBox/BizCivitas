@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getEventBySlug, getAllEvents, getEventSEOData } from "@/lib/events";
+import ImageCarousel from "@/components/ImageCarousel";
+import ShareButton from "@/components/ShareButton";
+import EnhancedCTA from "@/components/EnhancedCTA";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -211,13 +214,16 @@ export default async function EventPage({ params }: PageProps) {
                   {event.description}
                 </p>
               )}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <EnhancedCTA href="/contact" variant="primary" size="lg">
                   Register Now
-                </button>
-                <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all duration-200">
-                  Share Event
-                </button>
+                </EnhancedCTA>
+                <ShareButton 
+                  url={`https://bizcivitas.com/events/${event.slug}`}
+                  title={event.event_name}
+                  description={event.description}
+                  className="enhanced-share-white"
+                />
               </div>
             </div>
           </div>
@@ -274,34 +280,14 @@ export default async function EventPage({ params }: PageProps) {
                       </div>
                     )}
 
-                    {/* Image Gallery */}
+                    {/* Image Gallery with Framer Motion Carousel */}
                     {event.image_urls && (
-                      <div className="mt-8">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">
-                          Event Gallery
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          {(() => {
-                            if (event.image_urls instanceof Array) {
-                              return event.image_urls;
-                            }
-                            return event.image_urls.split(",");
-                          })().map((imageUrl, index) => (
-                            <div
-                              key={index}
-                              className="relative h-32 rounded-lg overflow-hidden"
-                            >
-                              <Image
-                                src={imageUrl.trim()}
-                                alt={`${event.event_name} gallery image ${index + 1}`}
-                                fill
-                                className="object-cover hover:scale-105 transition-transform duration-300"
-                                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      <ImageCarousel
+                        images={Array.isArray(event.image_urls) 
+                          ? event.image_urls 
+                          : event.image_urls.split(",").map(url => url.trim()).filter(url => url.length > 0)}
+                        eventName={event.event_name}
+                      />
                     )}
 
                     {/* YouTube Videos */}
@@ -310,34 +296,62 @@ export default async function EventPage({ params }: PageProps) {
                         <h3 className="text-xl font-bold text-gray-900 mb-4">
                           Event Videos
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                           {(() => {
-                            if (event.youtube_links instanceof Array) {
-                              return event.youtube_links;
-                            }
-                            return event.youtube_links.split(",");
-                          })().map((youtubeLink, index) => {
-                            const linkStr =
-                              typeof youtubeLink === "string"
-                                ? youtubeLink.trim()
+                            const links = event.youtube_links instanceof Array 
+                              ? event.youtube_links 
+                              : event.youtube_links.split(",");
+                            
+                            return links.map((youtubeLink, index) => {
+                              const linkStr = typeof youtubeLink === "string" 
+                                ? youtubeLink.trim() 
                                 : String(youtubeLink).trim();
-                            const videoId = linkStr
-                              .split("v=")[1]
-                              ?.split("&")[0];
-                            return (
-                              <div
-                                key={index}
-                                className="relative aspect-video rounded-lg overflow-hidden"
-                              >
-                                <iframe
-                                  src={`https://www.youtube.com/embed/${videoId}`}
-                                  title={`${event.event_name} video ${index + 1}`}
-                                  className="w-full h-full"
-                                  allowFullScreen
-                                />
-                              </div>
-                            );
-                          })}
+                              
+                              // Extract video ID from various YouTube URL formats
+                              let videoId = '';
+                              
+                              if (linkStr.includes('youtu.be/')) {
+                                videoId = linkStr.split('youtu.be/')[1]?.split('?')[0];
+                              } else if (linkStr.includes('youtube.com/watch?v=')) {
+                                videoId = linkStr.split('v=')[1]?.split('&')[0];
+                              } else if (linkStr.includes('youtube.com/embed/')) {
+                                videoId = linkStr.split('embed/')[1]?.split('?')[0];
+                              }
+                              
+                              if (!videoId) return null;
+                              
+                              return (
+                                <div key={index} className="bg-gray-50 rounded-xl p-4">
+                                  <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg bg-black">
+                                    <iframe
+                                      src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1`}
+                                      title={`${event.event_name} video ${index + 1}`}
+                                      className="w-full h-full"
+                                      allowFullScreen
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                  <div className="mt-3 flex items-center justify-between">
+                                    <p className="text-sm text-gray-600">
+                                      Video {index + 1} of {links.length}
+                                    </p>
+                                    <a
+                                      href={linkStr}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                                    >
+                                      Watch on YouTube
+                                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                      </svg>
+                                    </a>
+                                  </div>
+                                </div>
+                              );
+                            }).filter(Boolean);
+                          })()}
                         </div>
                       </div>
                     )}
@@ -425,29 +439,25 @@ export default async function EventPage({ params }: PageProps) {
                   </div>
 
                   <div className="mt-8 space-y-3">
-                    <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <EnhancedCTA href="/contact" variant="primary" size="md" className="w-full">
                       Register for Event
-                    </button>
-                    <button className="w-full border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-lg font-medium hover:border-blue-600 hover:text-blue-600 transition-all duration-200">
+                    </EnhancedCTA>
+                    <EnhancedCTA href="#" variant="outline" size="md" className="w-full">
                       Add to Calendar
-                    </button>
+                    </EnhancedCTA>
                   </div>
 
                   {/* Social Share */}
                   <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-sm font-medium text-gray-900 mb-3">
+                    <p className="text-sm font-medium text-gray-900 mb-4">
                       Share this event
                     </p>
-                    <div className="flex space-x-3">
-                      <button className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 transition-colors">
-                        Facebook
-                      </button>
-                      <button className="flex-1 bg-blue-400 text-white py-2 px-3 rounded text-sm hover:bg-blue-500 transition-colors">
-                        Twitter
-                      </button>
-                      <button className="flex-1 bg-blue-700 text-white py-2 px-3 rounded text-sm hover:bg-blue-800 transition-colors">
-                        LinkedIn
-                      </button>
+                    <div className="flex justify-center">
+                      <ShareButton 
+                        url={`https://bizcivitas.com/events/${event.slug}`}
+                        title={event.event_name}
+                        description={event.description}
+                      />
                     </div>
                   </div>
                 </div>
@@ -467,18 +477,12 @@ export default async function EventPage({ params }: PageProps) {
               innovators, and like-minded professionals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/events"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
+              <EnhancedCTA href="/events" variant="primary" size="lg">
                 View All Events
-              </Link>
-              <Link
-                href="/"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all duration-200"
-              >
+              </EnhancedCTA>
+              <EnhancedCTA href="/" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-900">
                 Learn More About BizCivitas
-              </Link>
+              </EnhancedCTA>
             </div>
           </div>
         </section>
