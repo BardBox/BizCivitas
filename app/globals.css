@@ -3,10 +3,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1f2937;
+  --foreground: #111827;
   --surface: #ffffff;
   --border: #e5e7eb;
-  --text-secondary: #4b5563;
+  --text-secondary: #374151;
   --primary: #f97316;
   --secondary: #22c55e;
   --accent: #f59e0b;
@@ -19,16 +19,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #111827;
-    --foreground: #f9fafb;
-    --surface: #1f2937;
-    --border: #374151;
-    --text-secondary: #d1d5db;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -38,8 +28,8 @@ body {
 
 /* Flat UI Base Styles with Brand Colors */
 .flat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   transition: all 0.2s ease-in-out;

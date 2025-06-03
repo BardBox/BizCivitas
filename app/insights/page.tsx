@@ -151,15 +151,15 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="bg-flat-bg">
+      <div className="bg-white min-h-screen">
         {/* Hero Section */}
-        <section className="py-16 bg-flat-surface">
+        <section className="py-16 bg-white">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-flat-text-primary flat-text-heading">
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900 flat-text-heading">
                 Business <span className="text-flat-btn-primary">Insights</span>
               </h1>
-              <p className="text-xl lg:text-2xl mb-8 text-flat-text-secondary max-w-3xl mx-auto flat-text-body">
+              <p className="text-xl lg:text-2xl mb-8 text-gray-700 max-w-3xl mx-auto flat-text-body">
                 Expert analysis, industry trends, and actionable insights to
                 drive your business forward.
               </p>
@@ -168,7 +168,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         </section>
 
         {/* Topic Filter Tabs */}
-        <section className="py-8 bg-flat-surface border-b border-flat-border">
+        <section className="py-8 bg-white border-b border-gray-200">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-wrap gap-2 justify-center">
               {TOPIC_TYPES.map((topic) => {
@@ -183,7 +183,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                       inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
                       ${isActive 
                         ? 'bg-flat-btn-primary text-white shadow-lg' 
-                        : 'bg-flat-bg text-flat-text-secondary hover:bg-flat-btn-primary hover:text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-flat-btn-primary hover:text-white'
                       }
                     `}
                   >
@@ -191,7 +191,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                     <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
                       isActive 
                         ? 'bg-white/20 text-white' 
-                        : 'bg-flat-text-muted/10 text-flat-text-muted'
+                        : 'bg-gray-300 text-gray-600'
                     }`}>
                       {count}
                     </span>
@@ -206,20 +206,20 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         <section className="py-16">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Results Summary */}
-            <div className="mb-8 text-center">
-              <p className="text-flat-text-secondary">
+            <header className="mb-8 text-center">
+              <p className="text-gray-600">
                 {selectedTopic === 'All' 
                   ? `Showing all ${filteredBlogs.length} insights`
                   : `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`
                 }
               </p>
-            </div>
+            </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredBlogs.length === 0 ? (
-                <div className="col-span-full flat-card p-8 text-center text-flat-text-secondary">
+                <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
                   <svg
-                    className="w-16 h-16 text-flat-text-muted mx-auto mb-4"
+                    className="w-16 h-16 text-gray-400 mx-auto mb-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -231,13 +231,13 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                       d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  <p className="text-lg flat-text-heading">
+                  <h2 className="text-lg text-gray-900 font-semibold">
                     {selectedTopic === 'All' 
                       ? 'No insights available at this time.'
                       : `No insights found in "${selectedTopic}" category.`
                     }
-                  </p>
-                  <p className="text-sm text-flat-text-muted mt-2">
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-2">
                     {selectedTopic === 'All' 
                       ? 'Check back soon for new expert insights!'
                       : 'Try selecting a different category or view all insights.'
@@ -254,52 +254,53 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
                 </div>
               ) : (
                 filteredBlogs.map((blog) => (
-                  <Link
-                    key={blog.id}
-                    href={`/insights/${blog.slug}`}
-                    className="block"
-                  >
-                    <div className="flat-card overflow-hidden group">
-                      <div className="h-48 relative overflow-hidden">
-                        <Image
-                          src={blog.cover_url || "/placeholder-event.jpg"}
-                          alt={blog.topic_name || "Blog post"}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      </div>
-                      <div className="p-6">
-                        <div className="flex items-center justify-between text-sm text-flat-text-muted mb-2">
-                          <span>{formatBlogDate(blog.date)}</span>
-                          {blog.content && (
-                            <span>{getBlogReadTime(blog.content)} min read</span>
+                  <article key={blog.id}>
+                    <Link
+                      href={`/insights/${blog.slug}`}
+                      className="block"
+                    >
+                      <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-all duration-200">
+                        <div className="h-48 relative overflow-hidden">
+                          <Image
+                            src={blog.cover_url || "/placeholder-event.jpg"}
+                            alt={blog.topic_name || "Blog post"}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        </div>
+                        <div className="p-6">
+                          <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                            <time dateTime={blog.date}>{formatBlogDate(blog.date)}</time>
+                            {blog.content && (
+                              <span>{getBlogReadTime(blog.content)} min read</span>
+                            )}
+                          </div>
+                          {blog.type_of_topic && (
+                            <div className="text-xs text-flat-btn-primary font-semibold mb-2 uppercase tracking-wide">
+                              {blog.type_of_topic}
+                            </div>
+                          )}
+                          <h2 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-flat-btn-primary transition-colors line-clamp-2">
+                            {blog.topic_name}
+                          </h2>
+                          {blog.author_name && (
+                            <div className="text-sm text-gray-600 mb-3">
+                              By {blog.author_name}
+                            </div>
+                          )}
+                          {blog.description && (
+                            <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                              {blog.description}
+                            </p>
                           )}
                         </div>
-                        {blog.type_of_topic && (
-                          <div className="text-xs text-flat-btn-primary font-semibold mb-2 uppercase tracking-wide">
-                            {blog.type_of_topic}
-                          </div>
-                        )}
-                        <h3 className="text-xl font-semibold text-flat-text-primary mb-2 group-hover:text-flat-btn-primary transition-colors line-clamp-2 flat-text-heading">
-                          {blog.topic_name}
-                        </h3>
-                        {blog.author_name && (
-                          <div className="text-sm text-flat-text-secondary mb-3">
-                            By {blog.author_name}
-                          </div>
-                        )}
-                        {blog.description && (
-                          <p className="text-flat-text-secondary text-sm leading-relaxed line-clamp-3 flat-text-body">
-                            {blog.description}
-                          </p>
-                        )}
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </article>
                 ))
               )}
-            </div>
+            </main>
           </div>
         </section>
       </div>

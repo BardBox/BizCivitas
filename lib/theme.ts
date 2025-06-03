@@ -90,12 +90,12 @@ export const theme = {
     // Brand-focused flat UI colors
     background: '#ffffff',
     surface: '#ffffff',
-    surfaceAlt: '#f8f9fa',
+    surfaceAlt: '#fafafa',
     border: '#e5e7eb',
     borderLight: '#f3f4f6',
     text: {
-      primary: '#1f2937',
-      secondary: '#4b5563',
+      primary: '#111827',
+      secondary: '#374151',
       muted: '#6b7280',
       inverse: '#ffffff'
     },
