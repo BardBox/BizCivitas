@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { getBlogBySlug, getAllBlogs, getBlogSEOData } from '@/lib/blogs';
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
