@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 "use server"
-=======
 
->>>>>>> 087dbd21f25084c401c5df429a0415d5e486e62d
 import { MetadataRoute } from 'next'
 import { getAllEvents } from '@/lib/events';
 import { getAllBlogs } from '@/lib/blogs';
