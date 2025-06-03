@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getTeamMemberBySlug, getTeamMemberSEOData } from "@/lib/team";
+import { getTeamMemberBySlug, getTeamMemberSEOData, getAllTeamMembers } from "@/lib/team";
 import { notFound } from "next/navigation";
 import { FaLinkedin, FaGlobe } from "react-icons/fa";
 
