@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -152,12 +151,12 @@ export default async function TeamPage() {
 
       <div className="bg-white min-h-screen">
         {/* Hero Section */}
-        <header className="py-20 bg-gradient-to-br from-flat-btn-primary/10 to-white">
+        <header className="py-20 bg-gradient-to-br from-orange-400 to-orange-600">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-flat-text-primary mb-6 flat-text-heading">
-              Our <span className="text-flat-btn-primary">Team</span>
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 flat-text-heading">
+              Our Team
             </h1>
-            <p className="text-xl text-flat-text-secondary mb-8 max-w-3xl mx-auto flat-text-body">
+            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto flat-text-body">
               The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
             </p>
           </div>
@@ -170,7 +169,7 @@ export default async function TeamPage() {
               sortedPositions.map((position) => {
                 const members = groupedMembers[position];
                 const displayName = positionDisplayNames[position] || position;
-                
+
                 return (
                   <section key={position} className="mb-20">
                     {/* Position Title */}
@@ -208,13 +207,13 @@ export default async function TeamPage() {
                                 <h3 className="text-lg font-bold text-flat-text-primary mb-2 group-hover:text-flat-btn-primary transition-colors duration-300 flat-text-heading">
                                   {member.name}
                                 </h3>
-                                
+
                                 {member.designation && (
                                   <p className="text-flat-btn-primary font-medium text-sm mb-2">
                                     {member.designation}
                                   </p>
                                 )}
-                                
+
                                 {member.leading_in_domain && (
                                   <p className="text-flat-text-secondary text-sm mb-4 leading-relaxed flex-1">
                                     {member.leading_in_domain}
@@ -255,7 +254,6 @@ export default async function TeamPage() {
                                         rel="noopener noreferrer"
                                         className="text-flat-btn-primary hover:text-flat-btn-primary/80 transition-colors duration-300"
                                         aria-label={`${member.name}'s LinkedIn`}
-                                        onClick={(e) => e.stopPropagation()}
                                       >
                                         <FaLinkedin className="w-4 h-4" />
                                       </a>
@@ -267,7 +265,6 @@ export default async function TeamPage() {
                                         rel="noopener noreferrer"
                                         className="text-flat-btn-primary hover:text-flat-btn-primary/80 transition-colors duration-300"
                                         aria-label={`${member.name}'s Website`}
-                                        onClick={(e) => e.stopPropagation()}
                                       >
                                         <FaGlobe className="w-4 h-4" />
                                       </a>
