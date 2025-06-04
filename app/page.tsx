@@ -127,7 +127,7 @@ export default function HomePage() {
           </div>
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-1">
             {" "}
             <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl">
               <div className="mb-8">
