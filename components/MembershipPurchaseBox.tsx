@@ -251,7 +251,83 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         </div>
 
         {/* Payment Buttons */}
-        {membership.price.breakdown && (membership.id === 'core' || membership.id === 'industria') ? (
+        {membership.price.breakdown && membership.id === 'industria' ? (
+          <div className="space-y-4">
+            <h4 className="font-semibold text-gray-900 mb-4">Choose Payment Option:</h4>
+
+            {/* Three Payment Cards for Industria */}
+            <div className="grid grid-cols-1 gap-4">
+              {/* One-Time Registration Fees Card */}
+              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-orange-800 mb-2">One-Time Registration Fees</h5>
+                  <p className="text-sm text-orange-700 mb-3">
+                    A non-refundable fee for onboarding and activating your BizCivitas membership.
+                  </p>
+                  <div className="text-sm text-orange-600 mb-2">
+                    ₹25,000 + ₹4,500 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-orange-800 mb-3">
+                    Total: ₹29,500
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('registration', 29500)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Membership Fees Card */}
+              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-orange-800 mb-2">Membership Fees</h5>
+                  <p className="text-sm text-orange-700 mb-3">
+                    An annual subscription fee granting access to exclusive BizCivitas communities, events, and benefits.
+                  </p>
+                  <div className="text-sm text-orange-600 mb-2">
+                    ₹3,00,000 + ₹54,000 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-orange-800 mb-3">
+                    Total: ₹3,54,000
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('annual', 354000)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Meeting/Event Fees Card */}
+              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-orange-800 mb-2">Meeting/Event Fees</h5>
+                  <p className="text-sm text-orange-700 mb-3">
+                    A recurring charge for attending structured BizCivitas networking meetings and events.
+                  </p>
+                  <div className="text-sm text-orange-600 mb-2">
+                    ₹25,000 + ₹4,500 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-orange-800 mb-3">
+                    Total: ₹29,500
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('meeting', 29500)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : membership.price.breakdown && (membership.id === 'core') ? (
           <div className="space-y-3">
             <h4 className="font-semibold text-gray-900 mb-3">Choose Payment Option:</h4>
 

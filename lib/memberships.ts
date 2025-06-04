@@ -116,8 +116,13 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Built for Industry Leaders.',
     description: 'Designed exclusively for manufacturing leaders, industrialists, and B2B innovators. Connect with verified industrial decision-makers and grow your business through qualified referrals.',
     price: {
-      amount: 500000,
-      currency: '₹'
+      amount: 350000,
+      currency: '₹',
+      breakdown: {
+        registration: 25000,
+        annual: 300000,
+        meeting: 25000
+      }
     },
     features: [
       'Qualified Circle: Connect only with verified industrialists',
