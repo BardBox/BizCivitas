@@ -49,7 +49,7 @@ export default function MembershipsPage() {
         "@type": "Offer",
         name: plan.name,
         description: plan.description,
-        price: plan.price.monthly,
+        price: plan.price.amount,
         priceCurrency: "INR",
       })),
     },
@@ -152,32 +152,25 @@ export default function MembershipsPage() {
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                     <p className="text-gray-600 mb-4">{plan.tagline}</p>
                     <div className="text-3xl font-bold mb-2" style={{ color: plan.color.primary }}>
-                      {plan.id === 'industria' ? (
-                        <>
-                          {plan.price.currency}{plan.price.monthly.toLocaleString()}
-                          <div className="text-sm text-gray-500 font-normal">One-time registration</div>
-                        </>
-                      ) : (
-                        <>
-                          Total: {plan.price.currency}{plan.price.monthly.toLocaleString()}
-                          <div className="text-sm text-gray-500 font-normal">Registration + Annual</div>
-                        </>
-                      )}
+                      {plan.price.currency}{plan.price.amount.toLocaleString()}
+                      <div className="text-sm text-gray-500 font-normal">
+                        {plan.id === 'digital' ? 'Per Year + GST' : 'Total Investment'}
+                      </div>
                     </div>
                   </div>
 
                   <ul className="space-y-3 mb-8">
                     {plan.features.slice(0, 4).map((feature, index) => (
-                      <li key={index} className="flex items-center">
+                      <li key={index} className="flex items-start">
                         <div 
-                          className="w-5 h-5 rounded-full mr-3 flex items-center justify-center"
+                          className="w-5 h-5 rounded-full mr-3 flex items-center justify-center mt-0.5"
                           style={{ backgroundColor: plan.color.primary }}
                         >
                           <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
-                        <span className="text-gray-700">{feature}</span>
+                        <span className="text-gray-700 text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -209,12 +202,17 @@ export default function MembershipsPage() {
             <p className="text-xl text-white/90 mb-8">
               Join thousands of successful entrepreneurs who have accelerated their growth with BizCivitas.
             </p>
-            <Link
-              href="/contact"
-              className="inline-block bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors"
-            >
-              Get Started Today
-            </Link>
+            <div className="space-y-4">
+              <Link
+                href="/contact"
+                className="inline-block bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors mr-4"
+              >
+                Get Started Today
+              </Link>
+              <div className="text-white/90">
+                <p>📞 +91 81606 79917 | 📩 info@bizcivitas.com</p>
+              </div>
+            </div>
           </div>
         </section>
       </div>

@@ -9,11 +9,7 @@ interface MembershipPurchaseBoxProps {
 }
 
 export default function MembershipPurchaseBox({ membership }: MembershipPurchaseBoxProps) {
-  const [isAnnual, setIsAnnual] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const currentPrice = isAnnual ? membership.price.yearly : membership.price.monthly;
-  const savings = isAnnual ? (membership.price.monthly * 12) - membership.price.yearly : 0;
 
   const handlePurchase = async () => {
     setIsLoading(true);
@@ -23,12 +19,11 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
       // This is where you'll add Razorpay integration
       console.log("Initiating payment for:", {
         plan: membership.name,
-        amount: currentPrice,
-        isAnnual
+        amount: membership.price.amount
       });
       
       // Placeholder for Razorpay integration
-      alert(`Payment integration coming soon! You selected ${membership.name} - ${isAnnual ? 'Annual' : 'Monthly'} plan.`);
+      alert(`Payment integration coming soon! You selected ${membership.name} plan.`);
     } catch (error) {
       console.error("Payment error:", error);
       alert("Payment failed. Please try again.");
@@ -57,55 +52,73 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           <p className="text-gray-600">{membership.tagline}</p>
         </div>
 
-        {/* Billing Toggle */}
-        <div className="flex items-center justify-center mb-6">
-          <span className={`mr-3 ${!isAnnual ? 'font-semibold' : 'text-gray-500'}`}>Monthly</span>
-          <button
-            onClick={() => setIsAnnual(!isAnnual)}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-              isAnnual ? 'bg-green-500' : 'bg-gray-300'
-            }`}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                isAnnual ? 'translate-x-6' : 'translate-x-1'
-              }`}
-            />
-          </button>
-          <span className={`ml-3 ${isAnnual ? 'font-semibold' : 'text-gray-500'}`}>Annual</span>
-        </div>
-
         {/* Pricing */}
         <div className="text-center mb-6">
-          {membership.id === 'industria' ? (
-            <div className="text-4xl font-bold mb-2" style={{ color: membership.color.primary }}>
-              {membership.price.currency}{membership.price.monthly.toLocaleString()}
-              <span className="text-lg text-gray-500 font-normal">
-                /one-time
-              </span>
+          <div className="text-4xl font-bold mb-4" style={{ color: membership.color.primary }}>
+            {membership.price.currency}{membership.price.amount.toLocaleString()}
+          </div>
+          
+          {/* Price Breakdown */}
+          {membership.price.breakdown && (
+            <div className="text-sm text-gray-600 space-y-2 bg-gray-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-gray-800 mb-2">Investment Breakdown:</h4>
+              {membership.price.breakdown.registration && (
+                <div className="flex justify-between">
+                  <span>Registration Fee:</span>
+                  <span>₹{membership.price.breakdown.registration.toLocaleString()}</span>
+                </div>
+              )}
+              {membership.price.breakdown.annual && (
+                <div className="flex justify-between">
+                  <span>Annual Membership:</span>
+                  <span>₹{membership.price.breakdown.annual.toLocaleString()}</span>
+                </div>
+              )}
+              {membership.price.breakdown.meeting && (
+                <div className="flex justify-between">
+                  <span>Meeting Fee:</span>
+                  <span>₹{membership.price.breakdown.meeting.toLocaleString()}</span>
+                </div>
+              )}
+              <hr className="my-2" />
+              <div className="flex justify-between font-semibold text-gray-800">
+                <span>Total Investment:</span>
+                <span>₹{membership.price.amount.toLocaleString()}</span>
+              </div>
             </div>
-          ) : (
-            <>
-              <div className="text-3xl font-bold mb-2" style={{ color: membership.color.primary }}>
-                Total: {membership.price.currency}{membership.price.monthly.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-600 space-y-1">
-                <div>Registration: ₹29,500</div>
-                <div>Annual: ₹3,54,000</div>
-                {membership.id === 'flagship' && <div>Meeting: ₹29,500</div>}
-              </div>
-            </>
           )}
         </div>
+
+        {/* Eligibility Requirements (for Industria) */}
+        {membership.eligibility && (
+          <div className="mb-6">
+            <h4 className="font-semibold text-gray-900 mb-3">Eligibility Requirements:</h4>
+            <ul className="space-y-2">
+              {membership.eligibility.map((requirement, index) => (
+                <li key={index} className="flex items-start text-sm">
+                  <div 
+                    className="w-4 h-4 rounded-full mr-2 flex items-center justify-center mt-0.5"
+                    style={{ backgroundColor: membership.color.primary }}
+                  >
+                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700">{requirement}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Features Preview */}
         <div className="mb-6">
           <h4 className="font-semibold text-gray-900 mb-3">What's included:</h4>
           <ul className="space-y-2">
             {membership.features.slice(0, 5).map((feature, index) => (
-              <li key={index} className="flex items-center text-sm">
+              <li key={index} className="flex items-start text-sm">
                 <div 
-                  className="w-4 h-4 rounded-full mr-2 flex items-center justify-center"
+                  className="w-4 h-4 rounded-full mr-2 flex items-center justify-center mt-0.5"
                   style={{ backgroundColor: membership.color.primary }}
                 >
                   <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,6 +128,11 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
                 <span className="text-gray-700">{feature}</span>
               </li>
             ))}
+            {membership.features.length > 5 && (
+              <li className="text-sm text-gray-500 ml-6">
+                +{membership.features.length - 5} more benefits...
+              </li>
+            )}
           </ul>
         </div>
 
@@ -141,9 +159,15 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           )}
         </button>
 
-        <p className="text-xs text-gray-500 text-center mt-4">
-          Secure payment powered by Razorpay. Cancel anytime.
-        </p>
+        <div className="mt-4 text-center">
+          <p className="text-xs text-gray-500">
+            Secure payment powered by Razorpay
+          </p>
+          <div className="mt-2 space-y-1 text-xs text-gray-600">
+            <p>📞 +91 81606 79917</p>
+            <p>📩 info@bizcivitas.com</p>
+          </div>
+        </div>
       </div>
     </div>
   );
