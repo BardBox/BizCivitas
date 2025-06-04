@@ -39,7 +39,17 @@ module.exports = {
           '*.json',
         ]
       },
-      
+      // Block AI crawlers
+      {
+        userAgent: [
+          'CCBot',
+          'ChatGPT-User',
+          'CCBot/2.0',
+          'anthropic-ai',
+          'ClaudeBot'
+        ],
+        allow: '/'
+      }
     ],
     additionalSitemaps: [
       `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/sitemap.xml`,
