@@ -1,3 +1,4 @@
+
 // components/SearchAndRecentPosts.tsx
 'use client'
 
@@ -5,17 +6,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-
-interface Blog {
-  id: string
-  slug: string
-  topic_name: string
-  description?: string
-  cover_url: string
-  type_of_topic: string
-  author_name: string
-  date: string
-}
+import { type Blog, formatBlogDate } from '@/lib/blogs'
 
 interface SearchAndRecentPostsProps {
   recentPosts: Blog[]
@@ -36,7 +27,7 @@ export default function SearchAndRecentPosts({
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
-      setIsSticky(scrollTop > 200) // Adjust this value as needed
+      setIsSticky(scrollTop > 200)
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -61,14 +52,6 @@ export default function SearchAndRecentPosts({
     const params = new URLSearchParams(searchParams.toString())
     params.delete('search')
     router.push(`/insights?${params.toString()}`)
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
   }
 
   return (
@@ -103,6 +86,7 @@ export default function SearchAndRecentPosts({
               </div>
               {searchQuery && (
                 <button
+                title='Clear search'
                   type="button"
                   onClick={clearSearch}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
@@ -163,7 +147,7 @@ export default function SearchAndRecentPosts({
                     <div className="flex-shrink-0">
                       <Image
                         src={post.cover_url || "/placeholder-event.jpg"}
-                        alt={post.topic_name}
+                        alt={post.topic_name || "Blog post"}
                         width={60}
                         height={60}
                         className="w-15 h-15 object-cover rounded-lg group-hover:scale-105 transition-transform duration-200"
@@ -171,13 +155,13 @@ export default function SearchAndRecentPosts({
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {post.topic_name}
+                        {post.topic_name || "Untitled Article"}
                       </h4>
                       <p className="text-xs text-gray-500 mt-1">
                         By {post.author_name || "BizCivitas"}
                       </p>
                       <p className="text-xs text-gray-400 mt-1">
-                        {formatDate(post.date)}
+                        {formatBlogDate(post.date)}
                       </p>
                     </div>
                   </Link>

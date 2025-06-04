@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
+import { getAllBlogs, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
 import { Suspense } from "react";
 import SearchAndRecentPosts from "@/components/SearchAndRecentPost";
 import "./blog-cards.css";
-import { Blog } from "@/lib/blogs";
 
 // Enable ISR with 60-second revalidation
 export const revalidate = 60;
@@ -84,16 +83,16 @@ export default async function InsightsPage({
   const allBlogs = await getAllBlogs();
 
   // Filter blogs based on selected topic and search query
-  let filteredBlogs = selectedTopic === "All"
-    ? allBlogs
+  let filteredBlogs = selectedTopic === "All" 
+    ? allBlogs 
     : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
 
   // Apply search filter if search query exists
   if (searchQuery) {
     filteredBlogs = filteredBlogs.filter((blog) =>
-      blog.topic_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase())
+      (blog.topic_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (blog.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
     );
   }
 
