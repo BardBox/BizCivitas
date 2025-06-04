@@ -159,7 +159,7 @@ export default function DiscoverPage() {
                 direction="column"
                 columnCenter={true}
                 imageAlt={`Discovery step ${i}`}
-                className="max-w-[400px] w-full p-6 flex flex-col items-center justify-center"
+                className="max-w-[450px] w-full p-6 flex flex-col items-center justify-center"
               />
             ))}
           </div>
