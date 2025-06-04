@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from 'next/link';
 import { theme } from '@/lib/theme';
-import ContentSection, { ContentSection2} from '@/components/ContentSection';
+import ContentSection, { ContentSection2 } from '@/components/ContentSection';
 import EnhancedCTA from '@/components/EnhancedCTA';
 import Image from "next/image";
 import FeaturesSection from "@/components/Home/WhyChooseUs";
@@ -102,7 +102,6 @@ export default function HomePage() {
               controlsList="nodownload nofullscreen noremoteplaybook"
               disablePictureInPicture
               preload="metadata"
-              poster="/video-poster.jpg"
               aria-label="Business innovation video showcasing successful companies"
               suppressHydrationWarning
             />
@@ -153,7 +152,7 @@ export default function HomePage() {
         />
 
         {/* Features Section */}
-        <section className="py-16 bg-flat-surface">
+        <section className=" bg-flat-surface">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
 
             <div className="relative text-center mb-16 py-12  w-[100vw] rounded-2xl bg-[#FEF5E8] shadow-sm">
@@ -176,7 +175,7 @@ export default function HomePage() {
               </div>
 
               {/* Header Content */}
-              <header className="mb-12">
+              <header className="mt-12 mb-6">
                 <h2 className="text-3xl lg:text-4xl font-bold text-flat-text-primary mb-6 flat-text-heading">
                   Unleash Your Potential Through Shared Adventures
                 </h2>
@@ -186,7 +185,7 @@ export default function HomePage() {
               </header>
 
               {/* Feature Highlights */}
-              <div className="flex flex-col items-center max-w-4xl mx-auto space-y-12">
+              <div className="flex flex-col items-center max-w-4xl mx-auto space-y-3">
                 {/* Feature 1 - Curated for Success */}
                 <article className="flex flex-col items-center text-center group">
                   <div className="relative mb-4 p-4 transition-all duration-300">
@@ -252,7 +251,7 @@ export default function HomePage() {
                   <h3 className="text-xl font-semibold text-flat-text-primary mb-2 flat-text-heading">
                     Global Reach
                   </h3>
-                  <p className="text-sm text-flat-text-secondary leading-relaxed max-w-xs">
+                  <p className="text-sm text-flat-text-secondary leading-relaxed max-w-xs mb-8">
                     Connect with professionals worldwide and unlock opportunities across borders.
                   </p>
                 </article>
@@ -269,14 +268,14 @@ export default function HomePage() {
               imagePosition={networkingSectionData2.imagePosition}
               backgroundColor={networkingSectionData2.backgroundColor}
             />
-            <FeaturesSection/>
-            
+            <FeaturesSection />
+
           </div>
         </section>
-        <InsightsSection/>
-        
-        <LetsConnect/>
-        
+        <InsightsSection />
+
+        <LetsConnect />
+
       </div>
     </>
   );
