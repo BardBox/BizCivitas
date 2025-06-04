@@ -6,6 +6,7 @@ import EnhancedCTA from '@/components/EnhancedCTA';
 import Image from "next/image";
 import FeaturesSection from "@/components/Home/WhyChooseUs";
 import InsightsSection from "@/components/Home/InsightsSection";
+import LetsConnect from "@/components/Home/LetsConnect";
 
 
 export const metadata: Metadata = {
@@ -273,26 +274,8 @@ export default function HomePage() {
           </div>
         </section>
         <InsightsSection/>
-        {/* CTA Section */}
-        <section className="py-16 bg-flat-btn-primary text-flat-text-inverse">
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6 flat-text-heading">
-              Ready to Transform Your Business?
-            </h2>
-            <p className="text-xl mb-8 flat-text-body">
-              Join our community of entrepreneurs and business leaders who are turning their visions into reality.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <EnhancedCTA href="/events" variant="secondary" size="lg">
-                Join Our Events
-              </EnhancedCTA>
-              <EnhancedCTA href="/team" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-flat-btn-primary">
-                Meet Our Team
-              </EnhancedCTA>
-            </div>
-          </div>
-        </section>
-        {/* Stats Section */}
+        
+        <LetsConnect/>
         
       </div>
     </>

@@ -153,7 +153,10 @@ export default function RootLayout({
         <main className={`min-h-screen ${geistSans.className}`} >
           {children}
         </main>
-        <Footer />
+        <div className="z-10 relative">
+           <Footer />
+        </div>
+       
       </body>
     </html>
   );
