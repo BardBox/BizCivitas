@@ -6,7 +6,7 @@ import { getAllEvents } from '@/lib/events'
 import { getAllBlogs } from '@/lib/blogs'
 import { getAllTeamMembers } from '@/lib/team'
 
-export default async function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'
 
   // Static routes
