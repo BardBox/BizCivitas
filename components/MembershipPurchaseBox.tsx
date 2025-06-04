@@ -364,13 +364,12 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             Secure payment powered by Razorpay
           </p>
           <div className="mt-2 space-y-1 text-xs text-gray-600">
-            {/* Contact Info for Core, Flagship and Industria */}
-                {(membership.id === 'core' || membership.id === 'flagship' || membership.id === 'industria') && (
-                  
-                    <p>📞 {membership.id === 'core' ? '+91 80000 23786' : (membership.id === 'flagship' ? '+91 80000 23786' : '+91 81606 79917')}</p>
-                    <p>📩 info@bizcivitas.com</p>
-                  
-                )}
+            {/* Contact Info for all memberships */}
+                <div className="space-y-1 text-xs text-gray-600">
+                  <p>📞 {membership.id === 'digital' ? '+91 81606 79917' : (membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786')}</p>
+                  <p>📩 info@bizcivitas.com</p>
+                  <p>🌐 www.bizcivitas.com</p>
+                </div>
           </div>
         </div>
       </div>

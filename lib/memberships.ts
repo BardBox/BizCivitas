@@ -89,7 +89,7 @@ export const membershipPlans: MembershipPlan[] = [
     name: 'Bizcivitas Digital Membership',
     slug: 'digital',
     tagline: 'Your First Step Into a Smarter Business World',
-    description: 'The Bizcivitas Digital Membership is your entry into a thriving business ecosystem—designed for entrepreneurs, solopreneurs, professionals, and creators who want to grow smarter, faster, and with purpose.',
+    description: 'The Bizcivitas Digital Membership is your entry into a thriving business ecosystem—designed for entrepreneurs, solopreneurs, professionals, and creators who want to grow smarter, faster, and with purpose. For just ₹6,999/year + GST, you gain access to the tools, insights, and connections needed to grow confidently, stay visible, and generate meaningful leads—all from one simple app.',
     price: {
       amount: 6999,
       currency: '₹',
@@ -110,16 +110,18 @@ export const membershipPlans: MembershipPlan[] = [
       'Unlock Experiential Membership through active digital engagement'
     ],
     benefits: [
-      'Network Smarter with Community Feed and Matchmaking',
-      'Learn What Works with expert masterclasses',
-      'Grow with Visibility & Referrals',
-      'Member-Only Perks and discounts'
+      'Network Smarter: Community Feed, Monthly 1-on-1 Smart Matchmaking, Dynamic Member Directory',
+      'Learn What Works: Quarterly expert-led masterclasses, On-demand Knowledge Hub, Weekly business tips',
+      'Grow with Visibility & Referrals: Weekly Referral Threads, Member of the Month features, Smart Search Tools',
+      'Member-Only Perks: Priority event access, Discounts on conclaves, Invite rewards, Experiential Membership unlock'
     ],
     highlights: [
       'Affordable and accessible gateway to the Bizcivitas ecosystem',
       'Designed to deliver value without distractions',
       'No obligations—only strategic tools and genuine connections',
-      'Ideal for early-stage and growth-focused professionals'
+      'Ideal for early-stage and growth-focused professionals',
+      'Start small. Grow big. Stay connected.',
+      'Access to tools, insights, and connections from one simple app'
     ],
     images: ['/memberships/digital-membership.jpg'],
     color: {

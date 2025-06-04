@@ -114,23 +114,27 @@ export default async function MembershipPage({ params }: PageProps) {
                   </div>
                 </div>
                 
-                {/* Contact Info for Core, Flagship and Industria */}
-                {(membership.id === 'core' || membership.id === 'flagship' || membership.id === 'industria') && (
-                  <div className="mt-6 space-y-2 text-white/90">
-                    <p className="flex items-center">
-                      <span className="mr-2">📞</span>
-                      {membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
-                    </p>
-                    <p className="flex items-center">
-                      <span className="mr-2">✉️</span>
-                      info@bizcivitas.com
-                    </p>
-                    <p className="flex items-center">
-                      <span className="mr-2">🌐</span>
-                      www.bizcivitas.com
-                    </p>
-                  </div>
-                )}
+                {/* Contact Info for all memberships */}
+                <div className="mt-6 space-y-2 text-white/90">
+                  <p className="flex items-center">
+                    <span className="mr-2">📞</span>
+                    {membership.id === 'digital' ? '+91 81606 79917' : (membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786')}
+                  </p>
+                  <p className="flex items-center">
+                    <span className="mr-2">✉️</span>
+                    info@bizcivitas.com
+                  </p>
+                  <p className="flex items-center">
+                    <span className="mr-2">🌐</span>
+                    www.bizcivitas.com
+                  </p>
+                  {membership.id === 'digital' && (
+                    <div className="mt-4">
+                      <p className="text-white/80 mb-2">Follow us:</p>
+                      <p className="text-white/90">Instagram | LinkedIn | Facebook | YouTube</p>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="lg:w-1/2">
                 <div className="relative">
@@ -293,6 +297,34 @@ export default async function MembershipPage({ params }: PageProps) {
               <p className="text-xl text-gray-600 mb-6">
                 BizCivitas is ideal for growth-oriented entrepreneurs and professionals who value trust-based networking, fresh perspectives, and opportunities that go beyond borders.
               </p>
+            </div>
+          </section>
+        )}
+
+        {/* Special message for Digital membership */}
+        {membership.id === 'digital' && (
+          <section className="py-12 bg-gray-50">
+            <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Start small. Grow big. Stay connected.
+              </h2>
+              <p className="text-xl text-gray-600 mb-6">
+                Apply now or book a discovery call to begin your journey in the Bizcivitas ecosystem.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="tel:+918160679917"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors"
+                >
+                  📞 Call +91 81606 79917
+                </a>
+                <a
+                  href="mailto:info@bizcivitas.com"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-green-600 text-green-600 font-semibold hover:bg-green-600 hover:text-white transition-colors"
+                >
+                  📩 Email Us
+                </a>
+              </div>
             </div>
           </section>
         )}
