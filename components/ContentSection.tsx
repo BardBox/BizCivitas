@@ -118,7 +118,7 @@ export function ContentSection2({
           </div>
 
           {/* Image */}
-          <div className={`relative ${imagePosition === 'left' ? 'lg:col-start-1' : ''}`}>
+          <div className={`flex justify-center align-center `}>
             <div className="relative rounded-2xl">
               <Image
                 src={imageSrc}
