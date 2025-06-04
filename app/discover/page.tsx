@@ -4,6 +4,8 @@ import ContentSection from "@/components/ContentSection";
 import Image from "next/image";
 import Card from "@/components/Card";
 import {LetsConnect2} from "@/components/Home/LetsConnect";
+import { FeaturesSection2 } from "@/components/Home/WhyChooseUs";
+import ImageCarousel from "@/components/Discovery/Carousal";
 export const metadata: Metadata = {
   title: "Discover BizCivitas - Explore Our Business Community",
   description: "Discover what makes BizCivitas unique. Explore our business community, networking opportunities, events, insights, and membership benefits that help turn visions into reality.",
@@ -146,6 +148,9 @@ export default function DiscoverPage() {
 
 
         </div>
+
+        
+        <FeaturesSection2/>
         
         <div className="max-w-[1440px] mx-auto px-4 py-8 flex items-center justify-center flex-col gap-10">
           <h3 className="text-5xl font-semibold text-green-500">Why Bizcivitas</h3>
@@ -164,8 +169,7 @@ export default function DiscoverPage() {
             ))}
           </div>
         </div>
-
-          
+        <ImageCarousel eventName="Quote" images={['/discovery/d_c.svg', '/discovery/d_c3.svg', '/discovery/d_c1.svg', ]}/>
         <LetsConnect2 />
       </div>
     </>

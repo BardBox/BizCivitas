@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Card = ({ 
   logo = '',
   title = "Default Title",
@@ -19,7 +21,7 @@ const Card = ({
         <div className={`flex-shrink-0 ${direction === "column" && !columnCenter ? "self-center" : ""}`}>
           {logo ? (
             typeof logo === 'string' ? (
-              <img 
+              <Image
                 src={logo} 
                 alt="Logo" 
                 width={direction === "column" ? 64 : 48}
