@@ -161,7 +161,7 @@ export default function HomePage() {
               <div className="absolute -translate-y-12 z-10 w-full h-full">
                 <Image
                   className="absolute top-0 left-0"
-                  src="/bottomRightDecor.svg" // Airplane image for top-left
+                  src="/BottomRightDecor.svg" // Airplane image for top-left
                   width={100} // Adjust based on your image size
                   height={100} // Adjust based on your image size
                   alt="Top left decorative airplane"
