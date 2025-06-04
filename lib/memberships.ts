@@ -11,6 +11,7 @@ export interface MembershipPlan {
       registration?: number;
       annual?: number;
       meeting?: number;
+      community?: number;
     };
   };
   features: string[];

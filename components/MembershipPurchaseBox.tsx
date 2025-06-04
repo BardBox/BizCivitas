@@ -32,7 +32,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
     });
   };
 
-  const handlePurchase = async (paymentType?: 'registration' | 'annual' | 'meeting', amount?: number) => {
+  const handlePurchase = async (paymentType?: 'registration' | 'annual' | 'meeting' | 'community', amount?: number) => {
     setIsLoading(true);
 
     try {
