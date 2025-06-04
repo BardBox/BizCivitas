@@ -1,5 +1,3 @@
-
-// components/SearchAndRecentPosts.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -55,8 +53,8 @@ export default function SearchAndRecentPosts({
   }
 
   return (
-    <div className={`${isSticky ? 'sticky top-4' : ''} transition-all duration-300`}>
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-6">
+    <div className={`${isSticky ? 'lg:sticky lg:top-4' : ''} transition-all duration-300`}>
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 lg:p-6 space-y-6">
         {/* Search Section */}
         <div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Search Insights</h3>
@@ -67,7 +65,7 @@ export default function SearchAndRecentPosts({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search articles..."
-                className="w-full px-4 py-3 pl-10 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
+                className="w-full px-4 py-3 pl-10 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
@@ -86,10 +84,10 @@ export default function SearchAndRecentPosts({
               </div>
               {searchQuery && (
                 <button
-                title='Clear search'
+                  title='Clear search'
                   type="button"
                   onClick={clearSearch}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors z-10"
                 >
                   <svg
                     className="h-5 w-5"
@@ -107,16 +105,29 @@ export default function SearchAndRecentPosts({
                 </button>
               )}
             </div>
+            
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+              className="w-full bg-blue-500 flex align-center justify-center gap-4 text-white py-6 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200 font-bold text-lg"
             >
-              Search
+              <svg
+                  className="w-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg> <p>Search Insights</p>
             </button>
           </form>
           {currentSearch && (
             <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-sm text-blue-800">
+              <p className="text-sm text-blue-500">
                 Currently searching for: <strong>"{currentSearch}"</strong>
               </p>
               <button
@@ -129,8 +140,8 @@ export default function SearchAndRecentPosts({
           )}
         </div>
 
-        {/* Recent Posts Section */}
-        <div>
+        {/* Recent Posts Section - Hidden on mobile */}
+        <div className="hidden lg:block">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
             Recent Posts
           </h3>
@@ -171,8 +182,8 @@ export default function SearchAndRecentPosts({
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div>
+        {/* Quick Links - Hidden on mobile */}
+        <div className="hidden lg:block">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
             Quick Links
           </h3>

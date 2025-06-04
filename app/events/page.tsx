@@ -166,7 +166,7 @@ export default async function EventsPage() {
                   Register for Events
                 </EnhancedCTA>
                 <EnhancedCTA
-                  href="/about"
+                  href="/discover"
                   variant="outline"
                   size="lg"
                   className="border-white text-white hover:bg-white hover:text-gray-900"
