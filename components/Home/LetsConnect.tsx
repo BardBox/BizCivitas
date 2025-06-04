@@ -8,7 +8,7 @@ function LetsConnect() {
         <div className="w-screen h-screen absolute bg-[#6E81BD]"></div>
         
         <div 
-            className="p-4 -translate-y-20 relative w-auto rounded-lg m-8 mb-0 flex flex-col items-center justify-center px-4 py-8"
+            className=" -translate-y-20 relative w-auto rounded-lg m-8 mb-0 flex flex-col items-center justify-center px-4 py-8"
             style={{
                 backgroundImage: "url('/LetsConnect.svg')",
                 backgroundSize: "cover",

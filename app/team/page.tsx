@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getAllTeamMembers } from "@/lib/team";
 import { FaLinkedin, FaGlobe } from "react-icons/fa";
 import "./team-styles.css";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts & Leaders",
@@ -251,6 +252,7 @@ export default async function TeamPage() {
           </div>
         </main>
       </div>
+      
     </>
   );
 }

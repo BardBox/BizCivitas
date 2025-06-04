@@ -132,10 +132,10 @@ export default async function EventsPage() {
 
       <div className="bg-flat-bg">
         {/* Hero Video Section */}
-        <section className="relative w-full h-screen overflow-hidden">
-          <div className="absolute inset-0 w-full h-full">
+        <section className="relative w-full min-h-[80vh] overflow-hidden">
+          <div className="absolute inset-0 w-full h-screen">
             <video
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover -translate-y-10"
               src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/BizCivitas_-Where-Connections-Spark-Success_-_businessnetworking-_businessgrowth-_explore1080P_HD.mp4"
               autoPlay
               muted
@@ -150,12 +150,14 @@ export default async function EventsPage() {
           </div>
 
           {/* Video Overlay */}
-          <div className="absolute inset-0 bg-opacity-40 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
+          >
             <div className="text-center text-flat-text-inverse px-4 sm:px-6 lg:px-8 max-w-4xl">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight flat-text-heading">
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight text-white">
                 Business <span className="text-flat-btn-primary">Events</span>
               </h1>
-              <p className="text-xl lg:text-2xl mb-8 text-flat-text-inverse max-w-3xl mx-auto flat-text-body">
+              <p className="text-xl lg:text-2xl mb-8 text-flat-text-inverse max-w-3xl mx-auto text-white">
                 Join our exclusive networking events designed to connect
                 professionals, share insights, and drive business growth.
               </p>

@@ -7,6 +7,7 @@ import Image from "next/image";
 import FeaturesSection from "@/components/Home/WhyChooseUs";
 import InsightsSection from "@/components/Home/InsightsSection";
 import LetsConnect from "@/components/Home/LetsConnect";
+import Footer from "@/components/Footer";
 
 
 export const metadata: Metadata = {
@@ -275,7 +276,6 @@ export default function HomePage() {
         <InsightsSection />
 
         <LetsConnect />
-
       </div>
     </>
   );
