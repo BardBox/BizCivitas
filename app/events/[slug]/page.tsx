@@ -75,18 +75,6 @@ export async function generateStaticParams() {
   }));
 }
 
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
-function formatDateISO(dateString: string) {
-  return new Date(dateString).toISOString();
-}
-
 export default async function EventPage({ params }: PageProps) {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
@@ -208,7 +196,7 @@ export default async function EventPage({ params }: PageProps) {
                 </div>
               )}
               {event.description && (
-                <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto line-clamp-3">
                   {event.description}
                 </p>
               )}
@@ -246,8 +234,8 @@ export default async function EventPage({ params }: PageProps) {
 
         {/* Event Details Section */}
         <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={event.type === "upcoming" ? "grid grid-cols-1 lg:grid-cols-3 gap-12" : ""}>
               {/* Main Content */}
               <div className="lg:col-span-2">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -358,36 +346,14 @@ export default async function EventPage({ params }: PageProps) {
               </div>
 
               {/* Sidebar */}
-              <div className="lg:col-span-1">
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-8">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">
-                    Event Details
-                  </h3>
+              {event.type === "upcoming" ? (
+                <div className="lg:col-span-1">
+                  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-8">
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">
+                      Event Details
+                    </h3>
 
-                  <div className="space-y-4">
-                    <div className="flex items-start">
-                      <svg
-                        className="w-5 h-5 text-blue-600 mr-3 mt-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      <div>
-                        <p className="font-medium text-gray-900">Date & Time</p>
-                        <p className="text-gray-600">
-                          {formatDate(event.date)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {event.location && (
+                    <div className="space-y-4">
                       <div className="flex items-start">
                         <svg
                           className="w-5 h-5 text-blue-600 mr-3 mt-1"
@@ -399,67 +365,93 @@ export default async function EventPage({ params }: PageProps) {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                           />
+                        </svg>
+                        <div>
+                          <p className="font-medium text-gray-900">Date & Time</p>
+                          <p className="text-gray-600">
+                            {formatDate(event.date)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {event.location && (
+                        <div className="flex items-start">
+                          <svg
+                            className="w-5 h-5 text-blue-600 mr-3 mt-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                          </svg>
+                          <div>
+                            <p className="font-medium text-gray-900">Location</p>
+                            <p className="text-gray-600">{event.location}</p>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex items-start">
+                        <svg
+                          className="w-5 h-5 text-blue-600 mr-3 mt-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                           />
                         </svg>
                         <div>
-                          <p className="font-medium text-gray-900">Location</p>
-                          <p className="text-gray-600">{event.location}</p>
+                          <p className="font-medium text-gray-900">Organizer</p>
+                          <p className="text-gray-600">BizCivitas</p>
                         </div>
                       </div>
-                    )}
-
-                    <div className="flex items-start">
-                      <svg
-                        className="w-5 h-5 text-blue-600 mr-3 mt-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
-                      </svg>
-                      <div>
-                        <p className="font-medium text-gray-900">Organizer</p>
-                        <p className="text-gray-600">BizCivitas</p>
-                      </div>
                     </div>
-                  </div>
 
-                  <div className="mt-8 space-y-3">
-                    <EnhancedCTA href="/contact" variant="primary" size="md" className="w-full">
-                      Register for Event
-                    </EnhancedCTA>
-                    <EnhancedCTA href="#" variant="outline" size="md" className="w-full">
-                      Add to Calendar
-                    </EnhancedCTA>
-                  </div>
+                    <div className="mt-8 space-y-3">
+                      <EnhancedCTA href="/contact" variant="primary" size="md" className="w-full">
+                        Register for Event
+                      </EnhancedCTA>
+                      <EnhancedCTA href="#" variant="outline" size="md" className="w-full">
+                        Add to Calendar
+                      </EnhancedCTA>
+                    </div>
 
-                  {/* Social Share */}
-                  <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-sm font-medium text-gray-900 mb-4">
-                      Share this event
-                    </p>
-                    <div className="flex justify-center">
-                      <ShareButton
-                        url={`https://bizcivitas.com/events/${event.slug}`}
-                        title={event.event_name}
-                        description={event.description}
-                      />
+                    {/* Social Share */}
+                    <div className="mt-8 pt-6 border-t border-gray-200">
+                      <p className="text-sm font-medium text-gray-900 mb-4">
+                        Share this event
+                      </p>
+                      <div className="flex justify-center">
+                        <ShareButton
+                          url={`https://bizcivitas.com/events/${event.slug}`}
+                          title={event.event_name}
+                          description={event.description}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
+
+
             </div>
           </div>
         </section>

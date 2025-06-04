@@ -12,6 +12,8 @@ interface ImageCarouselProps {
 
 export default function ImageCarousel({ images, eventName }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
 
   // Clean and validate URLs
   const cleanImages = images
@@ -23,13 +25,13 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
   }
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === cleanImages.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? cleanImages.length - 1 : prevIndex - 1
     );
   };
@@ -47,29 +49,43 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
       <div className="relative">
         {/* Main Carousel */}
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg bg-gray-100">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 300 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -300 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={cleanImages[currentIndex]}
-                alt={`${eventName} gallery image ${currentIndex + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 66vw"
-                onError={(e) => {
-                  console.error('Image failed to load:', cleanImages[currentIndex]);
-                  // Hide broken images by setting a placeholder
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </motion.div>
+          <AnimatePresence>
+            {isFullscreen && (
+              <motion.div
+                key="fullscreen"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center"
+                onClick={() => setIsFullscreen(false)} // close on background click
+              >
+                <motion.div
+                  key="image"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative w-full h-full max-w-5xl max-h-[90vh] cursor-zoom-out"
+                  onClick={(e) => e.stopPropagation()} // prevent closing when clicking the image
+                >
+                  <Image
+                    src={cleanImages[currentIndex]}
+                    alt={`Fullscreen ${eventName} image`}
+                    fill
+                    className="object-contain"
+                    sizes="100vw"
+                  />
+                  <button
+                    onClick={() => setIsFullscreen(false)}
+                    className="absolute top-4 right-4 text-white bg-black/60 hover:bg-black/80 p-2 rounded-full"
+                  >
+                    ✕
+                  </button>
+                </motion.div>
+              </motion.div>
+            )}
           </AnimatePresence>
+
 
           {/* Navigation Arrows */}
           {cleanImages.length > 1 && (
@@ -102,9 +118,8 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                   key={index}
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.8 }}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-colors ${index === currentIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
                   onClick={() => goToSlide(index)}
                 />
               ))}
@@ -120,11 +135,10 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                 key={index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`relative h-20 rounded-lg overflow-hidden transition-all ${
-                  index === currentIndex 
-                    ? 'ring-2 ring-flat-btn-primary' 
-                    : 'hover:ring-2 hover:ring-flat-btn-secondary'
-                }`}
+                className={`relative h-20 rounded-lg overflow-hidden transition-all ${index === currentIndex
+                  ? 'ring-2 ring-flat-btn-primary'
+                  : 'hover:ring-2 hover:ring-flat-btn-secondary'
+                  }`}
                 onClick={() => goToSlide(index)}
               >
                 <Image
