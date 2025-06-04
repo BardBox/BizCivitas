@@ -81,7 +81,7 @@ export default function Footer() {
           </div>
           
           {/* Services */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold mb-6 text-white">Services</h3>
             <ul className="space-y-3">
               {services.map((service) => (
@@ -92,7 +92,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
         
         <div className="border-t border-white mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
