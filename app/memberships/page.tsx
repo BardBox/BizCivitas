@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -147,7 +146,7 @@ export default function MembershipsPage() {
                       {plan.popularBadge}
                     </div>
                   )}
-                  
+
                   <div className="text-center mb-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                     <p className="text-gray-600 mb-4">{plan.tagline}</p>
