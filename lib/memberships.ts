@@ -1,3 +1,4 @@
+
 export interface MembershipPlan {
   id: string;
   name: string;
@@ -7,11 +8,17 @@ export interface MembershipPlan {
   price: {
     amount: number;
     currency: string;
+    breakdown?: {
+      registration?: number;
+      annual?: number;
+      meeting?: number;
+    };
   };
   features: string[];
   benefits: string[];
   highlights: string[];
   eligibility?: string[];
+  meetingStructure?: string[];
   images: string[];
   color: {
     primary: string;
@@ -49,6 +56,12 @@ export const membershipPlans: MembershipPlan[] = [
       'Bleisure travel experiences',
       'Expert-led development sessions',
       'Interactive learning environments'
+    ],
+    meetingStructure: [
+      '2 hours per meeting with structured agenda',
+      'Monthly networking sessions with focused discussions',
+      'Quarterly masterclasses with industry experts',
+      'Annual retreat combining business and leisure activities'
     ],
     images: ['/memberships/core-membership.jpg'],
     color: {
