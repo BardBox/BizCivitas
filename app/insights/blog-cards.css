@@ -90,35 +90,10 @@
   height: 62px;
   border-radius: 9999px;
   transition: all 0.2s;
-  transform: translate(20px, -50px);
+  transform: translate(0px, -50px);
   border: 5px white solid;
 }
 
-.custom-blog-card .hori .icon-circle::after {
-  content: '';
-  z-index: -1;
-  position: absolute;
-  top: -30px;
-  left: 25px;
-  width: 62px;
-  height: 62px;
-  background: radial-gradient(ellipse at top right, transparent 30%, #ffffff 30%);
-  border-radius: 0 0 0 80px;
-  transform: rotate(-90deg);
-}
-
-.custom-blog-card .hori .icon-circle::before {
-  content: '';
-  z-index: -1;
-  position: absolute;
-  top: 11px;
-  left: -11px;
-  width: 22px;
-  height: 22px;
-  background: radial-gradient(ellipse at top right, transparent 30%, #ffffff 30%);
-  border-radius: 0 0 0 80px;
-  transform: rotate(270deg);
-}
 
 .custom-blog-card .hori .icon-circle svg {
   z-index: 3;

@@ -3,10 +3,10 @@ import Link from 'next/link';
 interface ContentSectionProps {
   title: string;
   description: string;
-  buttonText: string;
-  buttonHref: string;
+  buttonText?: string;
+  buttonHref?: string;
   videoUrl: string;
-  videoTitle: string;
+  videoTitle?: string;
   imagePosition?: 'left' | 'right';
   backgroundColor?: string;
 }
@@ -30,9 +30,8 @@ export default function ContentSection({
   return (
     <section className={`py-16 ${backgroundColor}`}>
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-          imagePosition === 'left' ? 'lg:grid-flow-col-dense' : ''
-        }`}>
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${imagePosition === 'left' ? 'lg:grid-flow-col-dense' : ''
+          }`}>
           {/* Content */}
           <div className={imagePosition === 'left' ? 'lg:col-start-2' : ''}>
             <h2 className="text-3xl lg:text-4xl font-bold text-flat-text-primary mb-6 flat-text-heading">
@@ -41,12 +40,16 @@ export default function ContentSection({
             <p className="text-lg text-flat-text-secondary mb-8 leading-relaxed flat-text-body">
               {description}
             </p>
-            <Link 
-              href={buttonHref}
-              className="inline-block bg-flat-btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-flat-btn-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              {buttonText}
-            </Link>
+            {buttonText && buttonHref &&
+              <Link
+                href={buttonHref}
+                className="inline-block bg-flat-btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-flat-btn-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                {buttonText}
+              </Link>
+              // Only render button if both text and href are provided
+            }
+
           </div>
 
           {/* YouTube Video */}
@@ -98,9 +101,8 @@ export function ContentSection2({
   return (
     <section className={`py-16 ${backgroundColor}`}>
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-          imagePosition === 'left' ? 'lg:grid-flow-col-dense' : ''
-        }`}>
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${imagePosition === 'left' ? 'lg:grid-flow-col-dense' : ''
+          }`}>
           {/* Content */}
           <div className={imagePosition === 'left' ? 'lg:col-start-2' : ''}>
             <h2 className="text-3xl lg:text-4xl font-bold text-flat-text-primary mb-6 flat-text-heading">
@@ -109,7 +111,7 @@ export function ContentSection2({
             <p className="text-lg text-flat-text-secondary mb-8 leading-relaxed flat-text-body">
               {description}
             </p>
-            <Link 
+            <Link
               href={buttonHref}
               className="inline-block bg-flat-btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-flat-btn-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
@@ -118,7 +120,7 @@ export function ContentSection2({
           </div>
 
           {/* Image */}
-          <div className={`relative ${imagePosition === 'left' ? 'lg:col-start-1' : ''}`}>
+          <div className={`flex justify-center align-center `}>
             <div className="relative rounded-2xl">
               <Image
                 src={imageSrc}

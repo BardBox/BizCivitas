@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
+import { getAllBlogs, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
+import { Suspense } from "react";
+import SearchAndRecentPosts from "@/components/SearchAndRecentPost";
 import "./blog-cards.css";
+import TopSection from "@/components/TopSection";
 
 // Enable ISR with 60-second revalidation
 export const revalidate = 60;
@@ -68,7 +71,7 @@ const TOPIC_TYPES = [
 ];
 
 interface InsightsPageProps {
-  searchParams: Promise<{ topic?: string }>;
+  searchParams: Promise<{ topic?: string; search?: string }>;
 }
 
 export default async function InsightsPage({
@@ -76,14 +79,26 @@ export default async function InsightsPage({
 }: InsightsPageProps) {
   const params = await searchParams;
   const selectedTopic = params.topic || "All";
+  const searchQuery = params.search || "";
 
   const allBlogs = await getAllBlogs();
 
-  // Filter blogs based on selected topic
-  const filteredBlogs =
-    selectedTopic === "All"
-      ? allBlogs
-      : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
+  // Filter blogs based on selected topic and search query
+  let filteredBlogs = selectedTopic === "All"
+    ? allBlogs
+    : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
+
+  // Apply search filter if search query exists
+  if (searchQuery) {
+    filteredBlogs = filteredBlogs.filter((blog) =>
+      (blog.topic_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (blog.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+    );
+  }
+
+  // Get recent posts (latest 5)
+  const recentPosts = allBlogs.slice(0, 5);
 
   // Count blogs per topic for tab counters
   const topicCounts = TOPIC_TYPES.reduce(
@@ -122,14 +137,14 @@ export default async function InsightsPage({
       itemListElement: filteredBlogs.slice(0, 10).map((blog, index) => ({
         "@type": "Article",
         position: index + 1,
-        name: blog.topic_name,
+        name: blog.topic_name || "Untitled Article",
         url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/insights/${blog.slug}`,
         author: {
           "@type": "Person",
           name: blog.author_name || "BizCivitas",
         },
         datePublished: blog.date,
-        image: blog.cover_url,
+        image: blog.cover_url || "/placeholder-event.jpg",
       })),
     },
     breadcrumb: {
@@ -145,9 +160,8 @@ export default async function InsightsPage({
           "@type": "ListItem",
           position: 2,
           name: "Insights",
-          item: `${
-            process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
-          }/insights`,
+          item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
+            }/insights`,
         },
       ],
     },
@@ -162,53 +176,22 @@ export default async function InsightsPage({
 
       <div className="bg-white min-h-screen">
         {/* Hero Video Section */}
-        <section className="relative w-full h-screen overflow-hidden">
-          <div className="absolute inset-0 w-full h-full">
-            <video
-              className="w-full h-full object-cover"
-              src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              controlsList="nodownload nofullscreen noremoteplayback"
-              disablePictureInPicture
-              preload="auto"
-              poster="/video-poster.jpg"
-              aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
+        <TopSection
+          heading="Insights"
+          subheading="Stay up to date with the most recent insights, trends, articles, and news from Bizcivitas around the world."
+          backgroundImage="/insights/heroInsights.png"
+        />
+
+        {/* Mobile Search Bar - Only visible on mobile, positioned at top */}
+        <div className="lg:hidden px-4 sm:px-6 py-4 bg-white border-b border-gray-200">
+          <Suspense fallback={<div className="animate-pulse bg-gray-200 h-16 rounded-lg"></div>}>
+            <SearchAndRecentPosts 
+              recentPosts={recentPosts}
+              currentSearch={searchQuery}
+              currentTopic={selectedTopic}
             />
-          </div>
-          
-          {/* Video Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white leading-tight flat-text-heading">
-                Business <span className="text-flat-btn-primary">Insights</span>
-              </h1>
-              <p className="text-xl lg:text-2xl mb-8 text-white/90 max-w-3xl mx-auto flat-text-body">
-                Expert analysis, industry trends, and actionable insights to
-                drive your business forward.
-              </p>
-            </div>
-          </div>
-          
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </div>
-        </section>
+          </Suspense>
+        </div>
 
         {/* Topic Filter Tabs */}
         <section className="py-8 bg-white border-b border-gray-200">
@@ -228,20 +211,18 @@ export default async function InsightsPage({
                     }
                     className={`
                       inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-                      ${
-                        isActive
-                          ? "bg-flat-btn-primary text-white shadow-lg"
-                          : "bg-gray-100 text-gray-700 hover:bg-flat-btn-primary hover:text-white"
+                      ${isActive
+                        ? "bg-flat-btn-primary text-white shadow-lg"
+                        : "bg-gray-100 text-gray-700 hover:bg-flat-btn-primary hover:text-white"
                       }
                     `}
                   >
                     {topic}
                     <span
-                      className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                        isActive
-                          ? "bg-white/20 text-white"
-                          : "bg-gray-300 text-gray-600"
-                      }`}
+                      className={`ml-2 px-2 py-1 rounded-full text-xs ${isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-gray-300 text-gray-600"
+                        }`}
                     >
                       {count}
                     </span>
@@ -252,112 +233,143 @@ export default async function InsightsPage({
           </div>
         </section>
 
-        {/* Insights Grid */}
-        <section className="py-16">
+        {/* Main Content with Sidebar */}
+        <section className="py-8 lg:py-16">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Results Summary */}
-            <header className="mb-8 text-center">
-              <p className="text-gray-600">
-                {selectedTopic === "All"
-                  ? `Showing all ${filteredBlogs.length} insights`
-                  : `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`}
-              </p>
-            </header>
-
-            <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredBlogs.length === 0 ? (
-                <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
-                  <svg
-                    className="w-16 h-16 text-gray-400 mx-auto mb-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                  <h2 className="text-lg text-gray-900 font-semibold">
-                    {selectedTopic === "All"
-                      ? "No insights available at this time."
-                      : `No insights found in "${selectedTopic}" category.`}
-                  </h2>
-                  <p className="text-sm text-gray-500 mt-2">
-                    {selectedTopic === "All"
-                      ? "Check back soon for new expert insights!"
-                      : "Try selecting a different category or view all insights."}
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Main Content Area */}
+              <div className="flex-1">
+                {/* Results Summary */}
+                <header className="mb-6 lg:mb-8 text-center lg:text-left">
+                  <p className="text-gray-600 text-sm lg:text-base">
+                    {searchQuery ? (
+                      <>
+                        Showing {filteredBlogs.length} results for "{searchQuery}"
+                        {selectedTopic !== "All" && ` in "${selectedTopic}"`}
+                      </>
+                    ) : selectedTopic === "All" ? (
+                      `Showing all ${filteredBlogs.length} insights`
+                    ) : (
+                      `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`
+                    )}
                   </p>
-                  {selectedTopic !== "All" && (
-                    <Link
-                      href="/insights"
-                      className="inline-block mt-4 px-4 py-2 bg-flat-btn-primary text-white rounded-lg hover:bg-flat-btn-primary/90 transition-colors"
-                    >
-                      View All Insights
-                    </Link>
+                </header>
+
+                <main className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                  {filteredBlogs.length === 0 ? (
+                    <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
+                      <svg
+                        className="w-16 h-16 text-gray-400 mx-auto mb-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                      <h2 className="text-lg text-gray-900 font-semibold">
+                        {searchQuery ? (
+                          `No insights found for "${searchQuery}"`
+                        ) : selectedTopic === "All" ? (
+                          "No insights available at this time."
+                        ) : (
+                          `No insights found in "${selectedTopic}" category.`
+                        )}
+                      </h2>
+                      <p className="text-sm text-gray-500 mt-2">
+                        {searchQuery ? (
+                          "Try adjusting your search terms or browse all insights."
+                        ) : selectedTopic === "All" ? (
+                          "Check back soon for new expert insights!"
+                        ) : (
+                          "Try selecting a different category or view all insights."
+                        )}
+                      </p>
+                      {(selectedTopic !== "All" || searchQuery) && (
+                        <Link
+                          href="/insights"
+                          className="inline-block mt-4 px-4 py-2 bg-flat-btn-primary text-white rounded-lg hover:bg-flat-btn-primary/90 transition-colors"
+                        >
+                          View All Insights
+                        </Link>
+                      )}
+                    </div>
+                  ) : (
+                    filteredBlogs.map((blog) => (
+                      <article key={blog.id}>
+                        <Link href={`/insights/${blog.slug}`} className="block">
+                          <div className="custom-blog-card">
+                            <div className="image-container">
+                              <Image
+                                src={blog.cover_url || "/placeholder-event.jpg"}
+                                alt={blog.topic_name || "Blog post"}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              />
+                            </div>
+                            <div className="content">
+                              <div className="hori">
+                                {blog.type_of_topic && (
+                                  <div className="type-label">
+                                    {blog.type_of_topic}
+                                  </div>
+                                )}
+                                <div className="icon-circle">
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M16.7714 16.7702V1.30797M16.7714 1.30797H1.30922M16.7714 1.30797L1.30922 16.7702"
+                                      stroke="white"
+                                      strokeWidth="3.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
+                              <h3>{blog.topic_name || "Untitled Article"}</h3>
+                              {blog.description && <p>{blog.description}</p>}
+                              <div className="meta-info">
+                                <div>
+                                  By {blog.author_name || "BizCivitas"} on{" "}
+                                  {formatBlogDate(blog.date)}
+                                </div>
+                                {blog.content && (
+                                  <div className="mt-1">
+                                    {getBlogReadTime(blog.content)} min read
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </article>
+                    ))
                   )}
-                </div>
-              ) : (
-                filteredBlogs.map((blog) => (
-                  <article key={blog.id}>
-                    <Link href={`/insights/${blog.slug}`} className="block">
-                      <div className="custom-blog-card">
-                        <div className="image-container">
-                          <Image
-                            src={blog.cover_url || "/placeholder-event.jpg"}
-                            alt={blog.topic_name || "Blog post"}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                        </div>
-                        <div className="content">
-                          <div className="hori">
-                            {blog.type_of_topic && (
-                              <div className="type-label">
-                                {blog.type_of_topic}
-                              </div>
-                            )}
-                            <div className="icon-circle">
-                              <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M16.7714 16.7702V1.30797M16.7714 1.30797H1.30922M16.7714 1.30797L1.30922 16.7702"
-                                  stroke="white"
-                                  strokeWidth="3.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <h3>{blog.topic_name}</h3>
-                          {blog.description && <p>{blog.description}</p>}
-                          <div className="meta-info">
-                            <div>
-                              By {blog.author_name || "BizCivitas"} on{" "}
-                              {formatBlogDate(blog.date)}
-                            </div>
-                            {blog.content && (
-                              <div className="mt-1">
-                                {getBlogReadTime(blog.content)} min read
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </article>
-                ))
-              )}
-            </main>
+                </main>
+              </div>
+
+              {/* Desktop Sidebar - Hidden on mobile */}
+              <aside className="hidden lg:block lg:w-80">
+                <Suspense fallback={<div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>}>
+                  <SearchAndRecentPosts
+                    recentPosts={recentPosts}
+                    currentSearch={searchQuery}
+                    currentTopic={selectedTopic}
+                  />
+                </Suspense>
+              </aside>
+            </div>
           </div>
         </section>
       </div>

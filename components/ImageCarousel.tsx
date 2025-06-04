@@ -12,6 +12,7 @@ interface ImageCarouselProps {
 
 export default function ImageCarousel({ images, eventName }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Clean and validate URLs
   const cleanImages = images
@@ -23,19 +24,27 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
   }
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === cleanImages.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? cleanImages.length - 1 : prevIndex - 1
     );
   };
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
+  };
+
+  const openFullscreen = () => {
+    setIsFullscreen(true);
+  };
+
+  const closeFullscreen = () => {
+    setIsFullscreen(false);
   };
 
   return (
@@ -46,29 +55,91 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
 
       <div className="relative">
         {/* Main Carousel */}
-        <div className="relative h-96 rounded-xl overflow-hidden shadow-lg bg-gray-100">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 300 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -300 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={cleanImages[currentIndex]}
-                alt={`${eventName} gallery image ${currentIndex + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 66vw"
-                onError={(e) => {
-                  console.error('Image failed to load:', cleanImages[currentIndex]);
-                  // Hide broken images by setting a placeholder
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </motion.div>
+        <div className="relative h-[90vh] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+          {/* Main Image - Now clickable for fullscreen */}
+          <motion.div
+            className="relative w-full h-full cursor-zoom-in"
+            onClick={openFullscreen}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Image
+              src={cleanImages[currentIndex]}
+              alt={`${eventName} image ${currentIndex + 1}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={(e) => {
+                console.error('Image failed to load:', cleanImages[currentIndex]);
+              }}
+            />
+          </motion.div>
+
+          {/* Fullscreen Modal */}
+          <AnimatePresence>
+            {isFullscreen && (
+              <motion.div
+                key="fullscreen"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center"
+                onClick={closeFullscreen} // close on background click
+              >
+                <motion.div
+                  key="image"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative w-full h-full max-w-5xl max-h-[90vh] cursor-zoom-out"
+                  onClick={(e) => e.stopPropagation()} // prevent closing when clicking the image
+                >
+                  <Image
+                    src={cleanImages[currentIndex]}
+                    alt={`Fullscreen ${eventName} image`}
+                    fill
+                    className="object-contain"
+                    sizes="100vw"
+                  />
+                  <button
+                    onClick={closeFullscreen}
+                    className="absolute top-4 right-4 text-white bg-black/60 hover:bg-black/80 p-2 rounded-full transition-colors"
+                  >
+                    ✕
+                  </button>
+                  
+                  {/* Fullscreen Navigation Arrows */}
+                  {cleanImages.length > 1 && (
+                    <>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          prevSlide();
+                        }}
+                      >
+                        <ChevronLeftIcon className="w-5 h-5" />
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          nextSlide();
+                        }}
+                      >
+                        <ChevronRightIcon className="w-5 h-5" />
+                      </motion.button>
+                    </>
+                  )}
+                </motion.div>
+              </motion.div>
+            )}
           </AnimatePresence>
 
           {/* Navigation Arrows */}
@@ -121,8 +192,8 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`relative h-20 rounded-lg overflow-hidden transition-all ${
-                  index === currentIndex 
-                    ? 'ring-2 ring-flat-btn-primary' 
+                  index === currentIndex
+                    ? 'ring-2 ring-flat-btn-primary'
                     : 'hover:ring-2 hover:ring-flat-btn-secondary'
                 }`}
                 onClick={() => goToSlide(index)}

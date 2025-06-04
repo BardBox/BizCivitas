@@ -18,7 +18,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50">
+    <header className="bg-white font-[Raleway] shadow-lg sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -97,7 +97,7 @@ export default function Navbar() {
               ))}
               <Link
                 href="/contact"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white block px-3 py-2 rounded-md text-base font-medium mt-4 text-center"
+                className="bg-orange-500 text-white block px-3 py-2 rounded-md text-base font-medium mt-4 text-center"
                 onClick={() => setIsOpen(false)}
               >
                 Get Started

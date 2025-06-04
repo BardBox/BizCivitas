@@ -9,7 +9,7 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Enable ISR with 3600-second (1 hour) revalidation for team members
+// Enable ISR with 60-second revalidation for team members
 export const revalidate = 60;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -153,7 +153,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
         </div>
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-orange-400 to-orange-600 py-16">
+        <section className=" bg-[#FF9D00] py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
@@ -288,7 +288,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
         )}
 
         {/* Back to Team */}
-        <section className="py-12 bg-gradient-to-br from-orange-400 to-orange-600">
+        <section className="py-12 ">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <Link
               href="/team"

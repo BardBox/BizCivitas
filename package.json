@@ -16,6 +16,7 @@
     "framer-motion": "^12.16.0",
     "lucide-react": "^0.511.0",
     "next": "15.3.3",
+    "next-intl": "^4.1.0",
     "next-seo": "^6.8.0",
     "next-sitemap": "^4.2.3",
     "razorpay": "^2.9.6",
@@ -24,6 +25,7 @@
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
-
-const geistSans = Geist({
+// import { Poppins } from "next/font/google";s
+import { Raleway } from "next/font/google";
+const geistSans = Raleway({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = Raleway({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -142,16 +144,18 @@ export default function RootLayout({
             src="https://www.googletagmanager.com/ns.html?id=GTM-M85WZNMH"
             height="0" 
             width="0" 
-            style={{display: 'none', visibility: 'hidden'}}
-          />
+            />
         </noscript>
         <Analytics />
           <SpeedInsights/>
         <Navbar />
-        <main className="min-h-screen">
+        <main className={`min-h-screen ${geistSans.className}`} >
           {children}
         </main>
-        <Footer />
+        <div className="z-10 relative">
+           <Footer />
+        </div>
+       
       </body>
     </html>
   );
