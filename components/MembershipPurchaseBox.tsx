@@ -63,6 +63,10 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             paymentAmount = membership.price.breakdown.meeting || 0;
             paymentDescription = `${membership.name} - Meeting Fee`;
             break;
+          case 'community':
+            paymentAmount = (membership.price.breakdown as any).community || 0;
+            paymentDescription = `${membership.name} - Community Launch Fee`;
+            break;
         }
       }
 
@@ -251,7 +255,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         </div>
 
         {/* Payment Buttons */}
-        {membership.price.breakdown && membership.id === 'industria' ? (
+        {membership.price.breakdown && (membership.id === 'industria' || membership.id === 'flagship') ? (
           <div className="space-y-4">
             <h4 className="font-semibold text-gray-900 mb-4">Choose Payment Option:</h4>
 
@@ -320,6 +324,105 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
                     onClick={() => handlePurchase('meeting', 29500)}
                     disabled={isLoading}
                     className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : membership.price.breakdown && membership.id === 'flagship' ? (
+          <div className="space-y-4">
+            <h4 className="font-semibold text-gray-900 mb-4">Choose Payment Option:</h4>
+
+            {/* Four Payment Cards for Flagship */}
+            <div className="grid grid-cols-1 gap-4">
+              {/* One-Time Registration Fees Card */}
+              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-purple-800 mb-2">One-Time Registration Fees</h5>
+                  <p className="text-sm text-purple-700 mb-3">
+                    A non-refundable fee for onboarding and activating your Bizcivitas membership.
+                  </p>
+                  <div className="text-sm text-purple-600 mb-2">
+                    ₹25,000 + ₹4,500 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-purple-800 mb-3">
+                    Total: ₹29,500
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('registration', 29500)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Membership Fees Card */}
+              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-purple-800 mb-2">Membership Fees</h5>
+                  <p className="text-sm text-purple-700 mb-3">
+                    An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.
+                  </p>
+                  <div className="text-sm text-purple-600 mb-2">
+                    ₹3,00,000 + ₹54,000 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-purple-800 mb-3">
+                    Total: ₹3,54,000
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('annual', 354000)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Meeting/Event Fees Card */}
+              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-purple-800 mb-2">Meeting/Event Fees</h5>
+                  <p className="text-sm text-purple-700 mb-3">
+                    A recurring charge for attending structured Bizcivitas networking meetings and events.
+                  </p>
+                  <div className="text-sm text-purple-600 mb-2">
+                    ₹25,000 + ₹4,500 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-purple-800 mb-3">
+                    Total: ₹29,500
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('meeting', 29500)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {isLoading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Community Launch Fees Card */}
+              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
+                <div className="text-center">
+                  <h5 className="text-lg font-bold text-purple-800 mb-2">Community Launch Fees</h5>
+                  <p className="text-sm text-purple-700 mb-3">
+                    Core member frees for launching community (Valid for 2 years)
+                  </p>
+                  <div className="text-sm text-purple-600 mb-2">
+                    ₹3,00,000 + ₹54,000 (18% GST)
+                  </div>
+                  <div className="text-xl font-bold text-purple-800 mb-3">
+                    Total: ₹3,54,000
+                  </div>
+                  <button
+                    onClick={() => handlePurchase('community', 354000)}
+                    disabled={isLoading}
+                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
                   >
                     {isLoading ? 'Processing...' : 'Pay Now'}
                   </button>

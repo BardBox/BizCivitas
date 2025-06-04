@@ -73,19 +73,25 @@ export const membershipPlans: MembershipPlan[] = [
     id: 'flagship',
     name: 'BizCivitas Flagship Membership',
     slug: 'flagship',
-    tagline: 'Elite. Exclusive. Extraordinary.',
-    description: 'The pinnacle of business networking and growth. Our flagship membership offers unparalleled access to industry leaders, exclusive events, and transformative business opportunities.',
+    tagline: 'Where Ventures and Voyages Intersect',
+    description: 'BizCivitas redefines business networking by blending professional growth with immersive travel experiences. The Flagship Membership offers entrepreneurs and professionals a unique platform to expand their network, explore new markets, and build meaningful collaborations beyond the boardroom.',
     price: {
       amount: 750000,
-      currency: '₹'
+      currency: '₹',
+      breakdown: {
+        registration: 25000,
+        annual: 300000,
+        meeting: 25000,
+        community: 300000
+      }
     },
     features: [
-      'Executive Circle: Connect with C-suite executives and industry titans',
-      'Premium Events: Access to exclusive galas, leadership summits, and private dinners',
-      'Global Network: International chapters and worldwide business connections',
-      'Personal Board of Advisors: One-on-one mentoring with successful entrepreneurs',
-      'Investment Opportunities: Early access to vetted investment deals and partnerships',
-      'Luxury Experiences: Premium travel, exclusive venues, and VIP treatment'
+      '20 strategic meetings per year',
+      '1 domestic and 1 international networking trip',
+      'Access to exclusive BizCivitas events and digital platform',
+      'Informal yet focused networking in vibrant settings',
+      'Learning and development through workshops and keynote sessions',
+      'High-value referrals and collaboration opportunities'
     ],
     benefits: [
       'C-suite level networking',
