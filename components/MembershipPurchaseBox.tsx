@@ -8,26 +8,116 @@ interface MembershipPurchaseBoxProps {
   membership: MembershipPlan;
 }
 
+// Razorpay types
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export default function MembershipPurchaseBox({ membership }: MembershipPurchaseBoxProps) {
   const [isLoading, setIsLoading] = useState(false);
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
 
   const handlePurchase = async () => {
     setIsLoading(true);
     
     try {
-      // TODO: Integrate with Razorpay
-      // This is where you'll add Razorpay integration
-      console.log("Initiating payment for:", {
-        plan: membership.name,
-        amount: membership.price.amount
-      });
+      // Load Razorpay script
+      const res = await loadRazorpayScript();
       
-      // Placeholder for Razorpay integration
-      alert(`Payment integration coming soon! You selected ${membership.name} plan.`);
+      if (!res) {
+        alert('Razorpay SDK failed to load. Are you online?');
+        setIsLoading(false);
+        return;
+      }
+
+      // Create order on backend (you'll need to implement this API endpoint)
+      const orderResponse = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: membership.price.amount * 100, // Razorpay expects amount in paise
+          currency: 'INR',
+          membershipId: membership.id,
+          membershipName: membership.name,
+        }),
+      });
+
+      const orderData = await orderResponse.json();
+
+      if (!orderResponse.ok) {
+        throw new Error(orderData.error || 'Failed to create order');
+      }
+
+      // Razorpay options
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // You'll need to add this to your env
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'BizCivitas',
+        description: `${membership.name} Membership`,
+        order_id: orderData.id,
+        handler: function (response: any) {
+          // Payment successful
+          console.log('Payment successful:', response);
+          
+          // Redirect to success page with payment details
+          const params = new URLSearchParams({
+            payment_id: response.razorpay_payment_id,
+            order_id: response.razorpay_order_id,
+            signature: response.razorpay_signature,
+            membership: membership.name,
+          });
+          
+          window.location.href = `/memberships/success?${params.toString()}`;
+        },
+        prefill: {
+          name: '',
+          email: '',
+          contact: '',
+        },
+        notes: {
+          membership_id: membership.id,
+          membership_name: membership.name,
+        },
+        theme: {
+          color: membership.color.primary,
+        },
+        modal: {
+          ondismiss: function() {
+            setIsLoading(false);
+          }
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+      
+      paymentObject.on('payment.failed', function (response: any) {
+        console.error('Payment failed:', response.error);
+        alert('Payment failed. Please try again.');
+        setIsLoading(false);
+      });
+
     } catch (error) {
       console.error("Payment error:", error);
-      alert("Payment failed. Please try again.");
-    } finally {
+      alert("Payment initialization failed. Please try again.");
       setIsLoading(false);
     }
   };
