@@ -209,8 +209,8 @@ export default async function MembershipPage({ params }: PageProps) {
                 )}
 
                 {/* Features & Highlights */}
-                <div className="grid md:grid-cols-2 gap-12 mb-12">
-                  <div className="flex flex-col">
+                <div className="grid md:grid-cols-2 gap-12 mb-12 items-start">
+                  <div className="flex flex-col h-full">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Features Included</h3>
                     <ul className="space-y-4 flex-1">
                       {membership.features.map((feature, index) => (
@@ -221,25 +221,25 @@ export default async function MembershipPage({ params }: PageProps) {
                           >
                             <Check className="w-4 h-4 text-white" />
                           </div>
-                          <span className="text-gray-700">{feature}</span>
+                          <span className="text-gray-700 leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col h-full">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose {membership.name}?</h3>
-                    <div className="space-y-4 flex-1">
+                    <div className="grid gap-4 flex-1">
                       {membership.highlights.map((highlight, index) => (
                         <div 
                           key={index}
-                          className="p-4 rounded-lg border-l-4 h-full flex items-center"
+                          className="p-6 rounded-lg border-l-4 flex items-center min-h-[80px]"
                           style={{ 
                             borderLeftColor: membership.color.primary,
                             backgroundColor: membership.color.secondary 
                           }}
                         >
-                          <p className="text-gray-700">{highlight}</p>
+                          <p className="text-gray-700 leading-relaxed">{highlight}</p>
                         </div>
                       ))}
                     </div>
