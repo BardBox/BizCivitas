@@ -44,6 +44,13 @@ export default function MembershipsPage() {
     mainEntity: {
       "@type": "Organization",
       name: "BizCivitas",
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com',
+      sameAs: [
+        "https://www.youtube.com/@BizCivitas",
+        "https://www.linkedin.com/company/bizcivitas/",
+        "https://www.facebook.com/bizcivitas/",
+        "https://www.instagram.com/bizcivitas/"
+      ],
       offers: membershipPlans.map(plan => ({
         "@type": "Offer",
         name: plan.name,
