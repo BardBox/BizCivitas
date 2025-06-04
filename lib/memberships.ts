@@ -129,6 +129,63 @@ export const membershipPlans: MembershipPlan[] = [
     ctaText: 'Start Digital Journey'
   },
   {
+    id: 'flagship',
+    name: 'BizCivitas Flagship Membership',
+    slug: 'flagship',
+    tagline: 'Where Ventures and Voyages Intersect',
+    description: 'BizCivitas redefines business networking by blending professional growth with immersive travel experiences. The Flagship Membership offers entrepreneurs and professionals a unique platform to expand their network, explore new markets, and build meaningful collaborations beyond the boardroom.',
+    price: {
+      amount: 350000,
+      currency: '₹',
+      breakdown: {
+        registration: 25000,
+        annual: 300000,
+        meeting: 25000
+      }
+    },
+    features: [
+      '20 strategic meetings per year for consistent networking',
+      '1 domestic networking trip to explore local markets',
+      '1 international networking trip for global expansion',
+      'Access to exclusive BizCivitas events and digital platform',
+      'Informal yet focused networking in vibrant settings',
+      'Learning and development through workshops and keynote sessions',
+      'High-value referrals and business collaboration opportunities',
+      'Trust-based networking with growth-oriented professionals',
+      'Fresh perspectives from diverse business backgrounds',
+      'Opportunities that go beyond traditional borders',
+      'Curated community of innovators and business leaders',
+      'Dynamic networking in scenic environments'
+    ],
+    benefits: [
+      'Strategic Annual Meetings with structured networking',
+      'Domestic & International Travel Experiences',
+      'Exclusive Events and Digital Platform Access',
+      'Workshop and Keynote Learning Sessions',
+      'High-Value Referral Opportunities'
+    ],
+    highlights: [
+      'Perfect blend of professional growth and travel experiences',
+      'Curated community of innovators and business leaders',
+      'Trust-based networking in vibrant, scenic settings',
+      'Ideal for growth-oriented entrepreneurs and professionals',
+      'Opportunities for market exploration and global expansion'
+    ],
+    meetingStructure: [
+      '20 strategic meetings per year for consistent growth',
+      '1 domestic networking trip to explore local opportunities',
+      '1 international networking trip for global market access',
+      'Exclusive access to BizCivitas events and digital platform',
+      'Workshops and keynote sessions for continuous learning'
+    ],
+    images: ['/memberships/flagship-membership.jpg'],
+    color: {
+      primary: '#8b5cf6',
+      secondary: '#e9d5ff'
+    },
+    ctaText: 'Join Flagship Journey'
+  },
+  {
     id: 'industria',
     name: 'Bizcivitas Industria Membership',
     slug: 'industria',

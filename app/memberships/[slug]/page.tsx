@@ -114,12 +114,12 @@ export default async function MembershipPage({ params }: PageProps) {
                   </div>
                 </div>
                 
-                {/* Contact Info for Core and Industria */}
-                {(membership.id === 'core' || membership.id === 'industria') && (
+                {/* Contact Info for Core, Flagship and Industria */}
+                {(membership.id === 'core' || membership.id === 'flagship' || membership.id === 'industria') && (
                   <div className="mt-6 space-y-2 text-white/90">
                     <p className="flex items-center">
                       <span className="mr-2">📞</span>
-                      {membership.id === 'core' ? '+91 80000 23786' : '+91 81606 79917'}
+                      {membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
                     </p>
                     <p className="flex items-center">
                       <span className="mr-2">✉️</span>
@@ -278,6 +278,20 @@ export default async function MembershipPage({ params }: PageProps) {
               </h2>
               <p className="text-xl text-gray-600 mb-6">
                 To travel, transform, and grow. BizCivitas is where your network becomes your net worth.
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* Special message for Flagship membership */}
+        {membership.id === 'flagship' && (
+          <section className="py-12 bg-gray-50">
+            <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Ready to grow with purpose?
+              </h2>
+              <p className="text-xl text-gray-600 mb-6">
+                BizCivitas is ideal for growth-oriented entrepreneurs and professionals who value trust-based networking, fresh perspectives, and opportunities that go beyond borders.
               </p>
             </div>
           </section>

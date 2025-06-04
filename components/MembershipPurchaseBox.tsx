@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -34,11 +33,11 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
 
   const handlePurchase = async (paymentType?: 'registration' | 'annual' | 'meeting', amount?: number) => {
     setIsLoading(true);
-    
+
     try {
       // Load Razorpay script
       const res = await loadRazorpayScript();
-      
+
       if (!res) {
         alert('Razorpay SDK failed to load. Are you online?');
         setIsLoading(false);
@@ -48,7 +47,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
       // Determine payment amount and description
       let paymentAmount = amount || membership.price.amount;
       let paymentDescription = membership.name;
-      
+
       if (paymentType && membership.price.breakdown) {
         switch (paymentType) {
           case 'registration':
@@ -98,7 +97,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         handler: function (response: any) {
           // Payment successful
           console.log('Payment successful:', response);
-          
+
           // Redirect to success page with payment details
           const params = new URLSearchParams({
             payment_id: response.razorpay_payment_id,
@@ -107,7 +106,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             membership: membership.name,
             payment_type: paymentType || 'full',
           });
-          
+
           window.location.href = `/memberships/success?${params.toString()}`;
         },
         prefill: {
@@ -132,7 +131,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
 
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
-      
+
       paymentObject.on('payment.failed', function (response: any) {
         console.error('Payment failed:', response.error);
         alert('Payment failed. Please try again.');
@@ -171,7 +170,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           <div className="text-4xl font-bold mb-4" style={{ color: membership.color.primary }}>
             {membership.price.currency}{membership.price.amount.toLocaleString()}
           </div>
-          
+
           {/* Price Breakdown */}
           {membership.price.breakdown && (
             <div className="text-sm text-gray-600 space-y-2 bg-gray-50 p-4 rounded-lg">
@@ -254,7 +253,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         {membership.price.breakdown && (membership.id === 'core' || membership.id === 'industria') ? (
           <div className="space-y-3">
             <h4 className="font-semibold text-gray-900 mb-3">Choose Payment Option:</h4>
-            
+
             {/* Registration Fee */}
             {membership.price.breakdown.registration && (
               <button
@@ -365,8 +364,13 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             Secure payment powered by Razorpay
           </p>
           <div className="mt-2 space-y-1 text-xs text-gray-600">
-            <p>📞 {membership.id === 'core' ? '+91 80000 23786' : '+91 81606 79917'}</p>
-            <p>📩 info@bizcivitas.com</p>
+            {/* Contact Info for Core, Flagship and Industria */}
+                {(membership.id === 'core' || membership.id === 'flagship' || membership.id === 'industria') && (
+                  
+                    <p>📞 {membership.id === 'core' ? '+91 80000 23786' : (membership.id === 'flagship' ? '+91 80000 23786' : '+91 81606 79917')}</p>
+                    <p>📩 info@bizcivitas.com</p>
+                  
+                )}
           </div>
         </div>
       </div>
