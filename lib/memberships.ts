@@ -18,6 +18,7 @@ export interface MembershipPlan {
   benefits: string[];
   highlights: string[];
   eligibility?: string[];
+  meetingStructure?: string[];
   images: string[];
   color: {
     primary: string;
@@ -28,6 +29,61 @@ export interface MembershipPlan {
 }
 
 export const membershipPlans: MembershipPlan[] = [
+  {
+    id: 'core',
+    name: 'BizCivitas Core Membership',
+    slug: 'core',
+    tagline: 'Connect. Collaborate. Transform.',
+    description: 'The BizCivitas Core Membership offers driven entrepreneurs and professionals a transformative networking experience that combines business growth with travel, learning, and purposeful connections. More than just a membership—this is a movement.',
+    price: {
+      amount: 350000,
+      currency: '₹',
+      breakdown: {
+        registration: 25000,
+        annual: 300000,
+        meeting: 25000
+      }
+    },
+    features: [
+      'Targeted Networking: Join a curated network of purpose-driven professionals',
+      'Collaborative Learning: Engage in interactive, agenda-driven sessions designed to spark ideas and share strategies',
+      'Domestic & International Trips: Blend business with leisure (Bleisure) through annual travel retreats—4 days/3 nights domestic and 6 days/5 nights international',
+      'Personal Development: Access expert-led workshops, mastermind circles, and transformative events',
+      'Platform Access: Stay connected year-round with the exclusive BizCivitas platform',
+      'Structured networking with purpose-driven professionals',
+      'Annual domestic and international travel experiences',
+      'Expert-led workshops and mastermind circles',
+      'Year-round platform access for continuous connection',
+      'Transformative business growth opportunities'
+    ],
+    benefits: [
+      'Targeted Networking with curated professionals',
+      'Collaborative Learning through interactive sessions',
+      'Business + Leisure Travel Experiences',
+      'Personal Development through expert workshops',
+      'Exclusive Platform Access'
+    ],
+    highlights: [
+      'Structured meetings every alternate week for consistent growth',
+      'Annual travel retreats combining business with leisure',
+      'Pan-India community of driven entrepreneurs',
+      'Minimum 75% attendance requirement ensures meaningful engagement',
+      'Expert-led workshops and transformative events'
+    ],
+    meetingStructure: [
+      '20 sessions per year strategically planned',
+      '6 sessions before domestic trip',
+      '8 sessions between domestic and international trips', 
+      '6 sessions post international trip',
+      'Minimum 75% attendance required for meaningful engagement'
+    ],
+    images: ['/memberships/core-membership.jpg'],
+    color: {
+      primary: '#3b82f6',
+      secondary: '#dbeafe'
+    },
+    ctaText: 'Join Core Movement'
+  },
   {
     id: 'digital',
     name: 'Bizcivitas Digital Membership',

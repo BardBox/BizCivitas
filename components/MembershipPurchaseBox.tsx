@@ -32,7 +32,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
     });
   };
 
-  const handlePurchase = async () => {
+  const handlePurchase = async (paymentType?: 'registration' | 'annual' | 'meeting', amount?: number) => {
     setIsLoading(true);
     
     try {
@@ -45,17 +45,39 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         return;
       }
 
-      // Create order on backend (you'll need to implement this API endpoint)
+      // Determine payment amount and description
+      let paymentAmount = amount || membership.price.amount;
+      let paymentDescription = membership.name;
+      
+      if (paymentType && membership.price.breakdown) {
+        switch (paymentType) {
+          case 'registration':
+            paymentAmount = membership.price.breakdown.registration || 0;
+            paymentDescription = `${membership.name} - Registration Fee`;
+            break;
+          case 'annual':
+            paymentAmount = membership.price.breakdown.annual || 0;
+            paymentDescription = `${membership.name} - Annual Membership`;
+            break;
+          case 'meeting':
+            paymentAmount = membership.price.breakdown.meeting || 0;
+            paymentDescription = `${membership.name} - Meeting Fee`;
+            break;
+        }
+      }
+
+      // Create order on backend
       const orderResponse = await fetch('/api/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: membership.price.amount * 100, // Razorpay expects amount in paise
+          amount: paymentAmount * 100, // Razorpay expects amount in paise
           currency: 'INR',
           membershipId: membership.id,
           membershipName: membership.name,
+          paymentType: paymentType || 'full',
         }),
       });
 
@@ -67,11 +89,11 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
 
       // Razorpay options
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // You'll need to add this to your env
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'BizCivitas',
-        description: `${membership.name} Membership`,
+        description: paymentDescription,
         order_id: orderData.id,
         handler: function (response: any) {
           // Payment successful
@@ -83,6 +105,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             order_id: response.razorpay_order_id,
             signature: response.razorpay_signature,
             membership: membership.name,
+            payment_type: paymentType || 'full',
           });
           
           window.location.href = `/memberships/success?${params.toString()}`;
@@ -95,6 +118,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         notes: {
           membership_id: membership.id,
           membership_name: membership.name,
+          payment_type: paymentType || 'full',
         },
         theme: {
           color: membership.color.primary,
@@ -151,22 +175,22 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           {/* Price Breakdown */}
           {membership.price.breakdown && (
             <div className="text-sm text-gray-600 space-y-2 bg-gray-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-gray-800 mb-2">Investment Breakdown:</h4>
+              <h4 className="font-semibold text-gray-800 mb-2">💰 Membership Investment:</h4>
               {membership.price.breakdown.registration && (
                 <div className="flex justify-between">
-                  <span>Registration Fee:</span>
+                  <span>One-time Registration Fee:</span>
                   <span>₹{membership.price.breakdown.registration.toLocaleString()}</span>
                 </div>
               )}
               {membership.price.breakdown.annual && (
                 <div className="flex justify-between">
-                  <span>Annual Membership:</span>
+                  <span>Annual Membership Fee:</span>
                   <span>₹{membership.price.breakdown.annual.toLocaleString()}</span>
                 </div>
               )}
               {membership.price.breakdown.meeting && (
                 <div className="flex justify-between">
-                  <span>Meeting Fee:</span>
+                  <span>Annual Meeting Fee:</span>
                   <span>₹{membership.price.breakdown.meeting.toLocaleString()}</span>
                 </div>
               )}
@@ -226,35 +250,122 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           </ul>
         </div>
 
-        {/* Purchase Button */}
-        <button
-          onClick={handlePurchase}
-          disabled={isLoading}
-          className="w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ 
-            backgroundColor: membership.color.primary,
-            color: 'white'
-          }}
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center">
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Processing...
+        {/* Payment Buttons */}
+        {membership.price.breakdown && (membership.id === 'core' || membership.id === 'industria') ? (
+          <div className="space-y-3">
+            <h4 className="font-semibold text-gray-900 mb-3">Choose Payment Option:</h4>
+            
+            {/* Registration Fee */}
+            {membership.price.breakdown.registration && (
+              <button
+                onClick={() => handlePurchase('registration', membership.price.breakdown!.registration)}
+                disabled={isLoading}
+                className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2"
+                style={{ 
+                  borderColor: membership.color.primary,
+                  color: membership.color.primary,
+                  backgroundColor: 'white'
+                }}
+              >
+                Pay Registration Fee - ₹{membership.price.breakdown.registration.toLocaleString()}
+              </button>
+            )}
+
+            {/* Annual Membership Fee */}
+            {membership.price.breakdown.annual && (
+              <button
+                onClick={() => handlePurchase('annual', membership.price.breakdown!.annual)}
+                disabled={isLoading}
+                className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2"
+                style={{ 
+                  borderColor: membership.color.primary,
+                  color: membership.color.primary,
+                  backgroundColor: 'white'
+                }}
+              >
+                Pay Annual Membership - ₹{membership.price.breakdown.annual.toLocaleString()}
+              </button>
+            )}
+
+            {/* Meeting Fee */}
+            {membership.price.breakdown.meeting && (
+              <button
+                onClick={() => handlePurchase('meeting', membership.price.breakdown!.meeting)}
+                disabled={isLoading}
+                className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2"
+                style={{ 
+                  borderColor: membership.color.primary,
+                  color: membership.color.primary,
+                  backgroundColor: 'white'
+                }}
+              >
+                Pay Meeting Fee - ₹{membership.price.breakdown.meeting.toLocaleString()}
+              </button>
+            )}
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">or</span>
+              </div>
             </div>
-          ) : (
-            membership.ctaText
-          )}
-        </button>
+
+            {/* Full Payment */}
+            <button
+              onClick={() => handlePurchase()}
+              disabled={isLoading}
+              className="w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ 
+                backgroundColor: membership.color.primary,
+                color: 'white'
+              }}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </div>
+              ) : (
+                `Pay Full Amount - ₹${membership.price.amount.toLocaleString()}`
+              )}
+            </button>
+          </div>
+        ) : (
+          /* Single Payment Button for Digital */
+          <button
+            onClick={() => handlePurchase()}
+            disabled={isLoading}
+            className="w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ 
+              backgroundColor: membership.color.primary,
+              color: 'white'
+            }}
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </div>
+            ) : (
+              membership.ctaText
+            )}
+          </button>
+        )}
 
         <div className="mt-4 text-center">
           <p className="text-xs text-gray-500">
             Secure payment powered by Razorpay
           </p>
           <div className="mt-2 space-y-1 text-xs text-gray-600">
-            <p>📞 +91 81606 79917</p>
+            <p>📞 {membership.id === 'core' ? '+91 80000 23786' : '+91 81606 79917'}</p>
             <p>📩 info@bizcivitas.com</p>
           </div>
         </div>
