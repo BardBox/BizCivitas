@@ -15,7 +15,9 @@ body{
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Brand Colors */
+  --color-blue-500: #4A62AD;
   --color-mint-500: oklch(0.72 0.11 178);
+  --color-orange-500 : #F99D1C;
   --color-flat-bg: #f8fafc;
   --color-flat-surface: #ffffff;
   --color-flat-surface-alt: #f1f5f9;
@@ -29,7 +31,7 @@ body{
   --color-flat-btn-success: #22c55e;
   --color-flat-btn-warning: #f59e0b;
   --color-flat-btn-danger: #ef4444;
-  
+
 
   /* Shadows */
   --shadow-flat-sm: 0 1px 3px rgba(0,0,0,0.1);

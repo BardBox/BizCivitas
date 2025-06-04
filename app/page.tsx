@@ -271,11 +271,11 @@ export default function HomePage() {
             />
             <FeaturesSection />
 
+            <InsightsSection />
           </div>
-        </section>
-        <InsightsSection />
-
         <LetsConnect />
+        </section>
+
       </div>
     </>
   );

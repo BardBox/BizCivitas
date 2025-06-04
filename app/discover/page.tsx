@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import TopSection from "@/components/TopSection";
 import ContentSection from "@/components/ContentSection";
 import Image from "next/image";
-
+import Card from "@/components/Card";
 export const metadata: Metadata = {
   title: "Discover BizCivitas - Explore Our Business Community",
   description: "Discover what makes BizCivitas unique. Explore our business community, networking opportunities, events, insights, and membership benefits that help turn visions into reality.",
@@ -45,6 +45,19 @@ export default function DiscoverPage() {
     },
   };
 
+  const title : string[] = ['Trust and Integrity', 'Authentic Networking Experience', 'Inclusive Development',
+    'Diversity and Inclusion', 'Innovation', 'Teamwork and Collaboration'
+  ]
+  const description : string[] = ['Building organic trust among members is essential. Our platform focuses on promoting transparency, ethical behavior, and honest communication to maintain a professional and reliable network.', 'A platform where genuine, lasting relationships through natural bonding and shared experiences are created, resulting in abundant opportunities for the business.', 'We believe that personal and professional development is the only way an individual can grow and develop the business and ensure inclusive contribution to society',
+    'Encouraging different perspectives and backgrounds contributes to a richer and more innovative network. Inclusion fosters a welcoming environment for people of various professions, industries, and cultures.', 'Growth is fueled by innovation – a journey of curated experience and continuous improvement motivates us to go the extra mile.', 'Our people – team, and members – are our strengths, and effective collaboration is the key to our success.'
+  ]
+  const title_2 : string[] = ['Explore Global Destinations', 'Connect with Like-Minded Professionals', 'Collaborate on Exciting Projects',
+    'Learn from Industry Experts'
+  ]
+  const description_2 : string[] = ['Curated trips blend adventure with meaningful opportunities.', 'Build genuine relationships with entrepreneurs, executives, and innovators.', 'Bring your ideas to life with talented peers across industries.',
+    'Gain mentorship and actionable insights from seasoned leaders.'
+  ]
+
   return (
     <>
       <script
@@ -67,34 +80,64 @@ export default function DiscoverPage() {
           backgroundColor="#EDEFE7"
         />
         <div className="max-w-[1440px] mx-auto px-4 py-8">
-          <h2 className="text-3xl font-bold text-center mb-6">Why Choose BizCivitas?</h2>
-          <p className="text-lg text-center mb-8">
-            At BizCivitas, we believe in the power of authentic connections and transformative experiences. Our platform is designed to help you build meaningful relationships, explore new opportunities, and grow your business in a supportive community.
-          </p>
-        <div className="w-full mx-auto px-4 py-8 flex flex-col md:flex-row gap-1 lg:gap-8 md:gap-2 items-center justify-center">
-          <Image
-            src="/discovery/1.svg"
-            alt="Discovery step 1"
-            width={0}
-            height={0}
-            className="w-auto h-auto max-w-full max-h-80 object-contain"
-          />
-          <Image
-            src="/discovery/2.svg"
-            alt="Discovery step 2"
-            width={0}
-            height={0}
-            className="w-auto h-auto max-w-full max-h-80 object-contain"
-          />
-          <Image
-            src="/discovery/3.svg"
-            alt="Discovery step 3"
-            width={0}
-            height={0}
-            className="w-auto h-auto max-w-full max-h-80 object-contain"
-          />
+
+          <div className="w-full mx-auto px-4 py-8 flex flex-col md:flex-row gap-1 lg:gap-8 md:gap-2 items-center justify-center">
+            <Image
+              src="/discovery/1.svg"
+              alt="Discovery step 1"
+              width={0}
+              height={0}
+              className="w-auto h-auto max-w-full max-h-80 object-contain"
+            />
+            <Image
+              src="/discovery/2.svg"
+              alt="Discovery step 2"
+              width={0}
+              height={0}
+              className="w-auto h-auto max-w-full max-h-80 object-contain"
+            />
+            <Image
+              src="/discovery/3.svg"
+              alt="Discovery step 3"
+              width={0}
+              height={0}
+              className="w-auto h-auto max-w-full max-h-80 object-contain"
+            />
+          </div>
         </div>
+        <div className="max-w-[1440px] mx-auto px-4 py-8 flex items-center justify-center flex-col gap-10">
+          <h3 className="text-5xl font-semibold text-orange-500">Core Values of Bizcivitas</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {title.map((i, index) => (
+              <Card
+                key={i}
+                title={`${i}`}
+                description={`${description[index]}.`}
+                logo={`/discovery/d${index+1}_1.svg`}
+                direction="column"
+                imageAlt={`Discovery step ${i}`}
+                className="w-full align-start justify-start"
+              />
+            ))}
+          </div>
         </div>
+        <div className="max-w-[1440px] mx-auto px-4 py-8 flex items-center justify-center flex-col gap-10">
+          <h3 className="text-5xl font-semibold text-blue-500">Discover the Power of Experiential Networking</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            {title_2.map((i, index) => (
+              <Card
+                key={i}
+                title={`${i}`}
+                description={`${description[index]}.`}
+                logo={`/discovery/d${index+1}_2.svg`}
+                direction="row"
+                imageAlt={`Discovery step ${i}`}
+                className="w-full p-12"
+              />
+            ))}
+          </div>
+        </div>
+
       </div>
     </>
   );
