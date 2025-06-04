@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +6,7 @@ import { getMembershipBySlug, getAllMemberships } from "@/lib/memberships";
 import MembershipPurchaseBox from "@/components/MembershipPurchaseBox";
 import MembershipImageGallery from "@/components/MembershipImageGallery";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "@/components/Icons";
+import { Check } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -114,7 +114,7 @@ export default async function MembershipPage({ params }: PageProps) {
                     Total Investment
                   </div>
                 </div>
-                
+
                 {/* Contact Info for all memberships */}
                 <div className="mt-6 space-y-2 text-white/90">
                   <p className="flex items-center">
@@ -170,13 +170,11 @@ export default async function MembershipPage({ params }: PageProps) {
                     {membership.benefits.map((benefit, index) => (
                       <li key={index} className="flex items-start">
                         <div 
-                          className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
-                          style={{ backgroundColor: membership.color.primary }}
-                        >
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
+                            className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
+                            style={{ backgroundColor: membership.color.primary }}
+                          >
+                            <Check className="w-4 h-4 text-white" />
+                          </div>
                         <span className="text-gray-700 text-lg">{benefit}</span>
                       </li>
                     ))}
@@ -221,9 +219,7 @@ export default async function MembershipPage({ params }: PageProps) {
                             className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
                             style={{ backgroundColor: membership.color.primary }}
                           >
-                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
+                            <Check className="w-4 h-4 text-white" />
                           </div>
                           <span className="text-gray-700">{feature}</span>
                         </li>
@@ -261,9 +257,7 @@ export default async function MembershipPage({ params }: PageProps) {
                             className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
                             style={{ backgroundColor: membership.color.primary }}
                           >
-                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
+                            <Check className="w-4 h-4 text-white" />
                           </div>
                           <span className="text-gray-700">{requirement}</span>
                         </li>
