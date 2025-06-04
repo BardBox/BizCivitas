@@ -148,23 +148,21 @@ export default async function EventPage({ params }: PageProps) {
         {/* Hero Video Section */}
         <section className="relative w-full h-screen overflow-hidden">
           <div className="absolute inset-0 w-full h-full">
-            <video
-              className="w-full h-full object-cover"
-              src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              controlsList="nodownload nofullscreen noremoteplayback"
-              disablePictureInPicture
-              preload="auto"
-              poster="/video-poster.jpg"
-              aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
-            />
+            {event.cover_url && (
+              <div className="h-screen relative">
+                <Image
+                  src={event.cover_url}
+                  alt={event.event_name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 66vw"
+                />
+              </div>
+            )}
           </div>
 
-          {/* Video Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.62)' }}>
             <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
               <div className="inline-flex items-center bg-blue-600/90 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
                 <svg
@@ -218,7 +216,7 @@ export default async function EventPage({ params }: PageProps) {
                 <EnhancedCTA href="/contact" variant="primary" size="lg">
                   Register Now
                 </EnhancedCTA>
-                <ShareButton 
+                <ShareButton
                   url={`https://bizcivitas.com/events/${event.slug}`}
                   title={event.event_name}
                   description={event.description}
@@ -283,8 +281,8 @@ export default async function EventPage({ params }: PageProps) {
                     {/* Image Gallery with Framer Motion Carousel */}
                     {event.image_urls && (
                       <ImageCarousel
-                        images={Array.isArray(event.image_urls) 
-                          ? event.image_urls 
+                        images={Array.isArray(event.image_urls)
+                          ? event.image_urls
                           : event.image_urls.split(",").map(url => url.trim()).filter(url => url.length > 0)}
                         eventName={event.event_name}
                       />
@@ -298,18 +296,18 @@ export default async function EventPage({ params }: PageProps) {
                         </h3>
                         <div className="space-y-6">
                           {(() => {
-                            const links = event.youtube_links instanceof Array 
-                              ? event.youtube_links 
+                            const links = event.youtube_links instanceof Array
+                              ? event.youtube_links
                               : event.youtube_links.split(",");
-                            
+
                             return links.map((youtubeLink, index) => {
-                              const linkStr = typeof youtubeLink === "string" 
-                                ? youtubeLink.trim() 
+                              const linkStr = typeof youtubeLink === "string"
+                                ? youtubeLink.trim()
                                 : String(youtubeLink).trim();
-                              
+
                               // Extract video ID from various YouTube URL formats
                               let videoId = '';
-                              
+
                               if (linkStr.includes('youtu.be/')) {
                                 videoId = linkStr.split('youtu.be/')[1]?.split('?')[0];
                               } else if (linkStr.includes('youtube.com/watch?v=')) {
@@ -317,9 +315,9 @@ export default async function EventPage({ params }: PageProps) {
                               } else if (linkStr.includes('youtube.com/embed/')) {
                                 videoId = linkStr.split('embed/')[1]?.split('?')[0];
                               }
-                              
+
                               if (!videoId) return null;
-                              
+
                               return (
                                 <div key={index} className="bg-gray-50 rounded-xl p-4">
                                   <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg bg-black">
@@ -453,7 +451,7 @@ export default async function EventPage({ params }: PageProps) {
                       Share this event
                     </p>
                     <div className="flex justify-center">
-                      <ShareButton 
+                      <ShareButton
                         url={`https://bizcivitas.com/events/${event.slug}`}
                         title={event.event_name}
                         description={event.description}

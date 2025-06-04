@@ -66,29 +66,34 @@ export default function DiscoverPage() {
           videoUrl="https://youtu.be/mT8QUb86B1w"
           backgroundColor="#EDEFE7"
         />
-
-        <div className="max-w-[1440px] mx-auto px-4 py-8 flex flex-col items-center justify-center">
+        <div className="max-w-[1440px] mx-auto px-4 py-8">
+          <h2 className="text-3xl font-bold text-center mb-6">Why Choose BizCivitas?</h2>
+          <p className="text-lg text-center mb-8">
+            At BizCivitas, we believe in the power of authentic connections and transformative experiences. Our platform is designed to help you build meaningful relationships, explore new opportunities, and grow your business in a supportive community.
+          </p>
+        <div className="w-full mx-auto px-4 py-8 flex flex-col md:flex-row gap-1 lg:gap-8 md:gap-2 items-center justify-center">
           <Image
             src="/discovery/1.svg"
             alt="Discovery step 1"
             width={0}
             height={0}
-            className="w-auto h-auto"
+            className="w-auto h-auto max-w-full max-h-80 object-contain"
           />
           <Image
             src="/discovery/2.svg"
             alt="Discovery step 2"
             width={0}
             height={0}
-            className="w-auto h-auto"
+            className="w-auto h-auto max-w-full max-h-80 object-contain"
           />
           <Image
             src="/discovery/3.svg"
             alt="Discovery step 3"
             width={0}
             height={0}
-            className="w-auto h-auto"
+            className="w-auto h-auto max-w-full max-h-80 object-contain"
           />
+        </div>
         </div>
       </div>
     </>
