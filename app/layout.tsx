@@ -6,15 +6,19 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import { Poppins } from "next/font/google";
+import { Raleway } from "next/font/google";
 
-const geistSans = Geist({
+const geistSans = Raleway({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = Raleway({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -148,7 +152,7 @@ export default function RootLayout({
         <Analytics />
           <SpeedInsights/>
         <Navbar />
-        <main className="min-h-screen">
+        <main className={`min-h-screen ${geistSans.className}`} >
           {children}
         </main>
         <Footer />
