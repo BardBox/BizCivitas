@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MembershipPlan } from "@/lib/memberships";
+import { PhoneIcon, EmailIcon, WebsiteIcon } from "./Icons";
 
 interface MembershipPurchaseBoxProps {
   membership: MembershipPlan;
@@ -366,9 +367,18 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           <div className="mt-2 space-y-1 text-xs text-gray-600">
             {/* Contact Info for all memberships */}
                 <div className="space-y-1 text-xs text-gray-600">
-                  <p>📞 {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}</p>
-                  <p>📩 info@bizcivitas.com</p>
-                  <p>🌐 www.bizcivitas.com</p>
+                  <p className="flex items-center justify-center">
+                    <PhoneIcon className="mr-2" size={14} />
+                    {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
+                  </p>
+                  <p className="flex items-center justify-center">
+                    <EmailIcon className="mr-2" size={14} />
+                    info@bizcivitas.com
+                  </p>
+                  <p className="flex items-center justify-center">
+                    <WebsiteIcon className="mr-2" size={14} />
+                    www.bizcivitas.com
+                  </p>
                 </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { getMembershipBySlug, getAllMemberships } from "@/lib/memberships";
 import MembershipPurchaseBox from "@/components/MembershipPurchaseBox";
 import MembershipImageGallery from "@/components/MembershipImageGallery";
+import { PhoneIcon, EmailIcon, WebsiteIcon } from "@/components/Icons";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -117,15 +118,15 @@ export default async function MembershipPage({ params }: PageProps) {
                 {/* Contact Info for all memberships */}
                 <div className="mt-6 space-y-2 text-white/90">
                   <p className="flex items-center">
-                    <span className="mr-2">📞</span>
+                    <PhoneIcon className="mr-2" size={18} />
                     {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
                   </p>
                   <p className="flex items-center">
-                    <span className="mr-2">✉️</span>
+                    <EmailIcon className="mr-2" size={18} />
                     info@bizcivitas.com
                   </p>
                   <p className="flex items-center">
-                    <span className="mr-2">🌐</span>
+                    <WebsiteIcon className="mr-2" size={18} />
                     www.bizcivitas.com
                   </p>
                   {membership.id === 'digital' && (
@@ -355,13 +356,15 @@ export default async function MembershipPage({ params }: PageProps) {
                   href="tel:+918160679917"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors"
                 >
-                  📞 Call +91 81606 79917
+                  <PhoneIcon className="mr-2" size={18} />
+                  Call +91 81606 79917
                 </a>
                 <a
                   href="mailto:info@bizcivitas.com"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-green-600 text-green-600 font-semibold hover:bg-green-600 hover:text-white transition-colors"
                 >
-                  📩 Email Us
+                  <EmailIcon className="mr-2" size={18} />
+                  Email Us
                 </a>
               </div>
             </div>
@@ -383,17 +386,22 @@ export default async function MembershipPage({ params }: PageProps) {
                   href="tel:+918160679917"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
                 >
-                  📞 Call +91 81606 79917
+                  <PhoneIcon className="mr-2" size={18} />
+                  Call +91 81606 79917
                 </a>
                 <a
                   href="mailto:info@bizcivitas.com"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-orange-600 text-orange-600 font-semibold hover:bg-orange-600 hover:text-white transition-colors"
                 >
-                  📩 Email Us
+                  <EmailIcon className="mr-2" size={18} />
+                  Email Us
                 </a>
               </div>
               <div className="text-gray-600">
-                <p className="mb-2">🌐 www.bizcivitas.com</p>
+                <p className="mb-2 flex items-center justify-center">
+                  <WebsiteIcon className="mr-2" size={16} />
+                  www.bizcivitas.com
+                </p>
                 <p>Follow us: Instagram | LinkedIn | Facebook | YouTube</p>
               </div>
             </div>
