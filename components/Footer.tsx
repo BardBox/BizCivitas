@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const footerLinks = [
   { name: 'Home', href: '/' },
@@ -28,13 +28,13 @@ const services = [
 
 const greenRoutes = ['/discover', '/insights', '/memberships', '/corporate-networking', '/privacy', '/terms'];
 
-const greenBg = '#5062CF';
+const greenBg = '#50C26F';
 const purpleBg = '#6E81BD';
 
 
 export default function Footer() {
-  const router = useRouter();
-  const shouldUseGreen = greenRoutes.includes(router.pathname);
+  const pathname = usePathname();
+  const shouldUseGreen = greenRoutes.includes(pathname);
   const bgColor = shouldUseGreen ? greenBg : purpleBg;
 
   return (
