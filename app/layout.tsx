@@ -6,9 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
-
 const geistSans = Raleway({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -146,8 +145,7 @@ export default function RootLayout({
             src="https://www.googletagmanager.com/ns.html?id=GTM-M85WZNMH"
             height="0" 
             width="0" 
-            style={{display: 'none', visibility: 'hidden'}}
-          />
+            />
         </noscript>
         <Analytics />
           <SpeedInsights/>
