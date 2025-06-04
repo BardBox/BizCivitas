@@ -366,7 +366,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           <div className="mt-2 space-y-1 text-xs text-gray-600">
             {/* Contact Info for all memberships */}
                 <div className="space-y-1 text-xs text-gray-600">
-                  <p>📞 {membership.id === 'digital' ? '+91 81606 79917' : (membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786')}</p>
+                  <p>📞 {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}</p>
                   <p>📩 info@bizcivitas.com</p>
                   <p>🌐 www.bizcivitas.com</p>
                 </div>

@@ -118,7 +118,7 @@ export default async function MembershipPage({ params }: PageProps) {
                 <div className="mt-6 space-y-2 text-white/90">
                   <p className="flex items-center">
                     <span className="mr-2">📞</span>
-                    {membership.id === 'digital' ? '+91 81606 79917' : (membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786')}
+                    {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
                   </p>
                   <p className="flex items-center">
                     <span className="mr-2">✉️</span>
@@ -239,10 +239,10 @@ export default async function MembershipPage({ params }: PageProps) {
                   </div>
                 </div>
 
-                {/* Eligibility Requirements (for Industria) */}
+                {/* Who Should Join (for Industria) */}
                 {membership.eligibility && (
                   <div className="mb-12">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Eligibility Requirements</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Who Should Join?</h3>
                     <ul className="space-y-4">
                       {membership.eligibility.map((requirement, index) => (
                         <li key={index} className="flex items-start">
@@ -258,6 +258,45 @@ export default async function MembershipPage({ params }: PageProps) {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {/* Leadership Opportunities (for Industria) */}
+                {membership.id === 'industria' && (
+                  <div className="mb-12">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Leadership Opportunities</h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div 
+                        className="p-6 rounded-lg border-l-4"
+                        style={{ 
+                          borderLeftColor: membership.color.primary,
+                          backgroundColor: membership.color.secondary 
+                        }}
+                      >
+                        <h4 className="font-semibold text-gray-900 mb-2">Regional Chapter</h4>
+                        <p className="text-gray-700">Launch your own regional Bizcivitas chapter</p>
+                      </div>
+                      <div 
+                        className="p-6 rounded-lg border-l-4"
+                        style={{ 
+                          borderLeftColor: membership.color.primary,
+                          backgroundColor: membership.color.secondary 
+                        }}
+                      >
+                        <h4 className="font-semibold text-gray-900 mb-2">Growth Council</h4>
+                        <p className="text-gray-700">Join the Civitas Growth Council</p>
+                      </div>
+                      <div 
+                        className="p-6 rounded-lg border-l-4"
+                        style={{ 
+                          borderLeftColor: membership.color.primary,
+                          backgroundColor: membership.color.secondary 
+                        }}
+                      >
+                        <h4 className="font-semibold text-gray-900 mb-2">Community Growth</h4>
+                        <p className="text-gray-700">Earn by leading industrial community growth</p>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -324,6 +363,38 @@ export default async function MembershipPage({ params }: PageProps) {
                 >
                   📩 Email Us
                 </a>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Special message for Industria membership */}
+        {membership.id === 'industria' && (
+          <section className="py-12 bg-gray-50">
+            <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Apply now or schedule a discovery call
+              </h2>
+              <p className="text-xl text-gray-600 mb-6">
+                Join an exclusive network of industrial leaders and accelerate your business growth.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+                <a
+                  href="tel:+918160679917"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors"
+                >
+                  📞 Call +91 81606 79917
+                </a>
+                <a
+                  href="mailto:info@bizcivitas.com"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-orange-600 text-orange-600 font-semibold hover:bg-orange-600 hover:text-white transition-colors"
+                >
+                  📩 Email Us
+                </a>
+              </div>
+              <div className="text-gray-600">
+                <p className="mb-2">🌐 www.bizcivitas.com</p>
+                <p>Follow us: Instagram | LinkedIn | Facebook | YouTube</p>
               </div>
             </div>
           </section>

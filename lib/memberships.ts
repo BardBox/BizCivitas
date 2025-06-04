@@ -214,18 +214,19 @@ export const membershipPlans: MembershipPlan[] = [
       'Earn by leading industrial community growth'
     ],
     benefits: [
-      'Qualified Circle of verified industrial leaders',
-      'Referral-Driven Networking with 20+ annual meetings',
-      'Brand Visibility and thought leadership',
-      'Industrial Delegations to global markets',
-      'Knowledge Conclaves and learning tools',
-      'Leadership Opportunities in community growth'
+      'Qualified Circle: Connect only with verified industrialists, decision-makers, and B2B business owners',
+      'Referral-Driven Networking: 20+ business-first meetings annually, focused on structured lead sharing',
+      'Brand Visibility: Spotlight sessions, recognition, and thought leadership within the community',
+      'Industrial Delegations: Join domestic and global visits to expos, plants, and JV partners (India, UAE, U.S.)',
+      'Knowledge Conclaves: Stay ahead with insights on trends, tech, and industrial innovation',
+      'Learning Tools: Business education tailored for industrial entrepreneurs'
     ],
     highlights: [
       'Exclusive networking for ₹5 Cr+ turnover businesses',
       'High-value referral meetings and lead sharing',
       'Global industrial tours and expansion opportunities',
-      'Leadership and chapter development opportunities'
+      'Leadership and chapter development opportunities',
+      '₹3,50,000 total investment – for priceless returns on relationships'
     ],
     eligibility: [
       'Industrial business owners, partners, or CXOs',
