@@ -140,7 +140,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-[#FFFFFF] text-[#6E81BD] rounded-md font-medium text-sm hover:bg-gray-100 transition-colors"
+                  className="mx-2 px-6 py-2 bg-white text-orange-500 rounded-md font-bold text-sm hover:bg-gray-100 transition-colors"
                   aria-label="Subscribe to BizCivitas Newsletter"
                 >
                   Subscribe
@@ -185,7 +185,7 @@ export default function Footer() {
           </div>
 
           {/* Footer Navigation */}
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm mt-8" aria-label="Footer Navigation">
+          <nav className="border-t border-white/20 mt-8 pt-8  flex flex-wrap gap-x-6 gap-y-2 text-md font-semibold mt-8" aria-label="Footer Navigation">
             {footerLinks.map((link, index) => (
               <Link
                 key={index}
@@ -208,7 +208,7 @@ export default function Footer() {
               <nav className="flex space-x-4" aria-label="Social Media Links">
                 <a
                   href="https://x.com/bizcivitas"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white/80 hover:text-white transition-colors"
                   aria-label="Follow BizCivitas on X"
                   rel="noopener noreferrer"
                 >
@@ -218,7 +218,7 @@ export default function Footer() {
                 </a>
                 <a
                   href="https://www.instagram.com/bizcivitas"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white/80 hover:text-white transition-colors"
                   aria-label="Follow BizCivitas on Instagram"
                   rel="noopener noreferrer"
                 >
@@ -228,7 +228,7 @@ export default function Footer() {
                 </a>
                 <a
                   href="https://www.linkedin.com/company/bizcivitas"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white/80 hover:text-white transition-colors"
                   aria-label="Connect with BizCivitas on LinkedIn"
                   rel="noopener noreferrer"
                 >
@@ -238,7 +238,7 @@ export default function Footer() {
                 </a>
                 <a
                   href="https://www.facebook.com/bizcivitas"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white/80 hover:text-white transition-colors"
                   aria-label="Follow BizCivitas on Facebook"
                   rel="noopener noreferrer"
                 >

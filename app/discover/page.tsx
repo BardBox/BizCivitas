@@ -3,6 +3,7 @@ import TopSection from "@/components/TopSection";
 import ContentSection from "@/components/ContentSection";
 import Image from "next/image";
 import Card from "@/components/Card";
+import {LetsConnect2} from "@/components/Home/LetsConnect";
 export const metadata: Metadata = {
   title: "Discover BizCivitas - Explore Our Business Community",
   description: "Discover what makes BizCivitas unique. Explore our business community, networking opportunities, events, insights, and membership benefits that help turn visions into reality.",
@@ -45,17 +46,23 @@ export default function DiscoverPage() {
     },
   };
 
-  const title : string[] = ['Trust and Integrity', 'Authentic Networking Experience', 'Inclusive Development',
+  const title: string[] = ['Trust and Integrity', 'Authentic Networking Experience', 'Inclusive Development',
     'Diversity and Inclusion', 'Innovation', 'Teamwork and Collaboration'
   ]
-  const description : string[] = ['Building organic trust among members is essential. Our platform focuses on promoting transparency, ethical behavior, and honest communication to maintain a professional and reliable network.', 'A platform where genuine, lasting relationships through natural bonding and shared experiences are created, resulting in abundant opportunities for the business.', 'We believe that personal and professional development is the only way an individual can grow and develop the business and ensure inclusive contribution to society',
+  const description: string[] = ['Building organic trust among members is essential. Our platform focuses on promoting transparency, ethical behavior, and honest communication to maintain a professional and reliable network.', 'A platform where genuine, lasting relationships through natural bonding and shared experiences are created, resulting in abundant opportunities for the business.', 'We believe that personal and professional development is the only way an individual can grow and develop the business and ensure inclusive contribution to society',
     'Encouraging different perspectives and backgrounds contributes to a richer and more innovative network. Inclusion fosters a welcoming environment for people of various professions, industries, and cultures.', 'Growth is fueled by innovation – a journey of curated experience and continuous improvement motivates us to go the extra mile.', 'Our people – team, and members – are our strengths, and effective collaboration is the key to our success.'
   ]
-  const title_2 : string[] = ['Explore Global Destinations', 'Connect with Like-Minded Professionals', 'Collaborate on Exciting Projects',
+  const title_2: string[] = ['Explore Global Destinations', 'Connect with Like-Minded Professionals', 'Collaborate on Exciting Projects',
     'Learn from Industry Experts'
   ]
-  const description_2 : string[] = ['Curated trips blend adventure with meaningful opportunities.', 'Build genuine relationships with entrepreneurs, executives, and innovators.', 'Bring your ideas to life with talented peers across industries.',
+  const description_2: string[] = ['Curated trips blend adventure with meaningful opportunities.', 'Build genuine relationships with entrepreneurs, executives, and innovators.', 'Bring your ideas to life with talented peers across industries.',
     'Gain mentorship and actionable insights from seasoned leaders.'
+  ]
+  const title_3: string[] = ['Curated Experiences', 'Accelerated Networking', 'Global Reach',
+    'Expert Facilitation', 'Follow-Up Support'
+  ]
+  const description_3: string[] = ['Carefully crafted itineraries combine adventure and professional growth.', 'Build deeper connections in shorter, impactful time frames.', 'Expand your network with peers from around the world.',
+    'Discussions and collaborations are guided by experienced professionals.', 'Maintain and grow your connections beyond the trips.'
   ]
 
   return (
@@ -113,7 +120,7 @@ export default function DiscoverPage() {
                 key={i}
                 title={`${i}`}
                 description={`${description[index]}.`}
-                logo={`/discovery/d${index+1}_1.svg`}
+                logo={`/discovery/d${index + 1}_1.svg`}
                 direction="column"
                 imageAlt={`Discovery step ${i}`}
                 className="w-full align-start justify-start"
@@ -128,16 +135,38 @@ export default function DiscoverPage() {
               <Card
                 key={i}
                 title={`${i}`}
-                description={`${description[index]}.`}
-                logo={`/discovery/d${index+1}_2.svg`}
+                description={`${description_2[index]}.`}
+                logo={`/discovery/d${index + 1}_2.svg`}
                 direction="row"
                 imageAlt={`Discovery step ${i}`}
                 className="w-full p-12"
               />
             ))}
           </div>
+
+
+        </div>
+        
+        <div className="max-w-[1440px] mx-auto px-4 py-8 flex items-center justify-center flex-col gap-10">
+          <h3 className="text-5xl font-semibold text-green-500">Why Bizcivitas</h3>
+          <div className="flex flex-wrap justify-center gap-6">
+            {title_3.map((i, index) => (
+              <Card
+                key={i}
+                title={`${i}`}
+                description={`${description_3[index]}.`}
+                logo={`/discovery/d${index + 1}_3.svg`}
+                direction="column"
+                columnCenter={true}
+                imageAlt={`Discovery step ${i}`}
+                className="max-w-[400px] w-full p-6 flex flex-col items-center justify-center"
+              />
+            ))}
+          </div>
         </div>
 
+          
+        <LetsConnect2 />
       </div>
     </>
   );

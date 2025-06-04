@@ -182,6 +182,17 @@ export default async function InsightsPage({
           backgroundImage="/insights/heroInsights.png"
         />
 
+        {/* Mobile Search Bar - Only visible on mobile, positioned at top */}
+        <div className="lg:hidden px-4 sm:px-6 py-4 bg-white border-b border-gray-200">
+          <Suspense fallback={<div className="animate-pulse bg-gray-200 h-16 rounded-lg"></div>}>
+            <SearchAndRecentPosts 
+              recentPosts={recentPosts}
+              currentSearch={searchQuery}
+              currentTopic={selectedTopic}
+            />
+          </Suspense>
+        </div>
+
         {/* Topic Filter Tabs */}
         <section className="py-8 bg-white border-b border-gray-200">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -223,14 +234,14 @@ export default async function InsightsPage({
         </section>
 
         {/* Main Content with Sidebar */}
-        <section className="py-16">
+        <section className="py-8 lg:py-16">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Main Content Area */}
               <div className="flex-1">
                 {/* Results Summary */}
-                <header className="mb-8 text-center lg:text-left">
-                  <p className="text-gray-600">
+                <header className="mb-6 lg:mb-8 text-center lg:text-left">
+                  <p className="text-gray-600 text-sm lg:text-base">
                     {searchQuery ? (
                       <>
                         Showing {filteredBlogs.length} results for "{searchQuery}"
@@ -244,7 +255,7 @@ export default async function InsightsPage({
                   </p>
                 </header>
 
-                <main className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <main className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                   {filteredBlogs.length === 0 ? (
                     <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
                       <svg
@@ -326,7 +337,7 @@ export default async function InsightsPage({
                                   </svg>
                                 </div>
                               </div>
-                              <h3>{blog.topic_name}</h3>
+                              <h3>{blog.topic_name || "Untitled Article"}</h3>
                               {blog.description && <p>{blog.description}</p>}
                               <div className="meta-info">
                                 <div>
@@ -348,8 +359,8 @@ export default async function InsightsPage({
                 </main>
               </div>
 
-              {/* Sticky Sidebar */}
-              <aside className="lg:w-80">
+              {/* Desktop Sidebar - Hidden on mobile */}
+              <aside className="hidden lg:block lg:w-80">
                 <Suspense fallback={<div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>}>
                   <SearchAndRecentPosts
                     recentPosts={recentPosts}

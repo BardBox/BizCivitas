@@ -90,7 +90,7 @@
   height: 62px;
   border-radius: 9999px;
   transition: all 0.2s;
-  transform: translate(20px, -50px);
+  transform: translate(0px, -50px);
   border: 5px white solid;
 }
 

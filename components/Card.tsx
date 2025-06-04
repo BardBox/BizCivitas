@@ -1,11 +1,9 @@
-import Image from 'next/image';
-import React from 'react';
-
 const Card = ({ 
-  logo = 'https://via.placeholder.com/150', // Default logo URL
+  logo = '',
   title = "Default Title",
   description = "Default description text",
   direction = "row", // "row" or "column"
+  columnCenter = false, // centers everything when direction is "column"
   titleColor = "#1f2937",
   descriptionColor = "#6b7280",
   className = "",
@@ -13,23 +11,23 @@ const Card = ({
 }) => {
   return (
     <div 
-      className={`bg-white rounded-lg flex shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow duration-300 ${className}`}
+      className={`bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow duration-300 ${className}`}
       {...props}
     >
-      <div className={`flex ${direction === "column" ? "flex-col" : "flex-row"} gap-4 items-start h-full`}>
+      <div className={`flex ${direction === "column" ? "flex-col" : "flex-row"} gap-4 ${direction === "column" && columnCenter ? "items-center text-center" : "items-start"} h-full`}>
         {/* Logo Section */}
-        <div className={`${direction === "column" ? "" : ""}`}>
+        <div className={`flex-shrink-0 ${direction === "column" && !columnCenter ? "self-center" : ""}`}>
           {logo ? (
             typeof logo === 'string' ? (
-              <Image 
+              <img 
                 src={logo} 
+                alt="Logo" 
                 width={direction === "column" ? 64 : 48}
                 height={direction === "column" ? 64 : 48}
-                alt="Logo" 
-                className={`${direction === "column" ? "w-16 h-16" : "w-12 h-12"}`}
+                className={`${direction === "column" ? "w-16 h-16" : "w-12 h-12"} object-contain rounded`}
               />
             ) : (
-              <div className={`${direction === "column" ? "w-16 h-16" : "w-12 h-12"} flex `}>
+              <div className={`${direction === "column" ? "w-16 h-16" : "w-12 h-12"} flex items-center justify-center`}>
                 {logo}
               </div>
             )
@@ -43,7 +41,7 @@ const Card = ({
         </div>
 
         {/* Content Section */}
-        <div className={`flex-1 min-w-0 ${direction === "column" ? "text-start" : ""}`}>
+        <div className={`flex-1 min-w-0 ${direction === "column" && !columnCenter ? "text-center" : ""}`}>
           <h3 
             className={`text-lg font-semibold mb-2 leading-tight`}
             style={{ color: titleColor }}
@@ -61,5 +59,4 @@ const Card = ({
     </div>
   );
 };
-
 export default Card;

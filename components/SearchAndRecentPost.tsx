@@ -108,10 +108,10 @@ export default function SearchAndRecentPosts({
             
             <button
               type="submit"
-              className="w-full bg-blue-500 flex align-center justify-center gap-4 text-white py-6 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200 font-bold text-lg"
+              className="w-full bg-blue-500 flex align-center justify-center gap-4 text-white py-4 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200 font-bold text-lg"
             >
               <svg
-                  className="w-4 text-white"
+                  className="w-6 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
