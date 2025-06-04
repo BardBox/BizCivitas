@@ -1,22 +1,36 @@
 import type { Metadata } from "next";
-import Link from 'next/link';
-import { theme } from '@/lib/theme';
-import ContentSection, { ContentSection2 } from '@/components/ContentSection';
-import EnhancedCTA from '@/components/EnhancedCTA';
+import Link from "next/link";
+import { theme } from "@/lib/theme";
+import ContentSection, { ContentSection2 } from "@/components/ContentSection";
+import EnhancedCTA from "@/components/EnhancedCTA";
 import Image from "next/image";
 import FeaturesSection from "@/components/Home/WhyChooseUs";
 import InsightsSection from "@/components/Home/InsightsSection";
 import LetsConnect from "@/components/Home/LetsConnect";
 import Footer from "@/components/Footer";
 
-
 export const metadata: Metadata = {
-  title: "BizCivitas - Where Ventures and Voyages Intersect | Business Networking Platform",
-  description: "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations. Join BizCivitas for networking, events, and business growth opportunities.",
-  keywords: ["BizCivitas", "business networking", "ventures", "voyages", "business travel", "entrepreneur networking", "corporate networking", "business community", "professional development", "business collaborations", "networking events"],
+  title:
+    "BizCivitas - Where Ventures and Voyages Intersect | Business Networking Platform",
+  description:
+    "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations. Join BizCivitas for networking, events, and business growth opportunities.",
+  keywords: [
+    "BizCivitas",
+    "business networking",
+    "ventures",
+    "voyages",
+    "business travel",
+    "entrepreneur networking",
+    "corporate networking",
+    "business community",
+    "professional development",
+    "business collaborations",
+    "networking events",
+  ],
   openGraph: {
     title: "BizCivitas - Where Ventures and Voyages Intersect",
-    description: "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.",
+    description:
+      "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.",
     type: "website",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
     images: [
@@ -39,7 +53,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BizCivitas - Where Ventures and Voyages Intersect",
-    description: "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.",
+    description:
+      "The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.",
   },
 };
 
@@ -47,38 +62,41 @@ export default function HomePage() {
   // Content section configuration - change these variables to update content
   const networkingSectionData = {
     title: "The New Era Of Networking",
-    description: "When We Step Out Of Our Daily Routines, We Open Up To New Ideas, Fresh Perspectives, And Meaningful Relationships. Bizcivitas Blends Professional Networking With The Thrill Of Exploring New Destinations. Through Curated Trips, Small Group Experiences, And Guided Discussions, Our Journeys Encourage You To Connect On A Deeper Level, We Create A Space Where Business Bonds Are Formed Naturally, As We Travel Together, Learn Together, And Grow Together.",
+    description:
+      "When We Step Out Of Our Daily Routines, We Open Up To New Ideas, Fresh Perspectives, And Meaningful Relationships. Bizcivitas Blends Professional Networking With The Thrill Of Exploring New Destinations. Through Curated Trips, Small Group Experiences, And Guided Discussions, Our Journeys Encourage You To Connect On A Deeper Level, We Create A Space Where Business Bonds Are Formed Naturally, As We Travel Together, Learn Together, And Grow Together.",
     buttonText: "Explore US",
     buttonHref: "/discover",
     videoUrl: "https://youtu.be/xF3iaSXG8LY", // Replace with actual image path
     videoTitle: "Professional networking event with diverse business people",
     imagePosition: "right" as const,
-    backgroundColor: "bg-flat-surface"
+    backgroundColor: "bg-flat-surface",
   };
-  // ----------------------------------------------------------------- 
+  // -----------------------------------------------------------------
   const networkingSectionData2 = {
     title: "Inspiration Of BizCivitas",
-    description: "Three entrepreneurs, bound by a passion for travel, discovered that the best ideas and relationships are born on the road. From campﬁre conversations to boardroom strategies, they saw the power of shared experiences to inspire growth. This passion became BizCivitas a platform that blends the thrill of adventure with the strategic potential of networking. Here, professionals from all walks of life connect, collaborate, and succeed through immersive journeys. BizCivitas turns every adventure into an opportunity for lasting growth.",
+    description:
+      "Three entrepreneurs, bound by a passion for travel, discovered that the best ideas and relationships are born on the road. From campﬁre conversations to boardroom strategies, they saw the power of shared experiences to inspire growth. This passion became BizCivitas a platform that blends the thrill of adventure with the strategic potential of networking. Here, professionals from all walks of life connect, collaborate, and succeed through immersive journeys. BizCivitas turns every adventure into an opportunity for lasting growth.",
     buttonText: "Explore US",
     buttonHref: "/discover",
     videoUrl: "/imgHome.svg", // Replace with actual image path
     videoTitle: "Professional networking event with diverse business people",
     imagePosition: "left" as const,
-    backgroundColor: "bg-flat-surface"
+    backgroundColor: "bg-flat-surface",
   };
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "BizCivitas",
-    "description": "Where ventures and voyages intersect. Business networking platform for events, business travel, and professional growth through meaningful collaborations.",
-    "url": "https://bizcivitas.com",
-    "logo": "https://bizcivitas.com/logo.png",
-    "slogan": "Where Ventures and Voyages Intersect",
-    "sameAs": [
+    name: "BizCivitas",
+    description:
+      "Where ventures and voyages intersect. Business networking platform for events, business travel, and professional growth through meaningful collaborations.",
+    url: "https://bizcivitas.com",
+    logo: "https://bizcivitas.com/logo.png",
+    slogan: "Where Ventures and Voyages Intersect",
+    sameAs: [
       "https://linkedin.com/company/bizcivitas",
-      "https://twitter.com/bizcivitas"
-    ]
+      "https://twitter.com/bizcivitas",
+    ],
   };
 
   return (
@@ -109,33 +127,53 @@ export default function HomePage() {
           </div>
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">  <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl">
-            <div className="mb-8">
-              <p className="text-5xl font-light mb-4 tracking-wider italic" >
-                Welcome to BizCivitas !
+          <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
+            {" "}
+            <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl">
+              <div className="mb-8">
+                <p className="text-5xl font-light mb-4 tracking-wider italic">
+                  Welcome to BizCivitas !
+                </p>
+                <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                  Where <span className="text-flat-btn-primary">Ventures</span>{" "}
+                  and <span className="text-flat-btn-primary">Voyages</span>{" "}
+                  Intersect
+                </h1>
+              </div>
+              <p className="text-xl lg:text-2xl mb-12 text-white max-w-4xl mx-auto leading-relaxed">
+                The world is your network. Expand your business by exploring new
+                destinations and forming meaningful collaborations.
               </p>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                Where <span className="text-flat-btn-primary">Ventures</span> and <span className="text-flat-btn-primary">Voyages</span> Intersect
-              </h1>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <EnhancedCTA href="/events" variant="primary" size="lg">
+                  Join Us
+                </EnhancedCTA>
+                <EnhancedCTA
+                  href="/insights"
+                  variant="outline"
+                  size="lg"
+                  className="border-white text-white hover:bg-white hover:text-gray-900"
+                >
+                  Learn More
+                </EnhancedCTA>
+              </div>
             </div>
-            <p className="text-xl lg:text-2xl mb-12 text-white max-w-4xl mx-auto leading-relaxed">
-              The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <EnhancedCTA href="/events" variant="primary" size="lg">
-                Join Us
-              </EnhancedCTA>
-              <EnhancedCTA href="/insights" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-900">
-                Learn More
-              </EnhancedCTA>
-            </div>
-          </div>
           </div>
 
           {/* Scroll Indicator */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-flat-text-inverse animate-bounce">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
             </svg>
           </div>
         </section>
@@ -155,7 +193,6 @@ export default function HomePage() {
         {/* Features Section */}
         <section className=" bg-flat-surface">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-
             <div className="relative text-center mb-16 py-12  w-[100vw] rounded-2xl bg-[#FEF5E8] shadow-sm">
               {/* Decorative Images */}
               <div className="absolute -translate-y-12 z-10 w-full h-full">
@@ -181,7 +218,8 @@ export default function HomePage() {
                   Unleash Your Potential Through Shared Adventures
                 </h2>
                 <p className="text-lg text-flat-text-secondary max-w-2xl mx-auto flat-text-body leading-relaxed">
-                  Step out of your routine and into extraordinary journeys where connections inspire growth.
+                  Step out of your routine and into extraordinary journeys where
+                  connections inspire growth.
                 </p>
               </header>
 
@@ -203,7 +241,8 @@ export default function HomePage() {
                     Curated for Success
                   </h3>
                   <p className="text-sm text-flat-text-secondary leading-relaxed max-w-xs">
-                    Every trip is thoughtfully designed to foster authentic connections and professional growth.
+                    Every trip is thoughtfully designed to foster authentic
+                    connections and professional growth.
                   </p>
                 </article>
 
@@ -228,7 +267,8 @@ export default function HomePage() {
                     Business Happens on the Road
                   </h3>
                   <p className="text-sm text-flat-text-secondary leading-relaxed max-w-xs">
-                    Forge meaningful business relationships through conversations sparked by shared experiences.
+                    Forge meaningful business relationships through
+                    conversations sparked by shared experiences.
                   </p>
                 </article>
 
@@ -253,7 +293,8 @@ export default function HomePage() {
                     Global Reach
                   </h3>
                   <p className="text-sm text-flat-text-secondary leading-relaxed max-w-xs mb-8">
-                    Connect with professionals worldwide and unlock opportunities across borders.
+                    Connect with professionals worldwide and unlock
+                    opportunities across borders.
                   </p>
                 </article>
               </div>
@@ -273,9 +314,8 @@ export default function HomePage() {
 
             <InsightsSection />
           </div>
-        <LetsConnect />
+          <LetsConnect />
         </section>
-
       </div>
     </>
   );

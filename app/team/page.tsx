@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "consulting directors",
     "business strategy experts",
     "innovation leaders",
-    "digital growth specialists"
+    "digital growth specialists",
   ],
   openGraph: {
     title: "Our Team | BizCivitas - Meet Our Business Experts & Leaders",
@@ -63,35 +63,40 @@ export default async function TeamPage() {
   const teamMembers = await getAllTeamMembers();
 
   // Group team members by position
-  const groupedMembers = teamMembers.reduce((groups, member) => {
-    const position = member.position || 'Other';
-    if (!groups[position]) {
-      groups[position] = [];
-    }
-    groups[position].push(member);
-    return groups;
-  }, {} as Record<string, typeof teamMembers>);
+  const groupedMembers = teamMembers.reduce(
+    (groups, member) => {
+      const position = member.position || "Other";
+      if (!groups[position]) {
+        groups[position] = [];
+      }
+      groups[position].push(member);
+      return groups;
+    },
+    {} as Record<string, typeof teamMembers>,
+  );
 
   // Define position order for display (matching the enum)
   const positionOrder = [
-    'Founder',
-    'Co-Founders',
-    'Consulting Directors',
-    'Core-Team-Members',
-    'Team-Member'
+    "Founder",
+    "Co-Founders",
+    "Consulting Directors",
+    "Core-Team-Members",
+    "Team-Member",
   ];
 
   // Display names for positions
   const positionDisplayNames: Record<string, string> = {
-    'Founder': 'Founders',
-    'Co-Founders': 'Founders',
-    'Consulting Directors': 'Consulting Directors',
-    'Core-Team-Members': 'Core Team Members',
-    'Team-Member': 'Team Members'
+    Founder: "Founders",
+    "Co-Founders": "Founders",
+    "Consulting Directors": "Consulting Directors",
+    "Core-Team-Members": "Core Team Members",
+    "Team-Member": "Team Members",
   };
 
   // Sort positions according to defined order
-  const sortedPositions = positionOrder.filter(position => groupedMembers[position]);
+  const sortedPositions = positionOrder.filter(
+    (position) => groupedMembers[position],
+  );
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -116,11 +121,8 @@ export default async function TeamPage() {
           name: member.company_name || "BizCivitas",
           logo: member.company_logo || member.company_logo_url,
         },
-        sameAs: [
-          member.linkedin_link,
-          member.website_link
-        ].filter(Boolean),
-        knowsAbout: member.leading_in_domain
+        sameAs: [member.linkedin_link, member.website_link].filter(Boolean),
+        knowsAbout: member.leading_in_domain,
       })),
     },
     breadcrumb: {
@@ -158,7 +160,8 @@ export default async function TeamPage() {
               Our Team
             </h1>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto ">
-              The world is your network. Expand your business by exploring new destinations and forming meaningful collaborations.
+              The world is your network. Expand your business by exploring new
+              destinations and forming meaningful collaborations.
             </p>
           </div>
         </header>
@@ -183,8 +186,11 @@ export default async function TeamPage() {
                     {/* Members Grid */}
                     <div className="flex flex-wrap justify-center items-start gap-8 lg:gap-10 max-w-7xl mx-auto">
                       {members.map((member) => (
-                        <article key={member.id} className="team-member-card group w-full max-w-[300px] flex-shrink-0">
-                          <Link 
+                        <article
+                          key={member.id}
+                          className="team-member-card group w-full max-w-[300px] flex-shrink-0"
+                        >
+                          <Link
                             href={`/team/${member.slug}`}
                             className="block h-full"
                             aria-label={`View ${member.name}'s profile`}
@@ -194,8 +200,10 @@ export default async function TeamPage() {
                               <div className="relative mb-4">
                                 <div className="relative w-[250px] team-member-img h-[250px] mx-auto rounded-full overflow-hidden">
                                   <Image
-                                    src={member.img_url || "/placeholder-team.jpg"}
-                                    alt={`${member.name} - ${member.designation} at ${member.company_name || 'BizCivitas'}`}
+                                    src={
+                                      member.img_url || "/placeholder-team.jpg"
+                                    }
+                                    alt={`${member.name} - ${member.designation} at ${member.company_name || "BizCivitas"}`}
                                     fill
                                     className="object-cover"
                                   />
@@ -213,7 +221,6 @@ export default async function TeamPage() {
                                     {member.designation}
                                   </p>
                                 )}
-
                               </div>
                             </div>
                           </Link>
@@ -252,7 +259,6 @@ export default async function TeamPage() {
           </div>
         </main>
       </div>
-      
     </>
   );
 }

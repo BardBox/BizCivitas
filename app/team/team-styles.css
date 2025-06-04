@@ -1,187 +1,187 @@
 
-/* Team Member Card Animations */
-.team-member-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.team-member-card:nth-child(1) { animation-delay: 0.1s; }
-.team-member-card:nth-child(2) { animation-delay: 0.2s; }
-.team-member-card:nth-child(3) { animation-delay: 0.3s; }
-.team-member-card:nth-child(4) { animation-delay: 0.4s; }
-.team-member-card:nth-child(5) { animation-delay: 0.5s; }
-.team-member-card:nth-child(6) { animation-delay: 0.6s; }
-
-/* Fade in up animation */
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Hover effects */
-.team-member-card:hover {
-  transform: translateY(-8px);
-}
-
-.team-member-card:hover .team-member-image {
-  transform: scale(1.05);
-}
-
-/* Profile image hover effect */
-.team-member-card .team-member-image {
-  transition: transform 0.3s ease;
-}
-
-/* Company logo hover effect */
-.team-member-card:hover .company-logo {
-  transform: scale(1.1);
-}
-
-.company-logo {
-  transition: transform 0.3s ease;
-}
-
-/* Social links hover effects */
-.social-link {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.social-link::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s;
-}
-
-.social-link:hover::before {
-  left: 100%;
-}
-
-/* Section titles animation */
-@keyframes slideInFromLeft {
-  from {
+  /* Team Member Card Animations */
+  .team-member-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.6s ease-out forwards;
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translateY(20px);
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+
+  .team-member-card:nth-child(1) { animation-delay: 0.1s; }
+  .team-member-card:nth-child(2) { animation-delay: 0.2s; }
+  .team-member-card:nth-child(3) { animation-delay: 0.3s; }
+  .team-member-card:nth-child(4) { animation-delay: 0.4s; }
+  .team-member-card:nth-child(5) { animation-delay: 0.5s; }
+  .team-member-card:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Fade in up animation */
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-}
 
-.section-title {
-  animation: slideInFromLeft 0.8s ease-out;
-}
-
-/* Loading skeleton animation for better perceived performance */
-@keyframes shimmer {
-  0% {
-    background-position: -468px 0;
+  /* Hover effects */
+  .team-member-card:hover {
+    transform: translateY(-8px);
   }
-  100% {
-    background-position: 468px 0;
+
+  .team-member-card:hover .team-member-image {
+    transform: scale(1.05);
   }
-}
 
-.loading-skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
+  /* Profile image hover effect */
+  .team-member-card .team-member-image {
+    transition: transform 0.3s ease;
+  }
 
-/* Responsive animations */
-@media (prefers-reduced-motion: reduce) {
-  .team-member-card,
-  .team-member-image,
-  .company-logo,
+  /* Company logo hover effect */
+  .team-member-card:hover .company-logo {
+    transform: scale(1.1);
+  }
+
+  .company-logo {
+    transition: transform 0.3s ease;
+  }
+
+  /* Social links hover effects */
   .social-link {
-    animation: none;
-    transition: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
   }
-}
 
-/* Enhanced focus states for accessibility */
-.team-member-card:focus-within {
-  outline: 2px solid var(--flat-btn-primary);
-  outline-offset: 4px;
-}
-
-/* Smooth scroll behavior for section navigation */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Card content spacing improvements */
-.team-member-card .member-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
-/* Typography improvements */
-.team-member-card h3 {
-  line-height: 1.3;
-  font-weight: 700;
-}
-
-.team-member-card .designation {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.team-member-card .domain {
-  line-height: 1.5;
-  font-weight: 400;
-}
-
-/* Enhanced gradient backgrounds */
-.hero-gradient {
-  background: linear-gradient(135deg, var(--flat-btn-primary) 0%, var(--flat-btn-primary-light) 100%);
-}
-
-/* Card shadow variations */
-.team-member-img {
-  scale: 1;
-  box-shadow: none;
-  transition: all 0.3s ease;
-  background-color: #FFFFFF;
-}
-
-.team-member-img:hover {
-  background-color: #f1f1f1;
-  transition: all 0.3s ease;
-  scale: 1.05;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Company section styling */
-.company-section {
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.02);
-  padding: 8px;
-  margin-top: auto;
-}
-
-/* Improved spacing for different screen sizes */
-@media (max-width: 768px) {
-  .team-member-card {
-    margin-bottom: 1.5rem;
+  .social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
   }
-}
 
-@media (min-width: 1024px) {
-  .team-member-card {
-    margin-bottom: 2rem;
+  .social-link:hover::before {
+    left: 100%;
   }
-}
+
+  /* Section titles animation */
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .section-title {
+    animation: slideInFromLeft 0.8s ease-out;
+  }
+
+  /* Loading skeleton animation for better perceived performance */
+  @keyframes shimmer {
+    0% {
+      background-position: -468px 0;
+    }
+    100% {
+      background-position: 468px 0;
+    }
+  }
+
+  .loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+
+  /* Responsive animations */
+  @media (prefers-reduced-motion: reduce) {
+    .team-member-card,
+    .team-member-image,
+    .company-logo,
+    .social-link {
+      animation: none;
+      transition: none;
+    }
+  }
+
+  /* Enhanced focus states for accessibility */
+  .team-member-card:focus-within {
+    outline: 2px solid var(--flat-btn-primary);
+    outline-offset: 4px;
+  }
+
+  /* Smooth scroll behavior for section navigation */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Card content spacing improvements */
+  .team-member-card .member-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  /* Typography improvements */
+  .team-member-card h3 {
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .team-member-card .designation {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .team-member-card .domain {
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* Enhanced gradient backgrounds */
+  .hero-gradient {
+    background: linear-gradient(135deg, var(--flat-btn-primary) 0%, var(--flat-btn-primary-light) 100%);
+  }
+
+  /* Card shadow variations */
+  .team-member-img {
+    scale: 1;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    background-color: #FFFFFF;
+  }
+
+  .team-member-img:hover {
+    background-color: #f1f1f1;
+    transition: all 0.3s ease;
+    scale: 1.05;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Company section styling */
+  .company-section {
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 8px;
+    margin-top: auto;
+  }
+
+  /* Improved spacing for different screen sizes */
+  @media (max-width: 768px) {
+    .team-member-card {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .team-member-card {
+      margin-bottom: 2rem;
+    }
+  }
