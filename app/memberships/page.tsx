@@ -151,10 +151,19 @@ export default function MembershipsPage() {
                   <div className="text-center mb-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                     <p className="text-gray-600 mb-4">{plan.tagline}</p>
-                    <div className="text-4xl font-bold mb-2" style={{ color: plan.color.primary }}>
-                      {plan.price.currency}{plan.price.monthly}
+                    <div className="text-3xl font-bold mb-2" style={{ color: plan.color.primary }}>
+                      {plan.id === 'industria' ? (
+                        <>
+                          {plan.price.currency}{plan.price.monthly.toLocaleString()}
+                          <div className="text-sm text-gray-500 font-normal">One-time registration</div>
+                        </>
+                      ) : (
+                        <>
+                          Total: {plan.price.currency}{plan.price.monthly.toLocaleString()}
+                          <div className="text-sm text-gray-500 font-normal">Registration + Annual</div>
+                        </>
+                      )}
                     </div>
-                    <p className="text-gray-500">per month</p>
                   </div>
 
                   <ul className="space-y-3 mb-8">

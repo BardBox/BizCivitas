@@ -36,15 +36,14 @@ export const membershipPlans: MembershipPlan[] = [
     id: "core",
     name: "Core Membership",
     slug: "core",
-    tagline: "Essential Foundation for Growth",
-    description: "Perfect for emerging entrepreneurs and startups looking to establish their business foundation.",
-    fullDescription: "Our Core Membership is designed for ambitious entrepreneurs who are ready to take their business to the next level. With access to fundamental networking opportunities, essential business resources, and a supportive community of like-minded individuals, you'll have everything you need to build a strong foundation for your entrepreneurial journey.",
+    tagline: "Your Foundational Access to the BizCivitas Business Community",
+    description: "Perfect for emerging entrepreneurs and startups looking to establish their business foundation with one-time registration fee and structured participation.",
+    fullDescription: "The Core Membership is your foundational access to the BizCivitas business community. With a one-time registration fee and structured participation, those that join us will connect for professionals who want to engage meaningfully in curated core meetings, events, and community launches. It offers a streamlined path to get involved, connect, and grow with a like-minded network while maximizing flexibility in your participation.",
     features: [
-      "Monthly networking events",
-      "Access to business resource library",
-      "Digital community platform",
-      "Newsletter with industry insights",
-      "Basic mentorship opportunities"
+      "One-time membership fee for encouraging and activating your BizCivitas membership",
+      "Annual subscription fee granting access to exclusive BizCivitas communities, events, and benefits",
+      "Recurring charge for attending structured BizCivitas networking meetings and events",
+      "Total comprehensive access"
     ],
     benefits: [
       "Connect with 500+ entrepreneurs",
@@ -54,8 +53,8 @@ export const membershipPlans: MembershipPlan[] = [
       "Industry trend reports"
     ],
     price: {
-      monthly: 99,
-      yearly: 990,
+      monthly: 29500, // Total from image
+      yearly: 354000, // Annual subscription
       currency: "₹"
     },
     images: [
@@ -65,33 +64,32 @@ export const membershipPlans: MembershipPlan[] = [
       "/memberships/core-4.jpg"
     ],
     highlights: [
-      "Perfect for startups",
-      "Community-driven",
-      "Affordable entry point",
-      "Essential resources"
+      "One-time registration: ₹29,500",
+      "Annual membership: ₹3,54,000",
+      "Meeting fees: ₹29,500",
+      "Perfect for startups"
     ],
-    ctaText: "Join Core Membership",
+    ctaText: "Pay Now",
     color: {
-      primary: "#3B82F6",
-      secondary: "#EBF4FF",
-      gradient: "from-blue-500 to-blue-600"
+      primary: "#F97316",
+      secondary: "#FED7AA",
+      gradient: "from-orange-500 to-orange-600"
     }
   },
   {
     id: "flagship",
     name: "Flagship Membership",
     slug: "flagship",
-    tagline: "Premium Business Acceleration",
-    description: "Comprehensive membership for serious entrepreneurs seeking rapid business growth and premium networking.",
-    fullDescription: "The Flagship Membership represents the pinnacle of business networking and growth acceleration. Designed for established entrepreneurs and business leaders who demand excellence, this membership provides unparalleled access to industry leaders, exclusive events, and transformative business opportunities that can reshape your entire business trajectory.",
+    tagline: "Premium Business Acceleration for Growth-Focused Professionals",
+    description: "Designed for growth-focused professionals who want to fully immerse themselves in the BizCivitas network.",
+    fullDescription: "The Flagship Membership is designed for growth-focused professionals who want to fully immerse themselves in the BizCivitas network. This plan includes a one-time registration fee along with Core Membership access and participation in key meetings and events. It's ideal for those who are ready to actively contribute, collaborate, and consistently show up where meaningful business conversations happen.",
     features: [
       "All Core Membership benefits",
-      "VIP networking events",
-      "1-on-1 executive coaching",
-      "Exclusive masterclasses",
-      "Priority access to partnerships",
-      "Annual business retreat",
-      "Direct access to investors"
+      "One-time registration fee",
+      "Annual subscription for granting access to exclusive BizCivitas communities, events, and benefits",
+      "Recurring charge for attending structured BizCivitas networking meetings and events",
+      "Community Launch Fees for one member (free for launching community)",
+      "Priority access to partnerships"
     ],
     benefits: [
       "Connect with C-level executives",
@@ -102,8 +100,8 @@ export const membershipPlans: MembershipPlan[] = [
       "Thought leadership platform"
     ],
     price: {
-      monthly: 299,
-      yearly: 2990,
+      monthly: 29500, // Registration fee shown
+      yearly: 354000, // Annual subscription
       currency: "₹"
     },
     images: [
@@ -113,65 +111,64 @@ export const membershipPlans: MembershipPlan[] = [
       "/memberships/flagship-4.jpg"
     ],
     highlights: [
-      "Executive-level networking",
-      "Investment opportunities",
-      "Personal coaching",
-      "Global connections"
+      "One-time registration: ₹29,500",
+      "Annual membership: ₹3,54,000", 
+      "Meeting fees: ₹29,500",
+      "Community launch: ₹3,54,000"
     ],
-    ctaText: "Unlock Flagship Benefits",
+    ctaText: "Pay Now",
     popularBadge: "Most Popular",
     color: {
-      primary: "#F59E0B",
-      secondary: "#FEF3C7",
-      gradient: "from-orange-500 to-yellow-500"
+      primary: "#F97316",
+      secondary: "#FED7AA",
+      gradient: "from-orange-500 to-orange-600"
     }
   },
   {
     id: "industria",
-    name: "Industria Membership",
+    name: "Industria Membership", 
     slug: "industria",
-    tagline: "Industry-Specific Excellence",
-    description: "Specialized membership tailored for manufacturing, industrial, and enterprise-level businesses.",
-    fullDescription: "Industria Membership is crafted specifically for leaders in manufacturing, industrial sectors, and large-scale enterprises. This membership focuses on sector-specific challenges, regulatory compliance, supply chain optimization, and creating synergies between traditional industries and modern business practices.",
+    tagline: "Industry-Specific Excellence for Manufacturing & Enterprise",
+    description: "Designed for growth-focused professionals who want to fully immerse themselves in the BizCivitas network with industry-specific focus.",
+    fullDescription: "The Industria Membership is designed for growth-focused professionals who want to fully immerse themselves in the BizCivitas network. This plan includes a one-time registration fee along with Core Membership access and participation in key meetings and events. It's ideal for those who represent actively contribute, collaborate, and consistently show up where meaningful business conversations happen in manufacturing and industrial sectors.",
     features: [
-      "Industry-specific networking",
+      "Industry-specific networking focus",
+      "One-time registration fee for encouraging and activating your BizCivitas membership",
+      "Manufacturing and industrial sector expertise",
       "Supply chain optimization workshops",
       "Regulatory compliance updates",
-      "Technology integration seminars",
-      "Manufacturing excellence programs",
-      "Industrial partnership facilitation",
-      "Sustainability consulting"
+      "Technology integration seminars"
     ],
     benefits: [
       "Connect with industry veterans",
-      "Access to sector-specific insights",
+      "Access to sector-specific insights", 
       "Regulatory compliance support",
       "Technology adoption guidance",
       "Sustainability transformation",
       "Export-import facilitation"
     ],
     price: {
-      monthly: 499,
-      yearly: 4990,
+      monthly: 8299, // One-time registration fee from image
+      yearly: 8299,
       currency: "₹"
     },
     images: [
       "/memberships/industria-1.jpg",
-      "/memberships/industria-2.jpg",
+      "/memberships/industria-2.jpg", 
       "/memberships/industria-3.jpg",
       "/memberships/industria-4.jpg"
     ],
     highlights: [
-      "Industry-focused",
+      "One-time registration: ₹8,299",
+      "Industry-focused approach",
       "Manufacturing expertise",
-      "Compliance support",
-      "Technology integration"
+      "Compliance support"
     ],
-    ctaText: "Join Industria Elite",
+    ctaText: "Pay Now",
     color: {
-      primary: "#10B981",
-      secondary: "#D1FAE5",
-      gradient: "from-green-500 to-emerald-600"
+      primary: "#F97316",
+      secondary: "#FED7AA", 
+      gradient: "from-orange-500 to-orange-600"
     }
   },
   {

@@ -77,16 +77,24 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
 
         {/* Pricing */}
         <div className="text-center mb-6">
-          <div className="text-4xl font-bold mb-2" style={{ color: membership.color.primary }}>
-            {membership.price.currency}{currentPrice}
-            <span className="text-lg text-gray-500 font-normal">
-              /{isAnnual ? 'year' : 'month'}
-            </span>
-          </div>
-          {isAnnual && savings > 0 && (
-            <p className="text-green-600 font-semibold">
-              Save {membership.price.currency}{savings} per year!
-            </p>
+          {membership.id === 'industria' ? (
+            <div className="text-4xl font-bold mb-2" style={{ color: membership.color.primary }}>
+              {membership.price.currency}{membership.price.monthly.toLocaleString()}
+              <span className="text-lg text-gray-500 font-normal">
+                /one-time
+              </span>
+            </div>
+          ) : (
+            <>
+              <div className="text-3xl font-bold mb-2" style={{ color: membership.color.primary }}>
+                Total: {membership.price.currency}{membership.price.monthly.toLocaleString()}
+              </div>
+              <div className="text-sm text-gray-600 space-y-1">
+                <div>Registration: ₹29,500</div>
+                <div>Annual: ₹3,54,000</div>
+                {membership.id === 'flagship' && <div>Meeting: ₹29,500</div>}
+              </div>
+            </>
           )}
         </div>
 
