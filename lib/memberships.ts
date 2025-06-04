@@ -1,4 +1,3 @@
-
 export interface MembershipPlan {
   id: string;
   name: string;
@@ -34,7 +33,7 @@ export const membershipPlans: MembershipPlan[] = [
     name: 'BizCivitas Core Membership',
     slug: 'core',
     tagline: 'Connect. Collaborate. Transform.',
-    description: 'The BizCivitas Core Membership offers driven entrepreneurs and professionals a transformative networking experience that combines business growth with travel, learning, and purposeful connections. More than just a membership—this is a movement.',
+    description: 'The BizCivitas Core Membership offers driven entrepreneurs and professionals a transformative networking experience that combines business growth with travel, learning, and purposeful connections. More than just a movement, this membership provides structured meetings every alternate week, exclusive domestic and international travel experiences, and access to a thriving pan-India community to help you expand your network and unlock exponential growth.',
     price: {
       amount: 350000,
       currency: '₹',

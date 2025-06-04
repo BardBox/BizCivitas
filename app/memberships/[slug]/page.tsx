@@ -160,7 +160,12 @@ export default async function MembershipPage({ params }: PageProps) {
               <div className="lg:w-2/3">
                 {/* Key Benefits */}
                 <div className="mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-6">🔑 Key Benefits</h2>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg className="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3a1 1 0 011-1h2.586l6.243-6.243A6 6 0 0121 9z" />
+                    </svg>
+                    Key Benefits
+                  </h2>
                   <ul className="space-y-4">
                     {membership.benefits.map((benefit, index) => (
                       <li key={index} className="flex items-start">
@@ -181,7 +186,12 @@ export default async function MembershipPage({ params }: PageProps) {
                 {/* Meeting Structure for Core */}
                 {membership.meetingStructure && (
                   <div className="mb-12">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6">🧭 Meeting Structure</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                      <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m0 0L9 7" />
+                      </svg>
+                      Meeting Structure
+                    </h3>
                     <ul className="space-y-4">
                       {membership.meetingStructure.map((structure, index) => (
                         <li key={index} className="flex items-start">
