@@ -67,24 +67,27 @@ export default function DiscoverPage() {
           backgroundColor="#EDEFE7"
         />
 
-        <div className="max-w-[1440px] mx-auto px-4 py-8 flex flex-row gap-8 items-center justify-center">
+        <div className="max-w-[1440px] mx-auto px-4 py-8 flex flex-col items-center justify-center">
           <Image
             src="/discovery/1.svg"
             alt="Discovery step 1"
-            width={300}
-            height={300}
+            width={0}
+            height={0}
+            className="w-auto h-auto"
           />
           <Image
             src="/discovery/2.svg"
             alt="Discovery step 2"
-            width={300}
-            height={300}
+            width={0}
+            height={0}
+            className="w-auto h-auto"
           />
           <Image
             src="/discovery/3.svg"
             alt="Discovery step 3"
-            width={300}
-            height={300}
+            width={0}
+            height={0}
+            className="w-auto h-auto"
           />
         </div>
       </div>
