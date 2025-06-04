@@ -210,9 +210,9 @@ export default async function MembershipPage({ params }: PageProps) {
 
                 {/* Features & Highlights */}
                 <div className="grid md:grid-cols-2 gap-12 mb-12">
-                  <div>
+                  <div className="flex flex-col">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Features Included</h3>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 flex-1">
                       {membership.features.map((feature, index) => (
                         <li key={index} className="flex items-start">
                           <div 
@@ -227,13 +227,13 @@ export default async function MembershipPage({ params }: PageProps) {
                     </ul>
                   </div>
 
-                  <div>
+                  <div className="flex flex-col">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose {membership.name}?</h3>
-                    <div className="space-y-4">
+                    <div className="space-y-4 flex-1">
                       {membership.highlights.map((highlight, index) => (
                         <div 
                           key={index}
-                          className="p-4 rounded-lg border-l-4"
+                          className="p-4 rounded-lg border-l-4 h-full flex items-center"
                           style={{ 
                             borderLeftColor: membership.color.primary,
                             backgroundColor: membership.color.secondary 
@@ -311,7 +311,9 @@ export default async function MembershipPage({ params }: PageProps) {
 
               {/* Sticky Purchase Box */}
               <div className="lg:w-1/3">
-                <MembershipPurchaseBox membership={membership} />
+                <div className="lg:sticky lg:top-8">
+                  <MembershipPurchaseBox membership={membership} />
+                </div>
               </div>
             </div>
           </div>
