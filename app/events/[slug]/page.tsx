@@ -201,9 +201,11 @@ export default async function EventPage({ params }: PageProps) {
                 </p>
               )}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <EnhancedCTA href="/contact" variant="primary" size="lg">
-                  Register Now
-                </EnhancedCTA>
+                {event.type === "upcoming" ? (
+                  <EnhancedCTA href="/contact" variant="primary" size="lg">
+                    Register Now
+                  </EnhancedCTA>
+                ) : null}
                 <ShareButton
                   url={`https://bizcivitas.com/events/${event.slug}`}
                   title={event.event_name}

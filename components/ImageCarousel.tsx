@@ -14,7 +14,6 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-
   // Clean and validate URLs
   const cleanImages = images
     .map(url => url?.trim())
@@ -40,6 +39,14 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
     setCurrentIndex(index);
   };
 
+  const openFullscreen = () => {
+    setIsFullscreen(true);
+  };
+
+  const closeFullscreen = () => {
+    setIsFullscreen(false);
+  };
+
   return (
     <div className="mt-8">
       <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -48,7 +55,27 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
 
       <div className="relative">
         {/* Main Carousel */}
-        <div className="relative h-96 rounded-xl overflow-hidden shadow-lg bg-gray-100">
+        <div className="relative h-[90vh] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+          {/* Main Image - Now clickable for fullscreen */}
+          <motion.div
+            className="relative w-full h-full cursor-zoom-in"
+            onClick={openFullscreen}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Image
+              src={cleanImages[currentIndex]}
+              alt={`${eventName} image ${currentIndex + 1}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={(e) => {
+                console.error('Image failed to load:', cleanImages[currentIndex]);
+              }}
+            />
+          </motion.div>
+
+          {/* Fullscreen Modal */}
           <AnimatePresence>
             {isFullscreen && (
               <motion.div
@@ -57,7 +84,7 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center"
-                onClick={() => setIsFullscreen(false)} // close on background click
+                onClick={closeFullscreen} // close on background click
               >
                 <motion.div
                   key="image"
@@ -76,16 +103,44 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                     sizes="100vw"
                   />
                   <button
-                    onClick={() => setIsFullscreen(false)}
-                    className="absolute top-4 right-4 text-white bg-black/60 hover:bg-black/80 p-2 rounded-full"
+                    onClick={closeFullscreen}
+                    className="absolute top-4 right-4 text-white bg-black/60 hover:bg-black/80 p-2 rounded-full transition-colors"
                   >
                     ✕
                   </button>
+                  
+                  {/* Fullscreen Navigation Arrows */}
+                  {cleanImages.length > 1 && (
+                    <>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          prevSlide();
+                        }}
+                      >
+                        <ChevronLeftIcon className="w-5 h-5" />
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          nextSlide();
+                        }}
+                      >
+                        <ChevronRightIcon className="w-5 h-5" />
+                      </motion.button>
+                    </>
+                  )}
                 </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
-
 
           {/* Navigation Arrows */}
           {cleanImages.length > 1 && (
@@ -118,8 +173,9 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                   key={index}
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.8 }}
-                  className={`w-3 h-3 rounded-full transition-colors ${index === currentIndex ? 'bg-white' : 'bg-white/50'
-                    }`}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentIndex ? 'bg-white' : 'bg-white/50'
+                  }`}
                   onClick={() => goToSlide(index)}
                 />
               ))}
@@ -135,10 +191,11 @@ export default function ImageCarousel({ images, eventName }: ImageCarouselProps)
                 key={index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`relative h-20 rounded-lg overflow-hidden transition-all ${index === currentIndex
-                  ? 'ring-2 ring-flat-btn-primary'
-                  : 'hover:ring-2 hover:ring-flat-btn-secondary'
-                  }`}
+                className={`relative h-20 rounded-lg overflow-hidden transition-all ${
+                  index === currentIndex
+                    ? 'ring-2 ring-flat-btn-primary'
+                    : 'hover:ring-2 hover:ring-flat-btn-secondary'
+                }`}
                 onClick={() => goToSlide(index)}
               >
                 <Image
