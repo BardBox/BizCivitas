@@ -126,6 +126,12 @@ export default async function InsightsPage({
       "@type": "Organization",
       name: "BizCivitas",
       url: process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com",
+      sameAs: [
+        "https://www.youtube.com/@BizCivitas",
+        "https://www.linkedin.com/company/bizcivitas/",
+        "https://www.facebook.com/bizcivitas/",
+        "https://www.instagram.com/bizcivitas/"
+      ],
       logo: {
         "@type": "ImageObject",
         url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/logo.png`,
