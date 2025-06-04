@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 // Enable ISR with 3600-second (1 hour) revalidation for team members
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
