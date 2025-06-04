@@ -1,7 +1,7 @@
 // components/InsightsSection.tsx
 import Link from 'next/link'
 import Image from 'next/image'
-import { getLatestBlogs, getRecentPosts, type Blog } from '@/lib/homeBlog'
+import { getLatestBlogs, type Blog } from '@/lib/homeBlog'
 import './insights.css'
 interface BlogCardProps {
   blog: Blog
@@ -88,9 +88,8 @@ function RecentPostCard({ post }: RecentPostCardProps) {
 }
 
 export default async function InsightsSection() {
-  const [latestBlogs, recentPosts] = await Promise.all([
-    getLatestBlogs(3),
-    getRecentPosts(5)
+  const [latestBlogs] = await Promise.all([
+    getLatestBlogs(3)
   ])
 
   return (
@@ -113,20 +112,6 @@ export default async function InsightsSection() {
               <p className="no-blogs">No blogs available at the moment.</p>
             )}
           </div>
-
-          {/* Right: Recent Posts */}
-          <aside className="recent-posts" aria-labelledby="recent-posts-heading">
-            <h3 id="recent-posts-heading" className="recent-posts-title">Recent Posts</h3>
-            <div className="recent-posts-container">
-              {recentPosts.length > 0 ? (
-                recentPosts.map((post) => (
-                  <RecentPostCard key={`recent-${post.id}`} post={post} />
-                ))
-              ) : (
-                <p className="no-posts">No recent posts available.</p>
-              )}
-            </div>
-          </aside>
         </div>
 
         {/* Explore More Button */}
