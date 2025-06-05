@@ -9,7 +9,6 @@ const Card = ({
   titleColor = "#1f2937",
   descriptionColor = "#6b7280",
   className = "",
-  imageAlt,
   ...props
 }) => {
   return (
