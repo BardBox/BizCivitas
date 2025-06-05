@@ -5,7 +5,7 @@ export interface MembershipPlan {
   tagline: string;
   description: string;
   price: {
-    amount?: number;
+    amount: number;
     currency: string;
     breakdown?: {
       registration?: number;
@@ -19,7 +19,7 @@ export interface MembershipPlan {
   highlights: string[];
   eligibility?: string[];
   meetingStructure?: string[];
-  images?: string[];
+  images: string[];
   color: {
     primary: string;
     secondary: string;
@@ -36,7 +36,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Connect. Collaborate. Transform.',
     description: 'Join a curated network of purpose-driven professionals and engage in transformative experiences that blend business with personal growth.',
     price: {
-      amount: 413000,
+      amount: 350000,
       currency: '₹'
     },
     features: [
@@ -77,13 +77,13 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Where Ventures and Voyages Intersect',
     description: 'BizCivitas redefines business networking by blending professional growth with immersive travel experiences. The Flagship Membership offers entrepreneurs and professionals a unique platform to expand their network, explore new markets, and build meaningful collaborations beyond the boardroom.',
     price: {
-      amount: 767000,
+      amount: 750000,
       currency: '₹',
       breakdown: {
-        registration: 29500,
-        annual: 354000,
-        meeting: 29500,
-        community: 354000
+        registration: 25000,
+        annual: 300000,
+        meeting: 25000,
+        community: 300000
       }
     },
     features: [
@@ -123,6 +123,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Built for Industry Leaders.',
     description: 'Designed exclusively for manufacturing leaders, industrialists, and B2B innovators. Connect with verified industrial decision-makers and grow your business through qualified referrals.',
     price: {
+      amount: 413000,
       currency: '₹',
       breakdown: {
         registration: 29500,
