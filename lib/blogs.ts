@@ -15,21 +15,11 @@ export interface Blog {
   updated_at?: string;
 }
 
-export async function getAllBlogs(limit?: number, offset?: number): Promise<Blog[]> {
-  let query = supabase
+export async function getAllBlogs(): Promise<Blog[]> {
+  const { data, error } = await supabase
     .from('blogs')
     .select('*')
     .order('date', { ascending: false });
-  
-  if (limit !== undefined) {
-    query = query.limit(limit);
-  }
-  
-  if (offset !== undefined) {
-    query = query.range(offset, offset + (limit || 50) - 1);
-  }
-  
-  const { data, error } = await query;
   
   if (error) {
     console.error('Error fetching blogs:', error);
@@ -196,72 +186,4 @@ export function getBlogExcerpt(content: string, maxLength: number = 160): string
     return textContent;
   }
   return textContent.substring(0, maxLength - 3) + '...';
-}
-
-export async function getBlogCount(topic?: string, searchQuery?: string): Promise<number> {
-  let query = supabase
-    .from('blogs')
-    .select('*', { count: 'exact', head: true });
-  
-  if (topic && topic !== 'All') {
-    query = query.eq('type_of_topic', topic);
-  }
-  
-  if (searchQuery) {
-    query = query.or(
-      `topic_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,author_name.ilike.%${searchQuery}%`
-    );
-  }
-  
-  const { count, error } = await query;
-  
-  if (error) {
-    console.error('Error fetching blog count:', error);
-    return 0;
-  }
-  
-  return count || 0;
-}
-
-export async function getPaginatedBlogs(
-  page: number = 1,
-  limit: number = 6,
-  topic?: string,
-  searchQuery?: string
-): Promise<{ blogs: Blog[]; totalCount: number; totalPages: number }> {
-  const offset = (page - 1) * limit;
-  
-  let query = supabase
-    .from('blogs')
-    .select('*')
-    .order('date', { ascending: false })
-    .range(offset, offset + limit - 1);
-  
-  if (topic && topic !== 'All') {
-    query = query.eq('type_of_topic', topic);
-  }
-  
-  if (searchQuery) {
-    query = query.or(
-      `topic_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,author_name.ilike.%${searchQuery}%`
-    );
-  }
-  
-  const [blogsResult, countResult] = await Promise.all([
-    query,
-    getBlogCount(topic, searchQuery)
-  ]);
-  
-  if (blogsResult.error) {
-    console.error('Error fetching paginated blogs:', blogsResult.error);
-    return { blogs: [], totalCount: 0, totalPages: 0 };
-  }
-  
-  const totalPages = Math.ceil(countResult / limit);
-  
-  return {
-    blogs: blogsResult.data || [],
-    totalCount: countResult,
-    totalPages
-  };
 }

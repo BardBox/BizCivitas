@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllBlogs, getPaginatedBlogs, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
+import { getAllBlogs, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
 import { Suspense } from "react";
 import SearchAndRecentPosts from "@/components/SearchAndRecentPost";
-import BlogCardSkeleton from "@/components/BlogCardSkeleton";
 import "./blog-cards.css";
 import TopSection from "@/components/TopSection";
 
@@ -72,7 +71,7 @@ const TOPIC_TYPES = [
 ];
 
 interface InsightsPageProps {
-  searchParams: Promise<{ topic?: string; search?: string; page?: string }>;
+  searchParams: Promise<{ topic?: string; search?: string }>;
 }
 
 export default async function InsightsPage({
@@ -81,17 +80,25 @@ export default async function InsightsPage({
   const params = await searchParams;
   const selectedTopic = params.topic || "All";
   const searchQuery = params.search || "";
-  const currentPage = parseInt(params.page || "1", 10);
-  const blogsPerPage = 6;
 
-  // Get paginated blogs and recent posts in parallel
-  const [paginationResult, allBlogs] = await Promise.all([
-    getPaginatedBlogs(currentPage, blogsPerPage, selectedTopic, searchQuery),
-    getAllBlogs(5) // Get only 5 for recent posts
-  ]);
+  const allBlogs = await getAllBlogs();
 
-  const { blogs: paginatedBlogs, totalCount: totalBlogs, totalPages } = paginationResult;
-  const recentPosts = allBlogs;
+  // Filter blogs based on selected topic and search query
+  let filteredBlogs = selectedTopic === "All"
+    ? allBlogs
+    : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
+
+  // Apply search filter if search query exists
+  if (searchQuery) {
+    filteredBlogs = filteredBlogs.filter((blog) =>
+      (blog.topic_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (blog.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+    );
+  }
+
+  // Get recent posts (latest 5)
+  const recentPosts = allBlogs.slice(0, 5);
 
   // Count blogs per topic for tab counters
   const topicCounts = TOPIC_TYPES.reduce(
@@ -132,8 +139,8 @@ export default async function InsightsPage({
     },
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: totalBlogs,
-      itemListElement: paginatedBlogs.map((blog, index) => ({
+      numberOfItems: filteredBlogs.length,
+      itemListElement: filteredBlogs.slice(0, 10).map((blog, index) => ({
         "@type": "Article",
         position: index + 1,
         name: blog.topic_name || "Untitled Article",
@@ -240,81 +247,65 @@ export default async function InsightsPage({
               <div className="flex-1">
                 {/* Results Summary */}
                 <header className="mb-6 lg:mb-8 text-center lg:text-left">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <p className="text-gray-600 text-sm lg:text-base">
-                      {searchQuery ? (
-                        <>
-                          Showing {totalBlogs} results for "{searchQuery}"
-                          {selectedTopic !== "All" && ` in "${selectedTopic}"`}
-                        </>
-                      ) : selectedTopic === "All" ? (
-                        `Showing all ${totalBlogs} insights`
-                      ) : (
-                        `Showing ${totalBlogs} insights in "${selectedTopic}"`
-                      )}
-                    </p>
-                    {totalPages > 1 && (
-                      <p className="text-gray-500 text-sm">
-                        Page {currentPage} of {totalPages}
-                      </p>
+                  <p className="text-gray-600 text-sm lg:text-base">
+                    {searchQuery ? (
+                      <>
+                        Showing {filteredBlogs.length} results for "{searchQuery}"
+                        {selectedTopic !== "All" && ` in "${selectedTopic}"`}
+                      </>
+                    ) : selectedTopic === "All" ? (
+                      `Showing all ${filteredBlogs.length} insights`
+                    ) : (
+                      `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`
                     )}
-                  </div>
+                  </p>
                 </header>
 
-                <Suspense 
-                  fallback={
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                      {Array.from({ length: blogsPerPage }).map((_, i) => (
-                        <BlogCardSkeleton key={i} />
-                      ))}
-                    </div>
-                  }
-                >
-                  <main className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                    {paginatedBlogs.length === 0 ? (
-                      <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
-                        <svg
-                          className="w-16 h-16 text-gray-400 mx-auto mb-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
-                        <h2 className="text-lg text-gray-900 font-semibold">
-                          {searchQuery ? (
-                            `No insights found for "${searchQuery}"`
-                          ) : selectedTopic === "All" ? (
-                            "No insights available at this time."
-                          ) : (
-                            `No insights found in "${selectedTopic}" category.`
-                          )}
-                        </h2>
-                        <p className="text-sm text-gray-500 mt-2">
-                          {searchQuery ? (
-                            "Try adjusting your search terms or browse all insights."
-                          ) : selectedTopic === "All" ? (
-                            "Check back soon for new expert insights!"
-                          ) : (
-                            "Try selecting a different category or view all insights."
-                          )}
-                        </p>
-                        {(selectedTopic !== "All" || searchQuery) && (
-                          <Link
-                            href="/insights"
-                            className="inline-block mt-4 px-4 py-2 bg-flat-btn-primary text-white rounded-lg hover:bg-flat-btn-primary/90 transition-colors"
-                          >
-                            View All Insights
-                          </Link>
+                <main className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                  {filteredBlogs.length === 0 ? (
+                    <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
+                      <svg
+                        className="w-16 h-16 text-gray-400 mx-auto mb-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                      <h2 className="text-lg text-gray-900 font-semibold">
+                        {searchQuery ? (
+                          `No insights found for "${searchQuery}"`
+                        ) : selectedTopic === "All" ? (
+                          "No insights available at this time."
+                        ) : (
+                          `No insights found in "${selectedTopic}" category.`
                         )}
-                      </div>
-                    ) : (
-                      paginatedBlogs.map((blog, index) => (
+                      </h2>
+                      <p className="text-sm text-gray-500 mt-2">
+                        {searchQuery ? (
+                          "Try adjusting your search terms or browse all insights."
+                        ) : selectedTopic === "All" ? (
+                          "Check back soon for new expert insights!"
+                        ) : (
+                          "Try selecting a different category or view all insights."
+                        )}
+                      </p>
+                      {(selectedTopic !== "All" || searchQuery) && (
+                        <Link
+                          href="/insights"
+                          className="inline-block mt-4 px-4 py-2 bg-flat-btn-primary text-white rounded-lg hover:bg-flat-btn-primary/90 transition-colors"
+                        >
+                          View All Insights
+                        </Link>
+                      )}
+                    </div>
+                  ) : (
+                    filteredBlogs.map((blog) => (
                       <article key={blog.id}>
                         <Link href={`/insights/${blog.slug}`} className="block">
                           <div className="custom-blog-card">
@@ -323,13 +314,8 @@ export default async function InsightsPage({
                                 src={blog.cover_url || "/placeholder-event.jpg"}
                                 alt={blog.topic_name || "Blog post"}
                                 fill
-                                className="object-cover transition-transform duration-300 hover:scale-105"
+                                className="object-cover"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                priority={index < 3}
-                                loading={index < 3 ? "eager" : "lazy"}
-                                quality={85}
-                                placeholder="blur"
-                                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                               />
                             </div>
                             <div className="content">
@@ -375,92 +361,8 @@ export default async function InsightsPage({
                         </Link>
                       </article>
                     ))
-                    )}
-                  </main>
-                </Suspense>
-
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <nav className="mt-12 flex justify-center" aria-label="Pagination">
-                    <div className="flex items-center space-x-2">
-                      {/* Previous Button */}
-                      {currentPage > 1 ? (
-                        <Link
-                          href={`/insights?${new URLSearchParams({
-                            ...(selectedTopic !== "All" && { topic: selectedTopic }),
-                            ...(searchQuery && { search: searchQuery }),
-                            page: (currentPage - 1).toString(),
-                          }).toString()}`}
-                          className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition-colors"
-                        >
-                          Previous
-                        </Link>
-                      ) : (
-                        <span className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-300 rounded-md cursor-not-allowed">
-                          Previous
-                        </span>
-                      )}
-
-                      {/* Page Numbers */}
-                      <div className="flex space-x-1">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                          const isCurrentPage = page === currentPage;
-                          const showPage = 
-                            page === 1 || 
-                            page === totalPages || 
-                            (page >= currentPage - 1 && page <= currentPage + 1);
-
-                          if (!showPage) {
-                            if (page === currentPage - 2 || page === currentPage + 2) {
-                              return (
-                                <span key={page} className="px-2 py-2 text-sm text-gray-500">
-                                  ...
-                                </span>
-                              );
-                            }
-                            return null;
-                          }
-
-                          return (
-                            <Link
-                              key={page}
-                              href={`/insights?${new URLSearchParams({
-                                ...(selectedTopic !== "All" && { topic: selectedTopic }),
-                                ...(searchQuery && { search: searchQuery }),
-                                page: page.toString(),
-                              }).toString()}`}
-                              className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                                isCurrentPage
-                                  ? "bg-flat-btn-primary text-white"
-                                  : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
-                              }`}
-                            >
-                              {page}
-                            </Link>
-                          );
-                        })}
-                      </div>
-
-                      {/* Next Button */}
-                      {currentPage < totalPages ? (
-                        <Link
-                          href={`/insights?${new URLSearchParams({
-                            ...(selectedTopic !== "All" && { topic: selectedTopic }),
-                            ...(searchQuery && { search: searchQuery }),
-                            page: (currentPage + 1).toString(),
-                          }).toString()}`}
-                          className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition-colors"
-                        >
-                          Next
-                        </Link>
-                      ) : (
-                        <span className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-300 rounded-md cursor-not-allowed">
-                          Next
-                        </span>
-                      )}
-                    </div>
-                  </nav>
-                )}
+                  )}
+                </main>
               </div>
 
               {/* Desktop Sidebar - Hidden on mobile */}
