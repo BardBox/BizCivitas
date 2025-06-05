@@ -111,7 +111,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         `}
         style={{
           borderColor: isRecommended ? membership.color.primary : membership.color.primary + '30',
-          ringColor: isRecommended ? membership.color.primary : 'transparent'
+          
         }}
       >
         {/* Recommended Badge */}
@@ -236,7 +236,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300"
             style={{ backgroundColor: membership.color.secondary }}
           >
-            <PhoneIcon size={20} style={{ color: membership.color.primary }} />
+            <PhoneIcon size={20} className={`${membership.color.primary }`} />
           </div>
           <span className="font-semibold text-gray-900 text-sm">
             {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
@@ -251,7 +251,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300"
             style={{ backgroundColor: membership.color.secondary }}
           >
-            <EmailIcon size={20} style={{ color: membership.color.primary }} />
+            <EmailIcon size={20} className={`${membership.color.primary }`} />
           </div>
           <span className="font-semibold text-gray-900 text-sm">info@bizcivitas.com</span>
         </a>
@@ -266,7 +266,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300"
             style={{ backgroundColor: membership.color.secondary }}
           >
-            <WebsiteIcon size={20} style={{ color: membership.color.primary }} />
+            <WebsiteIcon size={20} className={`${membership.color.primary }`}/>
           </div>
           <span className="font-semibold text-gray-900 text-sm">www.bizcivitas.com</span>
         </a>
@@ -359,7 +359,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
                 <PlanCard 
                   plan={plan} 
                   index={index} 
-                  isRecommended={index === 1 && membership.plans.length > 2}
+                  isRecommended={index === 1 && (membership.pfixlans?.length ?? 0) > 2}
                 />
               </div>
             ))}
