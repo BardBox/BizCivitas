@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { theme } from '@/lib/theme';
 import ContactFormWrapper from '@/components/ContactFormWrapper';
+import TopSection from "@/components/TopSection";
 
 export const metadata: Metadata = {
   title: "Contact BizCivitas - Get in Touch",
@@ -110,20 +111,19 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   };
 
   return (
-    <>
+    <div className="bg-white flex flex-col items-center justify-center">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-white to-gray-50">
+      <div className="w-screen bg-white flex flex-col items-center justify-center">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-r from-orange-500 to-green-500 flex items-center justify-center text-white">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h1 className="text-5xl font-bold mb-6">Contact Us</h1>
-            <p className="text-xl opacity-90">Let's Turn Your Vision Into Reality Together</p>
-          </div>
-        </section>
+        <TopSection
+        heading="Contact Us"
+        subheading="We'd love to hear from you! Whether you have questions, suggestions, or need assistance, feel free to reach out."
+        backgroundImage="/insights/heroInsights.png"
+        />
 
         {/* Success/Error Messages */}
         {success && (
@@ -226,7 +226,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             <ContactFormWrapper onFormSubmit={handleFormSubmit} />
           </div>
         </div>
-      </div>
-    </>
+        <div className="rounded-3xl w-screen max-w-[1440px] p-8">
+        <div style={{maxWidth:"1440px", borderRadius : "32px"}}><iframe width="100%" height="600" scrolling="yes" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Pancham%20Highstreet,%20304,%20Old%20Padra%20Rd,%20opp.%20Bankers%20Heart%20Institute,%20Sheetal%20Nagar,%20Akota,%20Vadodara,%20Gujarat%20390015,%20India+(Bizcivitas%20Office)&amp;t=p&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/collections/sports-gps/">Cycling gps</a></iframe></div>
+      </div></div>
+    </div>
   );
 }

@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     ],
     videos: [
       {
-        url: "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4",
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/home.mp4`,
         width: 1920,
         height: 1080,
         type: "video/mp4",
@@ -87,11 +87,12 @@ export default function HomePage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    metadata : metadata,
     name: "BizCivitas",
     description:
       "Where ventures and voyages intersect. Business networking platform for events, business travel, and professional growth through meaningful collaborations.",
     url: "https://bizcivitas.com",
-    logo: "https://bizcivitas.com/logo.png",
+    logo: "https://bizcivitas.com/bizcivitas.svg",
     slogan: "Where Ventures and Voyages Intersect",
     sameAs: [
       "https://linkedin.com/company/bizcivitas",
@@ -113,7 +114,7 @@ export default function HomePage() {
           <div className="absolute inset-0 w-full h-full">
             <video
               className="w-full h-full object-cover"
-              src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4"
+              src="/home.mp4"
               autoPlay
               muted
               loop

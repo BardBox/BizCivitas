@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     ],
     videos: [
       {
-        url: "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/Think-your-next-big-idea-is-stuck-in-a-boardroom_-Think-again.-_airbnb-_uber-_solarcity-_business1080P_HD.mp4",
+        url: "/home.mp4",
         width: 1920,
         height: 1080,
         type: "video/mp4",
@@ -91,8 +91,8 @@ export default async function EventsPage() {
       description:
         "Inspiring video showcasing how great business ideas transform into successful companies.",
       contentUrl:
-        "http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/BizCivitas_-Where-Connections-Spark-Success_-_businessnetworking-_businessgrowth-_explore1080P_HD.mp4",
-      thumbnailUrl: "/video-poster.jpg",
+        `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/event.mp4`,
+      
       uploadDate: "2025-01-24",
       duration: "PT30S",
       publisher: {
@@ -132,18 +132,18 @@ export default async function EventsPage() {
 
       <div className="bg-flat-bg">
         {/* Hero Video Section */}
-        <section className="relative w-full min-h-[80vh] overflow-hidden">
+        <section className="relative w-full min-h-[90vh] overflow-hidden">
           <div className="absolute inset-0 w-full h-screen">
             <video
               className="w-full h-full object-cover -translate-y-10"
-              src="http://deeppink-starling-710457.hostingersite.com/wp-content/uploads/2025/05/BizCivitas_-Where-Connections-Spark-Success_-_businessnetworking-_businessgrowth-_explore1080P_HD.mp4"
+              src="/event.mp4"
               autoPlay
               muted
               loop
               playsInline
               controlsList="nodownload nofullscreen noremoteplaybook"
               disablePictureInPicture
-              preload="auto"
+              preload="metadata"
               poster="/video-poster.jpg"
               aria-label="Business innovation video showing successful companies like Airbnb, Uber, and SolarCity"
             />
@@ -151,7 +151,7 @@ export default async function EventsPage() {
 
           {/* Video Overlay */}
           <div className="absolute inset-0 flex items-center justify-center"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
           >
             <div className="text-center text-flat-text-inverse px-4 sm:px-6 lg:px-8 max-w-4xl">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight text-white">
