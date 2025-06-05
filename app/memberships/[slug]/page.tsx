@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMembershipBySlug, getAllMemberships } from "@/lib/memberships";
 import MembershipPurchaseBox from "@/components/MembershipPurchaseBox";
-import MembershipImageGallery from "@/components/MembershipImageGallery";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "@/components/Icons";
 import { Check } from "lucide-react";
 
@@ -92,7 +91,7 @@ export default async function MembershipPage({ params }: PageProps) {
 
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
-        <section 
+        <section
           className="relative py-20 bg-gradient-to-r text-white"
           style={{ background: `linear-gradient(135deg, ${membership.color.primary}, ${membership.color.primary}dd)` }}
         >
@@ -114,12 +113,7 @@ export default async function MembershipPage({ params }: PageProps) {
                 <p className="text-2xl text-white/90 mb-6">{membership.tagline}</p>
                 <p className="text-lg text-white/80 mb-8">{membership.description}</p>
                 <div className="flex items-center gap-6">
-                  <div className="text-3xl font-bold">
-                    {membership.price.currency}{membership.price.amount.toLocaleString()}
-                  </div>
-                  <div className="text-lg text-white/80">
-                    Total Investment
-                  </div>
+
                 </div>
 
                 {/* Contact Info for all memberships */}
@@ -162,26 +156,24 @@ export default async function MembershipPage({ params }: PageProps) {
         {/* Main Content */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-12">
+            <div className="flex flex-col gap-12">
               {/* Main Content */}
-              <div className="lg:w-2/3">
+              <div className="w-full">
                 {/* Key Benefits */}
                 <div className="mb-12">
                   <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-                    <svg className="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3a1 1 0 011-1h2.586l6.243-6.243A6 6 0 0121 9z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide mr-2 lucide-key-icon lucide-key"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" /><path d="m21 2-9.6 9.6" /><circle cx="7.5" cy="15.5" r="5.5" /></svg>
                     Key Benefits
                   </h2>
                   <ul className="space-y-4">
                     {membership.benefits.map((benefit, index) => (
                       <li key={index} className="flex items-start">
-                        <div 
-                            className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
-                            style={{ backgroundColor: membership.color.primary }}
-                          >
-                            <Check className="w-4 h-4 text-white" />
-                          </div>
+                        <div
+                          className="w-6 h-6 rounded-full mr-3 flex items-center justify-center mt-0.5"
+                          style={{ backgroundColor: membership.color.primary }}
+                        >
+                          <Check className="w-4 h-4 text-white" />
+                        </div>
                         <span className="text-gray-700 text-lg">{benefit}</span>
                       </li>
                     ))}
@@ -200,7 +192,7 @@ export default async function MembershipPage({ params }: PageProps) {
                     <ul className="space-y-4">
                       {membership.meetingStructure.map((structure, index) => (
                         <li key={index} className="flex items-start">
-                          <div 
+                          <div
                             className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
                             style={{ backgroundColor: membership.color.primary }}
                           >
@@ -222,7 +214,7 @@ export default async function MembershipPage({ params }: PageProps) {
                     <ul className="space-y-4 flex-1">
                       {membership.features.map((feature, index) => (
                         <li key={index} className="flex items-start">
-                          <div 
+                          <div
                             className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
                             style={{ backgroundColor: membership.color.primary }}
                           >
@@ -238,12 +230,12 @@ export default async function MembershipPage({ params }: PageProps) {
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose {membership.name}?</h3>
                     <div className="grid gap-4 flex-1">
                       {membership.highlights.map((highlight, index) => (
-                        <div 
+                        <div
                           key={index}
                           className="p-6 rounded-lg border-l-4 flex items-center min-h-[80px]"
-                          style={{ 
+                          style={{
                             borderLeftColor: membership.color.primary,
-                            backgroundColor: membership.color.secondary 
+                            backgroundColor: membership.color.secondary
                           }}
                         >
                           <p className="text-gray-700 leading-relaxed">{highlight}</p>
@@ -260,7 +252,7 @@ export default async function MembershipPage({ params }: PageProps) {
                     <ul className="space-y-4">
                       {membership.eligibility.map((requirement, index) => (
                         <li key={index} className="flex items-start">
-                          <div 
+                          <div
                             className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
                             style={{ backgroundColor: membership.color.primary }}
                           >
@@ -278,31 +270,31 @@ export default async function MembershipPage({ params }: PageProps) {
                   <div className="mb-12">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Leadership Opportunities</h3>
                     <div className="grid md:grid-cols-3 gap-6">
-                      <div 
+                      <div
                         className="p-6 rounded-lg border-l-4"
-                        style={{ 
+                        style={{
                           borderLeftColor: membership.color.primary,
-                          backgroundColor: membership.color.secondary 
+                          backgroundColor: membership.color.secondary
                         }}
                       >
                         <h4 className="font-semibold text-gray-900 mb-2">Regional Chapter</h4>
                         <p className="text-gray-700">Launch your own regional Bizcivitas chapter</p>
                       </div>
-                      <div 
+                      <div
                         className="p-6 rounded-lg border-l-4"
-                        style={{ 
+                        style={{
                           borderLeftColor: membership.color.primary,
-                          backgroundColor: membership.color.secondary 
+                          backgroundColor: membership.color.secondary
                         }}
                       >
                         <h4 className="font-semibold text-gray-900 mb-2">Growth Council</h4>
                         <p className="text-gray-700">Join the Civitas Growth Council</p>
                       </div>
-                      <div 
+                      <div
                         className="p-6 rounded-lg border-l-4"
-                        style={{ 
+                        style={{
                           borderLeftColor: membership.color.primary,
-                          backgroundColor: membership.color.secondary 
+                          backgroundColor: membership.color.secondary
                         }}
                       >
                         <h4 className="font-semibold text-gray-900 mb-2">Community Growth</h4>
@@ -316,7 +308,7 @@ export default async function MembershipPage({ params }: PageProps) {
               </div>
 
               {/* Sticky Purchase Box */}
-              <div className="lg:w-1/3">
+              <div className="w-full">
                 <div className="lg:sticky lg:top-8">
                   <MembershipPurchaseBox membership={membership} />
                 </div>
@@ -467,7 +459,7 @@ export default async function MembershipPage({ params }: PageProps) {
         )}
 
         {/* CTA Section */}
-        <section 
+        <section
           className="py-16 text-white"
           style={{ background: `linear-gradient(135deg, ${membership.color.primary}, ${membership.color.primary}dd)` }}
         >
@@ -477,7 +469,7 @@ export default async function MembershipPage({ params }: PageProps) {
               Join our community of successful entrepreneurs and take your business to the next level.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
+              <button
                 className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors"
                 style={{ color: membership.color.primary }}
               >
