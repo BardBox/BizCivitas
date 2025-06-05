@@ -359,7 +359,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
                 <PlanCard 
                   plan={plan} 
                   index={index} 
-                  isRecommended={index === 1 && (membership.pfixlans?.length ?? 0) > 2}
+                  isRecommended={index === 1 && (membership.plans?.length ?? 0) > 2}
                 />
               </div>
             ))}
