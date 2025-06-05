@@ -1,5 +1,33 @@
 /* Custom Blog Card Styles */
+/* Loading skeleton */
+.blog-skeleton {
+  @apply bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden animate-pulse;
+}
+
+.blog-skeleton .skeleton-image {
+  @apply bg-gray-200 h-48 w-full;
+}
+
+.blog-skeleton .skeleton-content {
+  @apply p-6 space-y-3;
+}
+
+.blog-skeleton .skeleton-line {
+  @apply bg-gray-200 h-4 rounded;
+}
+
+.blog-skeleton .skeleton-line.short {
+  @apply w-3/4;
+}
+
+.blog-skeleton .skeleton-line.medium {
+  @apply w-1/2;
+}
+
+/* Enhanced blog card with performance optimizations */
 .custom-blog-card {
+  will-change: transform;
+  contain: layout style paint;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 13px;
