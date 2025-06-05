@@ -1,4 +1,5 @@
-import { supabase } from './db'
+import { supabase } from "./db";
+import { memoryCache, createCacheKey, withCache } from "./cache";
 
 export interface Event {
   id: string; // UUID in your schema
@@ -44,21 +45,32 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
   return data;
 }
 
-export async function getUpcomingEvents(): Promise<Event[]> {
-  const today = new Date().toISOString().split('T')[0];
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .gte("date", today)
-    .order("date", { ascending: true });
+async function _getUpcomingEvents(): Promise<Event[]> {
+  try {
+    const now = new Date().toISOString();
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .gte("date", now)
+      .order("date", { ascending: true });
 
-  if (error) {
-    console.error("Error fetching upcoming events:", error);
+    if (error) {
+      console.error("Error fetching upcoming events:", error);
+      return [];
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error("Unexpected error fetching upcoming events:", error);
     return [];
   }
-
-  return data || [];
 }
+
+export const getUpcomingEvents = withCache(
+  _getUpcomingEvents,
+  () => createCacheKey('events', 'upcoming'),
+  300 // Cache for 5 minutes
+);
 
 export async function getPastEvents(): Promise<Event[]> {
   const today = new Date().toISOString().split('T')[0];
@@ -81,13 +93,13 @@ export function getEventSEOData(event: Event) {
   // Extract clean text from description if it contains HTML
   const cleanDescription = event.description ? 
     event.description.replace(/<[^>]*>/g, '').trim() : '';
-  
+
   // Generate rich description with event details
   const fallbackDescription = `Join us for ${event.event_name}${event.location ? ` at ${event.location}` : ''}${event.date ? ` on ${new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : ''}. ${event.type ? `This ${event.type.toLowerCase()} event` : 'This event'} brings together business professionals for networking and growth opportunities.`;
-  
+
   const description = cleanDescription || fallbackDescription;
   const shortDescription = description.length > 160 ? description.substring(0, 157) + '...' : description;
-  
+
   // Generate comprehensive keywords from event data
   const keywords = [
     event.event_name,

@@ -1,5 +1,5 @@
-import { supabase } from './db'
-
+import { supabase } from "./db";
+import { memoryCache, createCacheKey, withCache } from "./cache";
 
 export interface Blog {
   id: string;
@@ -15,34 +15,56 @@ export interface Blog {
   updated_at?: string;
 }
 
-export async function getAllBlogs(): Promise<Blog[]> {
-  const { data, error } = await supabase
-    .from('blogs')
-    .select('*')
-    .order('date', { ascending: false });
-  
-  if (error) {
-    console.error('Error fetching blogs:', error);
+async function _getAllBlogs(): Promise<Blog[]> {
+  try {
+    const { data, error } = await supabase
+      .from("blogs")
+      .select("*")
+      .order("date", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching blogs:", error);
+      return [];
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error("Unexpected error fetching blogs:", error);
     return [];
   }
-  
-  return data || [];
 }
 
-export async function getBlogBySlug(slug: string): Promise<Blog | null> {
-  const { data, error } = await supabase
-    .from('blogs')
-    .select('*')
-    .eq('slug', slug)
-    .single();
-  
-  if (error) {
-    console.error('Error fetching blog by slug:', error);
+export const getAllBlogs = withCache(
+  _getAllBlogs,
+  () => createCacheKey('blogs', 'all'),
+  300 // Cache for 5 minutes
+);
+
+async function _getBlogBySlug(slug: string): Promise<Blog | null> {
+  try {
+    const { data, error } = await supabase
+      .from("blogs")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+
+    if (error) {
+      console.error(`Error fetching blog with slug ${slug}:`, error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error(`Unexpected error fetching blog with slug ${slug}:`, error);
     return null;
   }
-  
-  return data;
 }
+
+export const getBlogBySlug = withCache(
+  _getBlogBySlug,
+  (slug: string) => createCacheKey('blog', 'slug', slug),
+  600 // Cache for 10 minutes
+);
 
 export async function getBlogsByTopic(topic: string): Promise<Blog[]> {
   const { data, error } = await supabase
@@ -50,12 +72,12 @@ export async function getBlogsByTopic(topic: string): Promise<Blog[]> {
     .select('*')
     .eq('type_of_topic', topic)
     .order('date', { ascending: false });
-  
+
   if (error) {
     console.error('Error fetching blogs by topic:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
@@ -63,16 +85,16 @@ export function getBlogSEOData(blog: Blog) {
   // Extract text content from HTML for better descriptions
   const textContent = blog.content ? blog.content.replace(/<[^>]*>/g, '').trim() : '';
   const contentPreview = textContent.length > 160 ? textContent.substring(0, 157) + '...' : textContent;
-  
+
   // Clean description from HTML if present
   const cleanDescription = blog.description ? 
     blog.description.replace(/<[^>]*>/g, '').trim() : '';
-  
+
   const fallbackDescription = `Read our latest insights on ${blog.topic_name || 'business topics'} by ${blog.author_name || 'BizCivitas team'}. Published on ${new Date(blog.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. Discover valuable business strategies and industry analysis.`;
-  
+
   const description = cleanDescription || contentPreview || fallbackDescription;
   const shortDescription = description.length > 160 ? description.substring(0, 157) + '...' : description;
-  
+
   // Generate comprehensive keywords
   const keywords = [
     blog.topic_name || 'business', 
@@ -87,7 +109,7 @@ export function getBlogSEOData(blog: Blog) {
     new Date(blog.date).getFullYear().toString(),
     "business advice"
   ].filter(Boolean);
-  
+
   return {
     title: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
     description: shortDescription,
@@ -131,12 +153,12 @@ export async function getRecentBlogs(limit: number = 5): Promise<Blog[]> {
     .select('*')
     .order('date', { ascending: false })
     .limit(limit);
-  
+
   if (error) {
     console.error('Error fetching recent blogs:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
@@ -146,12 +168,12 @@ export async function getBlogsByAuthor(authorName: string): Promise<Blog[]> {
     .select('*')
     .eq('author_name', authorName)
     .order('date', { ascending: false });
-  
+
   if (error) {
     console.error('Error fetching blogs by author:', error);
     return [];
   }
-  
+
   return data || [];
 }
 

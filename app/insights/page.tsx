@@ -7,8 +7,8 @@ import SearchAndRecentPosts from "@/components/SearchAndRecentPost";
 import "./blog-cards.css";
 import TopSection from "@/components/TopSection";
 
-// Enable ISR with 60-second revalidation
-export const revalidate = 60;
+// Enable ISR with 300-second revalidation for better caching
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Business Insights | BizCivitas - Expert Analysis & Trends",
