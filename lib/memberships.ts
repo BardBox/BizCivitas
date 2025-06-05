@@ -5,7 +5,7 @@ export interface MembershipPlan {
   tagline: string;
   description: string;
   price: {
-    amount: number;
+    amount?: number;
     currency: string;
     breakdown?: {
       registration?: number;
@@ -19,7 +19,7 @@ export interface MembershipPlan {
   highlights: string[];
   eligibility?: string[];
   meetingStructure?: string[];
-  images: string[];
+  images?: string[];
   color: {
     primary: string;
     secondary: string;
@@ -36,7 +36,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Connect. Collaborate. Transform.',
     description: 'Join a curated network of purpose-driven professionals and engage in transformative experiences that blend business with personal growth.',
     price: {
-      amount: 350000,
+      amount: 413000,
       currency: '₹'
     },
     features: [
@@ -63,7 +63,7 @@ export const membershipPlans: MembershipPlan[] = [
       'Quarterly masterclasses with industry experts',
       'Annual retreat combining business and leisure activities'
     ],
-    images: ['/memberships/core-membership.jpg'],
+    images: ['/Core.jpg'],
     color: {
       primary: '#3b82f6',
       secondary: '#dbeafe'
@@ -77,13 +77,13 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Where Ventures and Voyages Intersect',
     description: 'BizCivitas redefines business networking by blending professional growth with immersive travel experiences. The Flagship Membership offers entrepreneurs and professionals a unique platform to expand their network, explore new markets, and build meaningful collaborations beyond the boardroom.',
     price: {
-      amount: 750000,
+      amount: 767000,
       currency: '₹',
       breakdown: {
-        registration: 25000,
-        annual: 300000,
-        meeting: 25000,
-        community: 300000
+        registration: 29500,
+        annual: 354000,
+        meeting: 29500,
+        community: 354000
       }
     },
     features: [
@@ -108,7 +108,7 @@ export const membershipPlans: MembershipPlan[] = [
       'Global network spanning multiple industries',
       'Premium experiences and luxury events'
     ],
-    images: ['/memberships/flagship-membership.jpg'],
+    images: ['/flagship.jpg'],
     color: {
       primary: '#7c3aed',
       secondary: '#ede9fe'
@@ -123,12 +123,11 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Built for Industry Leaders.',
     description: 'Designed exclusively for manufacturing leaders, industrialists, and B2B innovators. Connect with verified industrial decision-makers and grow your business through qualified referrals.',
     price: {
-      amount: 350000,
       currency: '₹',
       breakdown: {
-        registration: 25000,
-        annual: 300000,
-        meeting: 25000
+        registration: 29500,
+        annual: 354000,
+        meeting: 29500
       }
     },
     features: [
@@ -160,7 +159,7 @@ export const membershipPlans: MembershipPlan[] = [
       'Minimum business turnover: ₹5 Cr+',
       'Long-term, ethical, and collaboration-driven mindset'
     ],
-    images: ['/memberships/industria-membership.jpg'],
+    images: ['/industria-1.jpg'],
     color: {
       primary: '#ea580c',
       secondary: '#fed7aa'
@@ -174,7 +173,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Your First Step Into a Smarter Business World',
     description: 'The Digital Membership is your gateway to the BizCivitas ecosystem. Perfect for emerging entrepreneurs and growing businesses, this membership provides essential networking tools, online resources, and community access to help you build meaningful connections and accelerate your business growth.',
     price: {
-      amount: 25000,
+      amount: 8259,
       currency: '₹'
     },
     features: [
@@ -200,7 +199,7 @@ export const membershipPlans: MembershipPlan[] = [
       'Pathway to premium memberships',
       'Community-driven growth approach'
     ],
-    images: ['/memberships/digital-membership.jpg'],
+    images: ['/digital-1.jpg'],
     color: {
       primary: '#22c55e',
       secondary: '#dcfce7'
