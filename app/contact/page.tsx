@@ -35,14 +35,9 @@ async function submitInquiry(formData: FormData) {
   'use server';
   
   const name = formData.get('name') as string;
-  const lastName = formData.get('lastName') as string;
   const contact = formData.get('contact') as string;
   const email = formData.get('email') as string;
   const howFindUs = formData.get('howFindUs') as string;
-  const message = formData.get('message') as string;
-  
-  // Combine first and last name
-  const fullName = `${name} ${lastName}`.trim();
   
   try {
     const response = await fetch('https://backend.bizcivitas.com/api/v1/inquiry/add', {
@@ -51,15 +46,16 @@ async function submitInquiry(formData: FormData) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: fullName,
+        name: name,
         contact: contact,
         email: email,
-        howFindUs: howFindUs,
-        message: message
+        howFindUs: howFindUs
       }),
     });
 
-    if (response.ok) {
+    const result = await response.json();
+    
+    if (response.ok && result.success) {
       redirect('/contact?success=true');
     } else {
       redirect('/contact?error=true');
@@ -223,41 +219,26 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
               <form action={submitInquiry} className="space-y-6">
-                {/* Name Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Enter Your Name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Enter Your Last Name"
-                    />
-                  </div>
+                {/* Name Field */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    placeholder="Enter Your Name"
+                  />
                 </div>
 
                 {/* Contact and Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-2">
-                      Numbers <span className="text-red-500">*</span>
+                      Contact Number <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="tel"
@@ -265,7 +246,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                       name="contact"
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Enter Your Number"
+                      placeholder="Enter Your Contact Number"
                     />
                   </div>
                   <div>
@@ -286,7 +267,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 {/* How Did You Find Us */}
                 <div>
                   <label htmlFor="howFindUs" className="block text-sm font-medium text-gray-700 mb-2">
-                    How can we help? <span className="text-red-500">*</span>
+                    How did you find us? <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="howFindUs"
@@ -294,7 +275,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   >
-                    <option value="">How can we help?</option>
+                    <option value="">Select an option</option>
                     <option value="google">Google</option>
                     <option value="social_media">Social Media</option>
                     <option value="referral">Referral</option>
@@ -302,47 +283,6 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     <option value="website">Website</option>
                     <option value="other">Other</option>
                   </select>
-                </div>
-
-                {/* Message */}
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="Enter message"
-                  ></textarea>
-                </div>
-
-                {/* Checkboxes */}
-                <div className="space-y-3">
-                  <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="newsletter"
-                      name="newsletter"
-                      className="mt-1 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="newsletter" className="ml-3 text-sm text-gray-700">
-                      I would like to sign up to receive BizCivitas's monthly newsletter, BNI SuccessNet™
-                    </label>
-                  </div>
-                  <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="privacy"
-                      name="privacy"
-                      required
-                      className="mt-1 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="privacy" className="ml-3 text-sm text-gray-700">
-                      I agree to be contacted by BizCivitas according to the Privacy Policy and Terms and Conditions. <span className="text-red-500">*</span>
-                    </label>
-                  </div>
                 </div>
 
                 <button
