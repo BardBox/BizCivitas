@@ -121,8 +121,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         {/* Hero Section */}
         <TopSection
         heading="Contact Us"
-        subheading="We'd love to hear from you! Whether you have questions, suggestions, or need assistance, feel free to reach out."
-        backgroundImage="/insights/heroInsights.png"
+        subheading="Stay up to date with the most recent insights, trends, articles, and news from Bizcivitas around the world."
+        backgroundImage="/contact.jpg"
         />
 
         {/* Success/Error Messages */}
