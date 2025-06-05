@@ -21,8 +21,6 @@ html.is-animating .transition-container {
   z-index: 9999;
 }
 
-
-
 /* Page transition animations */
 .transition-fade {
   transition: 0.4s;
