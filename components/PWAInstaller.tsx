@@ -89,11 +89,11 @@ const PWAInstaller: React.FC<PWAInstallerProps> = ({ className = '' }) => {
 
   return (
     <>
-      {/* Install Button - Hidden by default, shown via service worker */}
+      {/* Install Button - Positioned above banner area */}
       <button
         id="pwa-install-button"
         onClick={handleInstall}
-        className={`fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 z-50 hidden ${className}`}
+        className={`fixed bottom-20 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 z-50 hidden ${className}`}
         aria-label="Install BizCivitas App"
       >
         <div className="flex items-center space-x-2">
@@ -114,12 +114,12 @@ const PWAInstaller: React.FC<PWAInstallerProps> = ({ className = '' }) => {
         </div>
       </button>
 
-      {/* Install Banner */}
+      {/* Install Banner - Bottom positioned to avoid navbar conflict */}
       {showBanner && (
-        <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 shadow-lg z-50 transform transition-transform duration-300">
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 shadow-lg z-50 transform transition-transform duration-300 animate-slide-up pwa-banner-mobile">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="bg-white bg-opacity-20 rounded-full p-2">
+              <div className="bg-white bg-opacity-20 rounded-full p-2 flex-shrink-0">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -134,18 +134,21 @@ const PWAInstaller: React.FC<PWAInstallerProps> = ({ className = '' }) => {
                   />
                 </svg>
               </div>
-              <div>
-                <h3 className="font-semibold">Install BizCivitas App</h3>
-                <p className="text-sm opacity-90">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-base">Install BizCivitas App</h3>
+                <p className="text-sm opacity-90 hidden sm:block">
                   Get quick access and enhanced performance
+                </p>
+                <p className="text-xs opacity-90 sm:hidden">
+                  Quick access & offline features
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 pwa-actions flex-shrink-0">
               <button
                 onClick={handleInstall}
-                className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+                className="bg-white text-blue-600 px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm text-sm sm:text-base"
               >
                 Install
               </button>
@@ -173,9 +176,9 @@ const PWAInstaller: React.FC<PWAInstallerProps> = ({ className = '' }) => {
         </div>
       )}
 
-      {/* PWA Features Notification - Show after install */}
+      {/* PWA Features Notification - Show after install, positioned above potential banner area */}
       {isInstalled && (
-        <div className="fixed bottom-4 left-4 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm">
+        <div className="fixed bottom-20 left-4 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm animate-slide-up">
           <div className="flex items-start space-x-3">
             <div className="bg-white bg-opacity-20 rounded-full p-1">
               <svg

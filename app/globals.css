@@ -167,6 +167,22 @@ button:focus {
   animation: fadeInUp 0.8s ease-out;
 }
 
+/* PWA Installer Animations */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
 /* Video container */
 .video-container {
   position: relative;
@@ -813,4 +829,58 @@ button {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
   border-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* PWA Installer Animations */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* PWA Banner responsive design */
+@media (max-width: 640px) {
+  .pwa-banner-mobile {
+    padding: 1rem;
+  }
+  
+  .pwa-banner-mobile .flex {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .pwa-banner-mobile .pwa-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+/* PWA Banner responsive design */
+@media (max-width: 640px) {
+  .pwa-banner-mobile {
+    padding: 1rem;
+  }
+  
+  .pwa-banner-mobile .flex {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .pwa-banner-mobile .pwa-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 }
