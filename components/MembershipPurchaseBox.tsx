@@ -98,7 +98,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
     return (
       <div 
         className={`
-          group relative overflow-hidden
+          group relative 
           bg-gradient-to-br from-white via-white to-gray-50
           rounded-3xl border-2 p-8
           transition-all duration-500 ease-out
@@ -107,7 +107,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           flex flex-col
           min-h-[580px]
           w-full
-          ${isRecommended ? 'ring-4 ring-opacity-20 scale-105' : ''}
+          ${isRecommended ? ' ring-opacity-20 scale-[1.0]' : ''}
         `}
         style={{
           borderColor: isRecommended ? membership.color.primary : membership.color.primary + '30',
