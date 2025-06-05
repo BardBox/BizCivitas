@@ -40,8 +40,8 @@ export default function Breadcrumbs({ customItems, currentPageTitle }: Breadcrum
       
       // Handle special cases
       switch (segment) {
-        case 'insights':
-          label = 'Insights';
+        case 'blogs':
+          label = 'Blogs';
           break;
         case 'events':
           label = 'Events';

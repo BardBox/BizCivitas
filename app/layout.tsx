@@ -5,8 +5,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import PWAInstaller from "@/components/PWAInstaller";
+import WebVitalsMonitoring from "@/components/WebVitalsMonitoring";
 // import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
+
+// Enhanced ISR configuration for layout
+export const revalidate = 3600; // 1 hour for layout components
+
 const geistSans = Raleway({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -85,6 +91,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1a202c" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="BizCivitas" />
+        <link rel="apple-touch-icon" href="/bizcivitas.svg" />
+        
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -146,8 +160,47 @@ export default function RootLayout({
             width="0" 
             />
         </noscript>
+        
+        {/* Google Analytics 4 */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+              page_title: document.title,
+              page_location: window.location.href,
+              anonymize_ip: true,
+              send_page_view: true
+            });
+          `}
+        </Script>
+
+        {/* Service Worker Registration */}
+        <Script id="sw-registration" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator && '${process.env.NODE_ENV}' === 'production') {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                  .then(function(registration) {
+                    console.log('SW registered: ', registration);
+                  })
+                  .catch(function(registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                  });
+              });
+            }
+          `}
+        </Script>
+
         <Analytics />
-          <SpeedInsights/>
+        <SpeedInsights/>
+        <WebVitalsMonitoring />
+        <PWAInstaller />
         <Navbar />
         <main className={`min-h-screen ${geistSans.className}`} >
           {children}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { theme } from "@/lib/theme";
 import ContentSection, { ContentSection2 } from "@/components/ContentSection";
 import EnhancedCTA from "@/components/EnhancedCTA";
@@ -9,6 +10,10 @@ import FeaturesSection from "@/components/Home/WhyChooseUs";
 import InsightsSection from "@/components/Home/InsightsSection";
 import LetsConnect from "@/components/Home/LetsConnect";
 import Footer from "@/components/Footer";
+import { generateHomepageStructuredData } from "@/lib/structured-data";
+
+// Enhanced ISR configuration for homepage
+export const revalidate = 1800; // 30 minutes for homepage content
 
 export const metadata: Metadata = {
   title:
@@ -103,11 +108,15 @@ export default function HomePage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        suppressHydrationWarning
-      />
+      {/* Enhanced Structured Data */}
+      {generateHomepageStructuredData().map((schema, index) => (
+        <Script
+          key={index}
+          id={`structured-data-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <div className="bg-flat-bg min-h-screen">
         {/* Hero Section with Video Background */}
@@ -147,17 +156,19 @@ export default function HomePage() {
                 destinations and forming meaningful collaborations.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <EventRegistrationButton 
-                  eventName="Join BizCivitas Community" 
-                  eventSlug="community-registration"
-                  variant="primary" 
-                  size="lg"
-                />
                 <EnhancedCTA
-                  href="/insights"
+                href="/membership"
+                variant="primary"
+                size="lg"
+                className="bg-flat-btn-primary min-w-[180px] text-white hover:bg-flat-btn-secondary transition-colors duration-300"
+                >
+                  Join Now
+                  </EnhancedCTA>
+                <EnhancedCTA
+                  href="/blogs"
                   variant="outline"
                   size="lg"
-                  className="border-white text-white hover:bg-white hover:text-gray-900"
+                  className="border-white min-w-[180px] text-white hover:bg-white hover:text-gray-900"
                 >
                   Learn More
                 </EnhancedCTA>

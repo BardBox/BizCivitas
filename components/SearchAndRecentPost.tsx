@@ -42,14 +42,14 @@ export default function SearchAndRecentPosts({
       params.delete('search')
     }
     
-    router.push(`/insights?${params.toString()}`)
+    router.push(`/blogs?${params.toString()}`)
   }
 
   const clearSearch = () => {
     setSearchQuery('')
     const params = new URLSearchParams(searchParams.toString())
     params.delete('search')
-    router.push(`/insights?${params.toString()}`)
+    router.push(`/blogs?${params.toString()}`)
   }
 
   return (
@@ -57,7 +57,7 @@ export default function SearchAndRecentPosts({
       <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 lg:p-6 space-y-6">
         {/* Search Section */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Search Insights</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Search Blogs</h3>
           <form onSubmit={handleSearch} className="space-y-3">
             <div className="relative">
               <input
@@ -122,7 +122,7 @@ export default function SearchAndRecentPosts({
                     strokeWidth={2}
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
-                </svg> <p>Search Insights</p>
+                </svg> <p>Search Blogs</p>
             </button>
           </form>
           {currentSearch && (
@@ -152,7 +152,7 @@ export default function SearchAndRecentPosts({
               recentPosts.map((post) => (
                 <article key={post.id} className="group">
                   <Link
-                    href={`/insights/${post.slug}`}
+                    href={`/blogs/${post.slug}`}
                     className="flex gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                   >
                     <div className="flex-shrink-0">
@@ -189,10 +189,10 @@ export default function SearchAndRecentPosts({
           </h3>
           <div className="space-y-2">
             <Link
-              href="/insights"
+              href="/blogs"
               className="block text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
             >
-              View All Insights
+              View All Blogs
             </Link>
             <Link
               href="/events"

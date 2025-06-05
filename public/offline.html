@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - BizCivitas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .features {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .features h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #4ade80;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .retry-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .offline-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .offline-indicator::before {
+            content: "📶";
+            margin-right: 8px;
+            filter: grayscale(100%);
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .features {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-indicator">Offline</div>
+    
+    <div class="container">
+        <div class="logo">BC</div>
+        
+        <h1>You're Offline</h1>
+        
+        <p>No internet connection detected. Don't worry, some features are still available!</p>
+        
+        <div class="features">
+            <h3>Available Offline:</h3>
+            <ul class="feature-list">
+                <li>Browse cached blog posts</li>
+                <li>View company information</li>
+                <li>Access contact details</li>
+                <li>Submit forms (synced when online)</li>
+            </ul>
+        </div>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            Try Again
+        </button>
+        
+        <button class="retry-btn" onclick="window.location.href='/'">
+            Go Home
+        </button>
+    </div>
+    
+    <script>
+        // Auto-retry when connection is restored
+        window.addEventListener('online', function() {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+        
+        // Show connection status
+        function updateConnectionStatus() {
+            const indicator = document.querySelector('.offline-indicator');
+            if (navigator.onLine) {
+                indicator.textContent = '📶 Online';
+                indicator.style.background = '#10b981';
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                indicator.textContent = '📶 Offline';
+                indicator.style.background = '#ef4444';
+            }
+        }
+        
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        
+        // Initial check
+        updateConnectionStatus();
+    </script>
+</body>
+</html>

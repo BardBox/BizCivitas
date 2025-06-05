@@ -89,13 +89,13 @@ export function getBlogSEOData(blog: Blog) {
   ].filter(Boolean);
   
   return {
-    title: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
+    title: `${blog.topic_name || 'Blog Post'} | BizCivitas Blogs`,
     description: shortDescription,
     keywords,
-    ogTitle: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
+    ogTitle: `${blog.topic_name || 'Blog Post'} | BizCivitas Blogs`,
     ogDescription: shortDescription,
     ogImage: blog.cover_url || '/og-blog.jpg',
-    twitterTitle: `${blog.topic_name || 'Blog Post'} | BizCivitas Insights`,
+    twitterTitle: `${blog.topic_name || 'Blog Post'} | BizCivitas Blogs`,
     twitterDescription: shortDescription,
     twitterImage: blog.cover_url || '/og-blog.jpg',
     structuredData: {
@@ -117,9 +117,9 @@ export function getBlogSEOData(blog: Blog) {
       dateModified: blog.updated_at || blog.date,
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `https://bizcivitas.com/insights/${blog.slug}`
+        "@id": `https://bizcivitas.com/blogs/${blog.slug}`
       },
-      articleSection: blog.type_of_topic || "Business Insights",
+      articleSection: blog.type_of_topic || "Business Blogs",
       keywords: keywords.join(", ")
     }
   };

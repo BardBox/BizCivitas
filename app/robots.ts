@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: [
           '/',
           '/events/',
-          '/insights/',
+          '/blogs/',
           '/team/',
           '/about',
           '/discover',

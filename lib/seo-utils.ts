@@ -1,4 +1,3 @@
-
 import { Event } from './events';
 import { TeamMember } from './team';
 
@@ -186,4 +185,161 @@ export function validateSEOData(seoData: Partial<SEOData>): string[] {
   }
   
   return issues;
+}
+
+// Advanced SEO optimization utilities
+export function generateStructuredData(type: 'article' | 'organization' | 'website' | 'breadcrumb', data: any) {
+  const baseStructure = {
+    "@context": "https://schema.org",
+  };
+
+  switch (type) {
+    case 'article':
+      return {
+        ...baseStructure,
+        "@type": "Article",
+        headline: data.title,
+        description: data.description,
+        author: {
+          "@type": "Person",
+          name: data.author || "BizCivitas Team"
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "BizCivitas",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://bizcivitas.com/logo.png"
+          }
+        },
+        datePublished: data.datePublished,
+        dateModified: data.dateModified || data.datePublished,
+        image: data.image,
+        url: data.url,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": data.url
+        }
+      };
+
+    case 'organization':
+      return {
+        ...baseStructure,
+        "@type": "Organization",
+        name: "BizCivitas",
+        url: "https://bizcivitas.com",
+        logo: "https://bizcivitas.com/logo.png",
+        description: "Professional business networking platform connecting entrepreneurs, executives, and innovators worldwide",
+        sameAs: [
+          "https://www.linkedin.com/company/bizcivitas",
+          "https://www.facebook.com/bizcivitas",
+          "https://www.instagram.com/bizcivitas",
+          "https://www.youtube.com/@BizCivitas"
+        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: "+1-800-BIZCIV",
+          contactType: "Customer Service"
+        }
+      };
+
+    case 'website':
+      return {
+        ...baseStructure,
+        "@type": "WebSite",
+        name: "BizCivitas",
+        url: "https://bizcivitas.com",
+        description: "Professional business networking platform",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://bizcivitas.com/blogs?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      };
+
+    case 'breadcrumb':
+      return {
+        ...baseStructure,
+        "@type": "BreadcrumbList",
+        itemListElement: data.items.map((item: any, index: number) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          item: item.url
+        }))
+      };
+
+    default:
+      return baseStructure;
+  }
+}
+
+// Image optimization utilities
+export function generateOptimizedImageSizes() {
+  return {
+    mobile: "(max-width: 768px) 100vw",
+    tablet: "(max-width: 1200px) 50vw", 
+    desktop: "33vw"
+  };
+}
+
+// Performance optimization for lazy loading
+export function generateLazyLoadingProps(priority: boolean = false) {
+  return {
+    loading: priority ? "eager" as const : "lazy" as const,
+    priority,
+    sizes: generateOptimizedImageSizes().mobile + ", " + 
+           generateOptimizedImageSizes().tablet + ", " + 
+           generateOptimizedImageSizes().desktop
+  };
+}
+
+// Generate canonical URLs
+export function generateCanonicalUrl(path: string, baseUrl?: string) {
+  const base = baseUrl || process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com";
+  return `${base}${path.startsWith('/') ? path : '/' + path}`;
+}
+
+// SEO-optimized meta tags generator
+export function generateSEOTags(config: {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  ogImage?: string;
+  keywords?: string[];
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+}) {
+  return {
+    title: config.title,
+    description: config.description,
+    keywords: config.keywords?.join(', '),
+    robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    canonical: config.canonicalUrl,
+    openGraph: {
+      title: config.title,
+      description: config.description,
+      url: config.canonicalUrl,
+      type: config.type || 'website',
+      images: config.ogImage ? [{
+        url: config.ogImage,
+        width: 1200,
+        height: 630,
+        alt: config.title
+      }] : [],
+      ...(config.publishedTime && { publishedTime: config.publishedTime }),
+      ...(config.modifiedTime && { modifiedTime: config.modifiedTime }),
+      siteName: "BizCivitas",
+      locale: "en_US"
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: config.title,
+      description: config.description,
+      ...(config.ogImage && { images: [config.ogImage] }),
+      site: '@BizCivitas',
+      creator: '@BizCivitas'
+    }
+  };
 }

@@ -19,7 +19,7 @@ function BlogCard({ blog }: BlogCardProps) {
   return (
     <article className="blog-card group">
       <Link 
-        href={`/insights/${blog.slug}`} 
+        href={`/blogs/${blog.slug}`} 
         aria-label={`Read more about ${blog.topic_name}`}
       >
         <div className="relative overflow-hidden">
@@ -67,7 +67,7 @@ function RecentPostCard({ post }: RecentPostCardProps) {
   return (
     <article className="recent-post-card">
       <Link 
-        href={`/insights/${post.slug}`} 
+        href={`/blogs/${post.slug}`} 
         className="flex gap-3 group"
         aria-label={`Read ${post.topic_name}`}
       >
@@ -116,8 +116,8 @@ export default async function InsightsSection() {
 
         {/* Explore More Button */}
         <footer className="explore-more">
-          <Link href="/insights" className="explore-btn">
-            View All Insights
+          <Link href="/blogs" className="explore-btn">
+            View All Blogs
           </Link>
         </footer>
       </div>

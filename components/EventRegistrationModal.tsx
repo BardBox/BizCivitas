@@ -249,7 +249,7 @@ export default function EventRegistrationModal({
                           }
                         })}
                         type="text"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 text-base sm:text-sm"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 text-black sm:text-sm"
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -279,7 +279,7 @@ export default function EventRegistrationModal({
                       <input
                         {...register('business_name')}
                         type="text"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+                        className="w-full text-black pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
                         placeholder="Enter your business name (optional)"
                       />
                     </div>
@@ -305,7 +305,7 @@ export default function EventRegistrationModal({
                           },
                         })}
                         type="email"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+                        className="w-full pl-10 text-black pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
                         placeholder="Enter your email address"
                       />
                     </div>
@@ -340,7 +340,7 @@ export default function EventRegistrationModal({
                           }
                         })}
                         type="tel"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+                        className="w-full text-black pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
                         placeholder="Enter your phone number (optional)"
                       />
                     </div>
@@ -375,7 +375,7 @@ export default function EventRegistrationModal({
                           }
                         })}
                         rows={3}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none hover:border-gray-400"
+                        className="w-full text-black pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none hover:border-gray-400"
                         placeholder="Tell us why you're interested in this event (optional)"
                       />
                     </div>
@@ -425,7 +425,7 @@ export default function EventRegistrationModal({
                       </div>
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
-                        <span>Register for Event</span>
+                        <span>Register for Events</span>
                         <motion.div
                           animate={{ x: [0, 5, 0] }}
                           transition={{ duration: 1.5, repeat: Infinity }}

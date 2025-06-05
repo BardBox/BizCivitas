@@ -75,14 +75,14 @@ const services = [
   },
   {
     name: "Professional Development",
-    href: "/insights",
+    href: "/blogs",
     title: "Professional Development Resources",
   },
 ];
 
 const greenRoutes = [
   "/discover",
-  "/insights",
+  "/blogs",
   "/memberships",
   "/corporate-networking",
   "/privacy",

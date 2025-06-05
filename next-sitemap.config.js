@@ -23,7 +23,7 @@ module.exports = {
         allow: [
           '/',
           '/events/',
-          '/insights/',
+          '/blogs/',
           '/team/',
           '/about',
           '/discover',
@@ -66,7 +66,7 @@ module.exports = {
       changefreq = 'daily';
     }
     // Main section pages
-    else if (path.match(/^\/(events|insights|team)$/)) {
+    else if (path.match(/^\/(events|blogs|team)$/)) {
       priority = 0.9;
       changefreq = 'daily';
     }
@@ -75,8 +75,8 @@ module.exports = {
       priority = 0.8;
       changefreq = 'weekly';
     }
-    // Dynamic insight pages
-    else if (path.match(/^\/insights\/[^\/]+$/)) {
+    // Dynamic blog pages
+    else if (path.match(/^\/blogs\/[^\/]+$/)) {
       priority = 0.8;
       changefreq = 'monthly';
     }

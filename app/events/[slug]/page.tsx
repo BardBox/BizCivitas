@@ -206,8 +206,8 @@ export default async function EventPage({ params }: PageProps) {
                   <EventRegistrationButton
                     eventName={event.event_name}
                     eventSlug={event.slug}
-                    variant="primary"
-                    size="lg"
+                    variant="orange-rounded"
+                    size="md"
                   />
                 ) : null}
                 <ShareButton
@@ -283,11 +283,11 @@ export default async function EventPage({ params }: PageProps) {
                     )}
 
                     {/* YouTube Videos */}
-                    {event.youtube_links && (
+                    {event.youtube_links ? (
                       <div className="mt-8">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">
-                          Event Videos
-                        </h3>
+                          <h3 className="text-xl font-bold text-gray-900 mb-4">
+                            Event Videos...
+                          </h3>
                         <div className="space-y-6">
                           {(() => {
                             const links = event.youtube_links instanceof Array
@@ -346,7 +346,7 @@ export default async function EventPage({ params }: PageProps) {
                           })()}
                         </div>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -439,16 +439,10 @@ export default async function EventPage({ params }: PageProps) {
                         size="md"
                         className="w-full"
                       />
-                      <EnhancedCTA href="#" variant="outline" size="md" className="w-full">
-                        Add to Calendar
-                      </EnhancedCTA>
                     </div>
 
                     {/* Social Share */}
                     <div className="mt-8 pt-6 border-t border-gray-200">
-                      <p className="text-sm font-medium text-gray-900 mb-4">
-                        Share this event
-                      </p>
                       <div className="flex justify-center">
                         <ShareButton
                           url={`https://bizcivitas.com/events/${event.slug}`}
