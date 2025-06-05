@@ -125,11 +125,11 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         )}
 
         {/* Decorative elements */}
-        <div 
+        {/* <div 
           className="absolute -top-6 -right-6 w-24 h-24 opacity-5 transform rotate-12 group-hover:rotate-45 transition-transform duration-700 rounded-2xl"
           style={{ backgroundColor: membership.color.primary }}
         />
-        
+         */}
         {/* Plan Icon and Title */}
         <div className="text-center mb-6">
           <div 
