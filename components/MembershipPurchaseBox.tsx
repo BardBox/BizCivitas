@@ -114,15 +114,15 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           
         }}
       >
-        {/* Recommended Badge */}
+        {/* Recommended Badge
         {isRecommended && (
           <div 
-            className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-white font-bold text-sm shadow-lg z-10"
+            className="absolute w -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-white font-bold text-sm shadow-lg z-10"
             style={{ backgroundColor: membership.color.primary }}
           >
             ⭐ Recommended
           </div>
-        )}
+        )} */}
 
         {/* Decorative elements */}
         {/* <div 
@@ -151,7 +151,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         {/* Price Display */}
         <div className="text-center mb-6">
           <div 
-            className="text-5xl font-bold mb-3 transform group-hover:scale-105 transition-transform duration-300"
+            className="text-3xl font-bold mb-3 transform group-hover:scale-105 transition-transform duration-300"
             style={{ color: membership.color.primary }}
           >
             ₹{plan.price.toLocaleString()}
@@ -309,7 +309,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
         <div className="bg-white rounded-2xl p-8 shadow-lg border mb-8 max-w-md mx-auto">
           <div className="text-sm text-gray-600 mb-2 font-medium">Complete Investment</div>
           <div 
-            className="text-6xl font-bold mb-4 tracking-tight"
+            className="text-4xl font-bold mb-4 tracking-tight"
             style={{ color: membership.color.primary }}
           >
             {membership.price.currency}{membership.price.amount.toLocaleString()}
