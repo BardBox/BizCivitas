@@ -1,9 +1,13 @@
+
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { getAllBlogs, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
+import { getAllBlogs, getBlogsPaginated, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
 import { Suspense } from "react";
 import SearchAndRecentPosts from "@/components/SearchAndRecentPost";
+import LazyImage from "@/components/LazyImage";
+import Pagination from "@/components/Pagination";
+import { headers } from "next/headers";
+import { isCrawlerBot, memoryCache } from "@/lib/cache-utils";
 import "./blog-cards.css";
 import TopSection from "@/components/TopSection";
 
@@ -71,7 +75,11 @@ const TOPIC_TYPES = [
 ];
 
 interface InsightsPageProps {
-  searchParams: Promise<{ topic?: string; search?: string }>;
+  searchParams: Promise<{ 
+    topic?: string; 
+    search?: string; 
+    page?: string;
+  }>;
 }
 
 export default async function InsightsPage({
@@ -80,25 +88,58 @@ export default async function InsightsPage({
   const params = await searchParams;
   const selectedTopic = params.topic || "All";
   const searchQuery = params.search || "";
+  const currentPage = parseInt(params.page || "1", 10);
+  const blogsPerPage = 6;
 
+  // Check if request is from a bot for enhanced caching
+  const headersList = await headers();
+  const userAgent = headersList.get('user-agent') || '';
+  const isBot = isCrawlerBot(userAgent);
+
+  // Get all blogs for topic counts and recent posts
   const allBlogs = await getAllBlogs();
 
-  // Filter blogs based on selected topic and search query
-  let filteredBlogs = selectedTopic === "All"
-    ? allBlogs
-    : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
+  // Get paginated data
+  let paginatedData;
+  let filteredBlogs: Blog[] = [];
+  let totalPages = 0;
 
-  // Apply search filter if search query exists
-  if (searchQuery) {
-    filteredBlogs = filteredBlogs.filter((blog) =>
-      (blog.topic_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
-      (blog.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
-      (blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
-    );
+  if (selectedTopic === "All" && !searchQuery) {
+    // Use paginated function for "All" without search
+    paginatedData = await getBlogsPaginated(currentPage, blogsPerPage);
+    filteredBlogs = paginatedData.blogs;
+    totalPages = paginatedData.totalPages;
+  } else {
+    // Filter blogs based on selected topic and search query
+    let tempFilteredBlogs = selectedTopic === "All"
+      ? allBlogs
+      : allBlogs.filter((blog) => blog.type_of_topic === selectedTopic);
+
+    // Apply search filter if search query exists
+    if (searchQuery) {
+      tempFilteredBlogs = tempFilteredBlogs.filter((blog) =>
+        (blog.topic_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+        (blog.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+        (blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+      );
+    }
+
+    // Manual pagination for filtered results
+    const totalCount = tempFilteredBlogs.length;
+    totalPages = Math.ceil(totalCount / blogsPerPage);
+    const startIndex = (currentPage - 1) * blogsPerPage;
+    const endIndex = startIndex + blogsPerPage;
+    filteredBlogs = tempFilteredBlogs.slice(startIndex, endIndex);
   }
 
-  // Get recent posts (latest 5)
-  const recentPosts = allBlogs.slice(0, 5);
+  // Get recent posts (latest 5) - use cache for bots
+  const recentPosts = isBot ? 
+    (memoryCache.get('recent-posts') || allBlogs.slice(0, 5)) : 
+    allBlogs.slice(0, 5);
+
+  if (isBot && !memoryCache.get('recent-posts')) {
+    memoryCache.set('recent-posts', allBlogs.slice(0, 5), 300000); // 5 minutes
+  }
 
   // Count blogs per topic for tab counters
   const topicCounts = TOPIC_TYPES.reduce(
@@ -252,11 +293,12 @@ export default async function InsightsPage({
                       <>
                         Showing {filteredBlogs.length} results for "{searchQuery}"
                         {selectedTopic !== "All" && ` in "${selectedTopic}"`}
+                        {currentPage > 1 && ` (Page ${currentPage} of ${totalPages})`}
                       </>
                     ) : selectedTopic === "All" ? (
-                      `Showing all ${filteredBlogs.length} insights`
+                      `Showing ${filteredBlogs.length} insights${currentPage > 1 ? ` (Page ${currentPage} of ${totalPages})` : ''}`
                     ) : (
-                      `Showing ${filteredBlogs.length} insights in "${selectedTopic}"`
+                      `Showing ${filteredBlogs.length} insights in "${selectedTopic}"${currentPage > 1 ? ` (Page ${currentPage} of ${totalPages})` : ''}`
                     )}
                   </p>
                 </header>
@@ -305,17 +347,18 @@ export default async function InsightsPage({
                       )}
                     </div>
                   ) : (
-                    filteredBlogs.map((blog) => (
+                    filteredBlogs.map((blog, index) => (
                       <article key={blog.id} className="transition-scale">
                         <Link href={`/insights/${blog.slug}`} className="block">
                           <div className="custom-blog-card">
                             <div className="image-container">
-                              <Image
+                              <LazyImage
                                 src={blog.cover_url || "/placeholder-event.jpg"}
                                 alt={blog.topic_name || "Blog post"}
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                priority={index < 2} // Prioritize first 2 images
                               />
                             </div>
                             <div className="content">
@@ -363,6 +406,16 @@ export default async function InsightsPage({
                     ))
                   )}
                 </main>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    baseUrl="/insights"
+                    className="mt-12"
+                  />
+                )}
               </div>
 
               {/* Desktop Sidebar - Hidden on mobile */}

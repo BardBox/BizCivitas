@@ -1,7 +1,7 @@
 // components/BlogCard.tsx
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import LazyImage from './LazyImage'; // Import LazyImage
 import { Blog } from '@/types/blogs.types';
 
 interface BlogCardProps {
@@ -13,13 +13,13 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
     <Link href={`/insights/${blog.slug}`} className="blog-card">
       <div className="blog-card-content">
         <div className="blog-image-container">
-          <Image
+          <LazyImage
             src={blog.cover_url}
-            alt={blog.topic_name}
-            width={400}
+            alt={`Cover image for ${blog.topic_name}`}
+            width={300}
             height={250}
             className="blog-image"
-            priority
+            priority={false}
           />
         </div>
         <div className="content">
