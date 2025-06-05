@@ -160,85 +160,126 @@ export default async function MembershipPage({ params }: PageProps) {
               {/* Main Content */}
               <div className="w-full">
                 {/* Key Benefits */}
-                <div className="mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide mr-2 lucide-key-icon lucide-key"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" /><path d="m21 2-9.6 9.6" /><circle cx="7.5" cy="15.5" r="5.5" /></svg>
-                    Key Benefits
-                  </h2>
-                  <ul className="space-y-4">
-                    {membership.benefits.map((benefit, index) => (
-                      <li key={index} className="flex items-start">
-                        <div
-                          className="w-6 h-6 rounded-full mr-3 flex items-center justify-center mt-0.5"
-                          style={{ backgroundColor: membership.color.primary }}
-                        >
-                          <Check className="w-4 h-4 text-white" />
-                        </div>
-                        <span className="text-gray-700 text-lg">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Enhanced Benefits Grid Section */}
+                <div className="mb-16">
+                  <div className="text-center mb-12">
+                    <h2 className="text-4xl font-bold text-gray-900 mb-4">Complete Membership Overview</h2>
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                      Discover all the benefits, features, and opportunities that come with your {membership.name} membership
+                    </p>
+                  </div>
 
-                {/* Meeting Structure for Core */}
-                {membership.meetingStructure && (
-                  <div className="mb-12">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                      <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m0 0L9 7" />
-                      </svg>
-                      Meeting Structure
-                    </h3>
-                    <ul className="space-y-4">
-                      {membership.meetingStructure.map((structure, index) => (
-                        <li key={index} className="flex items-start">
-                          <div
-                            className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
-                            style={{ backgroundColor: membership.color.primary }}
-                          >
-                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <div className="grid lg:grid-cols-2 gap-8 mb-12">
+                    {/* Key Benefits Card */}
+                    <div className="bg-gradient-to-br from-white via-white to-gray-50 rounded-3xl border-2 p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full"
+                      style={{ borderColor: membership.color.primary + '20' }}>
+                      <div className="flex items-center mb-8">
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center mr-4 shadow-md"
+                          style={{ backgroundColor: membership.color.secondary }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                            style={{ color: membership.color.primary }}>
+                            <path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" />
+                            <path d="m21 2-9.6 9.6" />
+                            <circle cx="7.5" cy="15.5" r="5.5" />
+                          </svg>
+                        </div>
+                        <h3 className="text-3xl font-bold text-gray-900">Key Benefits</h3>
+                      </div>
+                      <ul className="space-y-4">
+                        {membership.benefits.map((benefit, index) => (
+                          <li key={index} className="flex items-start group hover:bg-gray-50 p-3 rounded-xl transition-all duration-300">
+                            <div className="w-7 h-7 rounded-full mr-4 flex items-center justify-center mt-0.5 shadow-sm group-hover:scale-110 transition-transform duration-300"
+                              style={{ backgroundColor: membership.color.primary }}>
+                              <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                            </div>
+                            <span className="text-gray-700 text-lg leading-relaxed font-medium">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Why Choose Card */}
+                    <div className="bg-gradient-to-br from-white via-white to-gray-50 rounded-3xl border-2 p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full"
+                      style={{ borderColor: membership.color.primary + '20' }}>
+                      <div className="flex items-center mb-8">
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center mr-4 shadow-md"
+                          style={{ backgroundColor: membership.color.secondary }}>
+                          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"
+                            style={{ color: membership.color.primary }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-3xl font-bold text-gray-900">Why Choose {membership.name}?</h3>
+                      </div>
+                      <div className="space-y-4">
+                        {membership.highlights.map((highlight, index) => (
+                          <div key={index}
+                            className="p-5 rounded-2xl border-l-4 hover:shadow-md transition-all duration-300 hover:-translate-x-1"
+                            style={{
+                              borderLeftColor: membership.color.primary,
+                              backgroundColor: membership.color.secondary + '40'
+                            }}>
+                            <p className="text-gray-700 leading-relaxed font-medium">{highlight}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Meeting Structure (if exists) */}
+                  {membership.meetingStructure && (
+                    <div className="mb-12">
+                      <div className="bg-gradient-to-br from-white via-white to-gray-50 rounded-3xl border-2 p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                        style={{ borderColor: membership.color.primary + '20' }}>
+                        <div className="flex items-center mb-8">
+                          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mr-4 shadow-md"
+                            style={{ backgroundColor: membership.color.secondary }}>
+                            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"
+                              style={{ color: membership.color.primary }}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m0 0L9 7" />
                             </svg>
                           </div>
-                          <span className="text-gray-700">{structure}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                          <h3 className="text-3xl font-bold text-gray-900">Meeting Structure</h3>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-6">
+                          {membership.meetingStructure.map((structure, index) => (
+                            <div key={index} className="flex items-start group hover:bg-gray-50 p-4 rounded-xl transition-all duration-300">
+                              <div className="w-8 h-8 rounded-full mr-4 flex items-center justify-center flex-shrink-0 mt-1 shadow-sm group-hover:scale-110 transition-transform duration-300"
+                                style={{ backgroundColor: membership.color.primary }}>
+                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              </div>
+                              <span className="text-gray-700 leading-relaxed font-medium">{structure}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
-                {/* Features & Highlights */}
-                <div className="grid md:grid-cols-2 gap-12 mb-12 items-start">
-                  <div className="flex flex-col h-full">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Features Included</h3>
-                    <ul className="space-y-4 flex-1">
+                  {/* Features Included */}
+                  <div className="bg-gradient-to-br from-white via-white to-gray-50 rounded-3xl border-2 p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                    style={{ borderColor: membership.color.primary + '20' }}>
+                    <div className="flex items-center mb-8">
+                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center mr-4 shadow-md"
+                        style={{ backgroundColor: membership.color.secondary }}>
+                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"
+                          style={{ color: membership.color.primary }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-3xl font-bold text-gray-900">Features Included</h3>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {membership.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <div
-                            className="w-6 h-6 rounded-full mr-3 flex items-center justify-center flex-shrink-0 mt-0.5"
-                            style={{ backgroundColor: membership.color.primary }}
-                          >
-                            <Check className="w-4 h-4 text-white" />
+                        <div key={index} className="flex items-start group hover:bg-gray-50 p-4 rounded-xl transition-all duration-300">
+                          <div className="w-7 h-7 rounded-full mr-4 flex items-center justify-center flex-shrink-0 mt-1 shadow-sm group-hover:scale-110 transition-transform duration-300"
+                            style={{ backgroundColor: membership.color.primary }}>
+                            <Check className="w-4 h-4 text-white" strokeWidth={3} />
                           </div>
-                          <span className="text-gray-700 leading-relaxed">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-col h-full">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose {membership.name}?</h3>
-                    <div className="grid gap-4 flex-1">
-                      {membership.highlights.map((highlight, index) => (
-                        <div
-                          key={index}
-                          className="p-6 rounded-lg border-l-4 flex items-center min-h-[80px]"
-                          style={{
-                            borderLeftColor: membership.color.primary,
-                            backgroundColor: membership.color.secondary
-                          }}
-                        >
-                          <p className="text-gray-700 leading-relaxed">{highlight}</p>
+                          <span className="text-gray-700 leading-relaxed font-medium">{feature}</span>
                         </div>
                       ))}
                     </div>
