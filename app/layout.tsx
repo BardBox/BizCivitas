@@ -9,13 +9,10 @@ import SwupProvider from "@/components/SwupProvider";
 import { Analytics } from "@vercel/analytics/next";
 // import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
-
 const geistSans = Raleway({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  display: 'swap',
-  preload: true,
 });
 
 const geistMono = Raleway({

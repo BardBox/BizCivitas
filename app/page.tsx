@@ -120,8 +120,7 @@ export default function HomePage() {
               playsInline
               controlsList="nodownload nofullscreen noremoteplaybook"
               disablePictureInPicture
-              preload="none"
-              loading="eager"
+              preload="metadata"
               aria-label="Business innovation video showcasing successful companies"
               suppressHydrationWarning
             />
