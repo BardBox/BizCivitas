@@ -107,7 +107,7 @@ export default function HomePage() {
         suppressHydrationWarning
       />
 
-      <div className="bg-flat-bg min-h-screen transition-fade">
+      <div className="bg-flat-bg min-h-screen">
         {/* Hero Section with Video Background */}
         <section className="relative w-full h-screen overflow-hidden">
           <div className="absolute inset-0 w-full h-full">

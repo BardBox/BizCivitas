@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "../styles/swup.css";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SwupProvider from "@/components/SwupProvider";
 import { Analytics } from "@vercel/analytics/next";
 // import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
@@ -150,15 +148,13 @@ export default function RootLayout({
         </noscript>
         <Analytics />
           <SpeedInsights/>
-        <SwupProvider>
-          <Navbar />
-          <main className={`min-h-screen ${geistSans.className} transition-fade`} >
-            {children}
-          </main>
-          <div className="z-10 relative">
-             <Footer />
-          </div>
-        </SwupProvider>
+        <Navbar />
+        <main className={`min-h-screen ${geistSans.className}`} >
+          {children}
+        </main>
+        <div className="z-10 relative">
+           <Footer />
+        </div>
        
       </body>
     </html>
