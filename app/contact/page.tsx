@@ -1,7 +1,6 @@
-
 import type { Metadata } from "next";
 import { theme } from '@/lib/theme';
-import { redirect } from 'next/navigation';
+import ContactFormWrapper from '@/components/ContactFormWrapper';
 
 export const metadata: Metadata = {
   title: "Contact BizCivitas - Get in Touch",
@@ -31,39 +30,11 @@ export const metadata: Metadata = {
   },
 };
 
-async function submitInquiry(formData: FormData) {
-  'use server';
-  
-  const name = formData.get('name') as string;
-  const contact = formData.get('contact') as string;
-  const email = formData.get('email') as string;
-  const howFindUs = formData.get('howFindUs') as string;
-  
-  try {
-    const response = await fetch('https://backend.bizcivitas.com/api/v1/inquiry/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name,
-        contact: contact,
-        email: email,
-        howFindUs: howFindUs
-      }),
-    });
-
-    const result = await response.json();
-    
-    if (response.ok && result.success) {
-      redirect('/contact?success=true');
-    } else {
-      redirect('/contact?error=true');
-    }
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    redirect('/contact?error=true');
-  }
+interface ContactFormData {
+  name: string;
+  contact: string;
+  email: string;
+  howFindUs: string;
 }
 
 interface ContactPageProps {
@@ -74,6 +45,42 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
   const success = params.success;
   const error = params.error;
+
+  const handleFormSubmit = async (data: ContactFormData) => {
+    'use server';
+
+    console.log("Server: Received form data:", data);
+
+    try {
+      const response = await fetch('https://backend.bizcivitas.com/api/v1/inquiry/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          contact: data.contact,
+          email: data.email,
+          howFindUs: data.howFindUs
+        }),
+      });
+
+      const result = await response.json();
+      console.log("Server: API response:", result);
+
+      if (response.ok && result.success) {
+        // Handle success - you might want to use a different approach for success handling
+        console.log("Server: Form submission successful");
+        return { success: true, data: result };
+      } else {
+        console.error("Server: API error:", result);
+        throw new Error(result.message || 'Failed to submit form');
+      }
+    } catch (error) {
+      console.error('Server: Error submitting form:', error);
+      throw error;
+    }
+  };
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -108,7 +115,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      
+
       <div className="min-h-screen bg-gradient-to-br from-white to-gray-50">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-orange-500 to-green-500 flex items-center justify-center text-white">
@@ -166,7 +173,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               <p className="text-lg text-gray-700 mb-8">
                 Have questions, suggestions, or need assistance? Feel free to reach out to us. We're here to help!
               </p>
-              
+
               <div className="space-y-8">
                 {/* Address */}
                 <div className="flex items-start">
@@ -216,83 +223,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             </div>
 
             {/* Right Side - Contact Form */}
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-              <form action={submitInquiry} className="space-y-6">
-                {/* Name Field */}
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="Enter Your Name"
-                  />
-                </div>
-
-                {/* Contact and Email */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-2">
-                      Contact Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      id="contact"
-                      name="contact"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Enter Your Contact Number"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Enter Your Email"
-                    />
-                  </div>
-                </div>
-
-                {/* How Did You Find Us */}
-                <div>
-                  <label htmlFor="howFindUs" className="block text-sm font-medium text-gray-700 mb-2">
-                    How did you find us? <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="howFindUs"
-                    name="howFindUs"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  >
-                    <option value="">Select an option</option>
-                    <option value="google">Google</option>
-                    <option value="social_media">Social Media</option>
-                    <option value="referral">Referral</option>
-                    <option value="event">Event</option>
-                    <option value="website">Website</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-orange-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity"
-                >
-                  SUBMIT
-                </button>
-              </form>
-            </div>
+            <ContactFormWrapper onFormSubmit={handleFormSubmit} />
           </div>
         </div>
       </div>
