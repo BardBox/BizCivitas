@@ -6,6 +6,7 @@ import { getEventBySlug, getAllEvents, getEventSEOData } from "@/lib/events";
 import ImageCarousel from "@/components/ImageCarousel";
 import ShareButton from "@/components/ShareButton";
 import EnhancedCTA from "@/components/EnhancedCTA";
+import EventRegistrationButton from "@/components/EventRegistrationButton";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -202,9 +203,12 @@ export default async function EventPage({ params }: PageProps) {
               )}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 {event.type === "upcoming" ? (
-                  <EnhancedCTA href="/contact" variant="primary" size="lg">
-                    Register Now
-                  </EnhancedCTA>
+                  <EventRegistrationButton
+                    eventName={event.event_name}
+                    eventSlug={event.slug}
+                    variant="primary"
+                    size="lg"
+                  />
                 ) : null}
                 <ShareButton
                   url={`https://bizcivitas.com/events/${event.slug}`}
@@ -428,9 +432,13 @@ export default async function EventPage({ params }: PageProps) {
                     </div>
 
                     <div className="mt-8 space-y-3">
-                      <EnhancedCTA href="/contact" variant="primary" size="md" className="w-full">
-                        Register for Event
-                      </EnhancedCTA>
+                      <EventRegistrationButton
+                        eventName={event.event_name}
+                        eventSlug={event.slug}
+                        variant="primary"
+                        size="md"
+                        className="w-full"
+                      />
                       <EnhancedCTA href="#" variant="outline" size="md" className="w-full">
                         Add to Calendar
                       </EnhancedCTA>

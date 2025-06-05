@@ -3,6 +3,7 @@ import Link from "next/link";
 import { theme } from "@/lib/theme";
 import ContentSection, { ContentSection2 } from "@/components/ContentSection";
 import EnhancedCTA from "@/components/EnhancedCTA";
+import EventRegistrationButton from "@/components/EventRegistrationButton";
 import Image from "next/image";
 import FeaturesSection from "@/components/Home/WhyChooseUs";
 import InsightsSection from "@/components/Home/InsightsSection";
@@ -146,9 +147,12 @@ export default function HomePage() {
                 destinations and forming meaningful collaborations.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <EnhancedCTA href="/events" variant="primary" size="lg">
-                  Join Us
-                </EnhancedCTA>
+                <EventRegistrationButton 
+                  eventName="Join BizCivitas Community" 
+                  eventSlug="community-registration"
+                  variant="primary" 
+                  size="lg"
+                />
                 <EnhancedCTA
                   href="/insights"
                   variant="outline"
