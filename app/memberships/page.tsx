@@ -73,7 +73,7 @@ export default function MembershipsPage() {
         <TopSection
           heading="Memberships"
           subheading="Join our exclusive community of entrepreneurs, innovators, and business leaders. Choose the membership that aligns with your business journey."
-          backgroundImage="/memberships/hero-memberships.jpg"
+          backgroundImage="/patani.jpg"
         />
 
         {/* What We Provide Section */}
@@ -109,9 +109,7 @@ export default function MembershipsPage() {
 
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-command-icon w-8 h-8 text-green-600 lucide-command"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Mentorship</h3>
                 <p className="text-gray-600">Get guidance from experienced mentors who have built successful businesses.</p>
@@ -140,60 +138,73 @@ export default function MembershipsPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Enhanced grid with 4-2-1 responsive layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 lg:gap-8">
               {membershipPlans.map((plan) => (
                 <div
                   key={plan.id}
-                  className={`relative bg-white rounded-2xl shadow-lg border-2 p-8 transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-                    plan.popularBadge ? 'border-orange-500' : 'border-gray-200'
-                  }`}
+                  className="relative bg-white rounded-2xl shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:scale-105 flex flex-col h-full"
                 >
-                  {plan.popularBadge && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                  {/* Popular Badge (if needed) */}
+                  {/* {plan.popularBadge && (
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold z-10">
                       {plan.popularBadge}
                     </div>
-                  )}
+                  )} */}
 
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                    <p className="text-gray-600 mb-4">{plan.tagline}</p>
-                    <div className="text-3xl font-bold mb-2" style={{ color: plan.color.primary }}>
-                      {plan.price.currency}{plan.price.amount.toLocaleString()}
-                      <div className="text-sm text-gray-500 font-normal">
-                        {plan.id === 'digital' ? 'Per Year + GST' : 'Total Investment'}
+                  {/* Card Content - flex-grow to push button to bottom */}
+                  <div className="p-6 sm:p-8 flex flex-col flex-grow">
+                    {/* Header Section */}
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                      <p className="text-gray-600 mb-4 text-sm sm:text-base font-bold">"{plan.tagline}"</p>
+                      <div className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: plan.color.primary }}>
+                        {plan.price.currency}{plan.price.amount.toLocaleString()}
+                        <div className="text-xs sm:text-sm text-gray-500 font-normal">
+                          Inclusive of GST
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.slice(0, 4).map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <div 
-                          className="w-5 h-5 rounded-full mr-3 flex items-center justify-center mt-0.5"
-                          style={{ backgroundColor: plan.color.primary }}
-                        >
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-700 text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    {/* Features List - flex-grow to take available space */}
+                    <div className="flex-grow">
+                      <ul className="space-y-3 mb-6">
+                        {plan.features.slice(0, 4).map((feature, index) => (
+                          <li key={index} className="flex items-start">
+                            <div 
+                              className="w-5 h-5 rounded-full mr-3 flex items-center justify-center mt-0.5 flex-shrink-0"
+                              style={{ backgroundColor: `${plan.color.primary}20` }}
+                            >
+                              <svg 
+                                className="w-3 h-3" 
+                                fill="none" 
+                                stroke={plan.color.primary} 
+                                viewBox="0 0 24 24"
+                                strokeWidth={3}
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <div className="space-y-3">
-                    <Link
-                      href={`/memberships/${plan.slug}`}
-                      className="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-200 border-2"
-                      style={{ 
-                        backgroundColor: plan.color.primary,
-                        borderColor: plan.color.primary,
-                        color: 'white'
-                      }}
-                    >
-                      Learn More
-                    </Link>
-                    <p className="text-xs text-gray-500 text-center">Click to see full details</p>
+                    {/* Button Section - always at bottom */}
+                    <div className="mt-auto">
+                      <Link
+                        href={`/memberships/${plan.slug}`}
+                        className="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-200 border-2 text-white hover:opacity-90 transform hover:translate-y-[-1px]"
+                        style={{ 
+                          backgroundColor: plan.color.primary,
+                          borderColor: plan.color.primary
+                        }}
+                      >
+                        Learn More
+                      </Link>
+                      <p className="text-xs text-gray-500 text-center mt-2">Click to see full details</p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -201,26 +212,6 @@ export default function MembershipsPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-orange-500 to-green-500">
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
-            <p className="text-xl text-white/90 mb-8">
-              Join thousands of successful entrepreneurs who have accelerated their growth with BizCivitas.
-            </p>
-            <div className="space-y-4">
-              <Link
-                href="/contact"
-                className="inline-block bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors mr-4"
-              >
-                Get Started Today
-              </Link>
-              <div className="text-white/90">
-                <p>📞 +91 81606 79917 | 📩 info@bizcivitas.com</p>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </>
   );

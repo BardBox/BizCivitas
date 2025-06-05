@@ -313,7 +313,6 @@ export default async function MembershipPage({ params }: PageProps) {
                 )}
 
                 {/* Image Gallery */}
-                <MembershipImageGallery images={membership.images} membershipName={membership.name} />
               </div>
 
               {/* Sticky Purchase Box */}

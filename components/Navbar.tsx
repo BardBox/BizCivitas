@@ -15,10 +15,10 @@ const navigation = [
     href: '/memberships',
     hasDropdown: true,
     dropdownItems: [
-      { name: 'Core Membership', href: '/memberships/core' },
-      { name: 'Flagship Membership', href: '/memberships/flagship' },
-      { name: 'Industria Membership', href: '/memberships/industria' },
-      { name: 'Digital Membership', href: '/memberships/digital' },
+      { name: 'Core Membership', href: '/memberships/core-membership' },
+      { name: 'Flagship Membership', href: '/memberships/flagship-membership' },
+      { name: 'Industria Membership', href: '/memberships/industria-membership' },
+      { name: 'Digital Membership', href: '/memberships/digital-membership' },
     ]
   },
   { name: 'Contact', href: '/contact' },

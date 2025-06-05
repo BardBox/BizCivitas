@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { MembershipPlan } from "@/lib/memberships";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "./Icons";
 
@@ -8,560 +5,351 @@ interface MembershipPurchaseBoxProps {
   membership: MembershipPlan;
 }
 
-// Razorpay types
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
 export default function MembershipPurchaseBox({ membership }: MembershipPurchaseBoxProps) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
-      document.body.appendChild(script);
-    });
-  };
-
-  const handlePurchase = async (paymentType?: 'registration' | 'annual' | 'meeting' | 'community', amount?: number) => {
-    setIsLoading(true);
-
-    try {
-      // Load Razorpay script
-      const res = await loadRazorpayScript();
-
-      if (!res) {
-        alert('Razorpay SDK failed to load. Are you online?');
-        setIsLoading(false);
-        return;
-      }
-
-      // Determine payment amount and description
-      let paymentAmount = amount || membership.price.amount;
-      let paymentDescription = membership.name;
-
-      if (paymentType && membership.price.breakdown) {
-        switch (paymentType) {
-          case 'registration':
-            paymentAmount = membership.price.breakdown.registration || 0;
-            paymentDescription = `${membership.name} - Registration Fee`;
-            break;
-          case 'annual':
-            paymentAmount = membership.price.breakdown.annual || 0;
-            paymentDescription = `${membership.name} - Annual Membership`;
-            break;
-          case 'meeting':
-            paymentAmount = membership.price.breakdown.meeting || 0;
-            paymentDescription = `${membership.name} - Meeting Fee`;
-            break;
-          case 'community':
-            paymentAmount = (membership.price.breakdown as any).community || 0;
-            paymentDescription = `${membership.name} - Community Launch Fee`;
-            break;
-        }
-      }
-
-      // Create order on backend
-      const orderResponse = await fetch('/api/create-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: paymentAmount * 100, // Razorpay expects amount in paise
-          currency: 'INR',
-          membershipId: membership.id,
-          membershipName: membership.name,
-          paymentType: paymentType || 'full',
-        }),
-      });
-
-      const orderData = await orderResponse.json();
-
-      if (!orderResponse.ok) {
-        throw new Error(orderData.error || 'Failed to create order');
-      }
-
-      // Razorpay options
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: orderData.amount,
-        currency: orderData.currency,
-        name: 'BizCivitas',
-        description: paymentDescription,
-        order_id: orderData.id,
-        handler: function (response: any) {
-          // Payment successful
-          console.log('Payment successful:', response);
-
-          // Redirect to success page with payment details
-          const params = new URLSearchParams({
-            payment_id: response.razorpay_payment_id,
-            order_id: response.razorpay_order_id,
-            signature: response.razorpay_signature,
-            membership: membership.name,
-            payment_type: paymentType || 'full',
-          });
-
-          window.location.href = `/memberships/success?${params.toString()}`;
-        },
-        prefill: {
-          name: '',
-          email: '',
-          contact: '',
-        },
-        notes: {
-          membership_id: membership.id,
-          membership_name: membership.name,
-          payment_type: paymentType || 'full',
-        },
-        theme: {
-          color: membership.color.primary,
-        },
-        modal: {
-          ondismiss: function() {
-            setIsLoading(false);
-          }
-        }
-      };
-
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-
-      paymentObject.on('payment.failed', function (response: any) {
-        console.error('Payment failed:', response.error);
-        alert('Payment failed. Please try again.');
-        setIsLoading(false);
-      });
-
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert("Payment initialization failed. Please try again.");
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <div className="sticky top-8">
-      <div 
-        className="bg-white rounded-2xl shadow-lg border-2 p-8"
-        style={{ borderColor: membership.color.primary }}
+  const AnimatedButton = ({ 
+    href, 
+    children, 
+    className = ''
+  }: {
+    href: string;
+    children: React.ReactNode;
+    className?: string;
+  }) => {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`
+          group relative overflow-hidden
+          inline-flex items-center justify-center 
+          w-full py-4 px-6 rounded-2xl 
+          font-bold text-base text-white
+          transition-all duration-500 ease-out
+          transform hover:scale-[1.02] active:scale-[0.98]
+          shadow-lg hover:shadow-2xl
+          focus:outline-none focus:ring-4 focus:ring-opacity-50
+          ${className}
+        `}
+        style={{ 
+          backgroundColor: membership.color.primary,
+        }}
       >
-        {membership.popularBadge && (
+        {/* Animated background gradient */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: `linear-gradient(45deg, ${membership.color.primary}, ${membership.color.primary}dd, ${membership.color.primary})`
+          }}
+        />
+        
+        {/* Shimmer effect */}
+        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        
+        {/* Pulse effect */}
+        <div 
+          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-30 group-hover:animate-pulse"
+          style={{ backgroundColor: membership.color.primary }}
+        />
+        
+        <span className="relative z-10 flex items-center gap-2">
+          {children}
+          <svg 
+            className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </span>
+      </a>
+    );
+  };
+
+  const PlanCard = ({ plan, index }: { plan: any, index: number }) => (
+    <div 
+      className={`
+        group relative overflow-hidden
+        bg-gradient-to-br from-white to-gray-50
+        rounded-3xl border-2 p-8
+        transition-all duration-500 ease-out
+        hover:shadow-2xl hover:-translate-y-2
+        transform-gpu
+        ${index === 0 ? 'ring-2 ring-opacity-20' : ''}
+      `}
+      style={{ 
+        borderColor: membership.color.primary
+      }}
+    >
+      {/* Decorative background pattern */}
+      <div 
+        className="absolute top-0 right-0 w-32 h-32 opacity-5 transform rotate-12 group-hover:rotate-45 transition-transform duration-700"
+        style={{ backgroundColor: membership.color.primary }}
+      />
+      
+      {/* Featured badge for first plan */}
+      {index === 0 && (
+        <div 
+          className="absolute -top-3 -right-3 px-4 py-2 rounded-full text-white text-sm font-bold shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+          style={{ backgroundColor: membership.color.primary }}
+        >
+          ⭐ Featured
+        </div>
+      )}
+
+      {/* Plan Icon */}
+      <div className="flex items-center justify-center mb-6">
+        <div 
+          className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300"
+          style={{ backgroundColor: membership.color.secondary }}
+        >
           <div 
-            className="text-center text-white px-4 py-2 rounded-lg mb-6 font-semibold"
+            className="w-8 h-8 rounded-lg"
+            style={{ backgroundColor: membership.color.primary }}
+          />
+        </div>
+      </div>
+
+      {/* Plan Title */}
+      <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-gray-700 transition-colors duration-300">
+        {plan.title}
+      </h3>
+
+      {/* Price Display */}
+      <div className="text-center mb-6">
+        <div 
+          className="text-4xl font-bold mb-2 transform group-hover:scale-105 transition-transform duration-300"
+          style={{ color: membership.color.primary }}
+        >
+          ₹{plan.price.toLocaleString()}
+        </div>
+        {plan.breakdown && (
+          <div className="text-sm text-gray-600 bg-gray-100 px-4 py-2 rounded-xl">
+            {plan.breakdown}
+          </div>
+        )}
+      </div>
+
+      {/* Description */}
+      {plan.paragraph && (
+        <p className="text-gray-700 text-center mb-8 leading-relaxed group-hover:text-gray-800 transition-colors duration-300">
+          {plan.paragraph}
+        </p>
+      )}
+
+      {/* Key Features for this plan type */}
+      <div className="mb-8">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div 
+            className="w-6 h-6 rounded-full flex items-center justify-center"
             style={{ backgroundColor: membership.color.primary }}
           >
-            {membership.popularBadge}
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
           </div>
-        )}
-
-        <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">{membership.name}</h3>
-          <p className="text-gray-600">{membership.tagline}</p>
+          <span className="font-semibold text-gray-900">What's Included</span>
         </div>
-
-        {/* Pricing */}
-        <div className="text-center mb-6">
-          <div className="text-4xl font-bold mb-4" style={{ color: membership.color.primary }}>
-            {membership.price.currency}{membership.price.amount.toLocaleString()}
-          </div>
-
-          {/* Price Breakdown */}
-          {membership.price.breakdown && (
-            <div className="text-sm text-gray-600 space-y-2 bg-gray-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-gray-800 mb-2">💰 Membership Investment:</h4>
-              {membership.price.breakdown.registration && (
-                <div className="flex justify-between">
-                  <span>One-time Registration Fee:</span>
-                  <span>₹{membership.price.breakdown.registration.toLocaleString()}</span>
-                </div>
-              )}
-              {membership.price.breakdown.annual && (
-                <div className="flex justify-between">
-                  <span>Annual Membership Fee:</span>
-                  <span>₹{membership.price.breakdown.annual.toLocaleString()}</span>
-                </div>
-              )}
-              {membership.price.breakdown.meeting && (
-                <div className="flex justify-between">
-                  <span>Annual Meeting Fee:</span>
-                  <span>₹{membership.price.breakdown.meeting.toLocaleString()}</span>
-                </div>
-              )}
-              <hr className="my-2" />
-              <div className="flex justify-between font-semibold text-gray-800">
-                <span>Total Investment:</span>
-                <span>₹{membership.price.amount.toLocaleString()}</span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Eligibility Requirements (for Industria) */}
-        {membership.eligibility && (
-          <div className="mb-6">
-            <h4 className="font-semibold text-gray-900 mb-3">Eligibility Requirements:</h4>
-            <ul className="space-y-2">
-              {membership.eligibility.map((requirement, index) => (
-                <li key={index} className="flex items-start text-sm">
-                  <div 
-                    className="w-4 h-4 rounded-full mr-2 flex items-center justify-center mt-0.5"
-                    style={{ backgroundColor: membership.color.primary }}
-                  >
-                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <span className="text-gray-700">{requirement}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Features Preview */}
-        <div className="mb-6">
-          <h4 className="font-semibold text-gray-900 mb-3">What's included:</h4>
-          <ul className="space-y-2">
-            {membership.features.slice(0, 5).map((feature, index) => (
-              <li key={index} className="flex items-start text-sm">
-                <div 
-                  className="w-4 h-4 rounded-full mr-2 flex items-center justify-center mt-0.5"
-                  style={{ backgroundColor: membership.color.primary }}
-                >
-                  <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <span className="text-gray-700">{feature}</span>
-              </li>
-            ))}
-            {membership.features.length > 5 && (
-              <li className="text-sm text-gray-500 ml-6">
-                +{membership.features.length - 5} more benefits...
-              </li>
-            )}
-          </ul>
-        </div>
-
-        {/* Payment Buttons */}
-        {membership.price.breakdown && (membership.id === 'industria' || membership.id === 'flagship') ? (
-          <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900 mb-4">Choose Payment Option:</h4>
-
-            {/* Three Payment Cards for Industria */}
-            <div className="grid grid-cols-1 gap-4">
-              {/* One-Time Registration Fees Card */}
-              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-orange-800 mb-2">One-Time Registration Fees</h5>
-                  <p className="text-sm text-orange-700 mb-3">
-                    A non-refundable fee for onboarding and activating your BizCivitas membership.
-                  </p>
-                  <div className="text-sm text-orange-600 mb-2">
-                    ₹25,000 + ₹4,500 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-orange-800 mb-3">
-                    Total: ₹29,500
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('registration', 29500)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Membership Fees Card */}
-              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-orange-800 mb-2">Membership Fees</h5>
-                  <p className="text-sm text-orange-700 mb-3">
-                    An annual subscription fee granting access to exclusive BizCivitas communities, events, and benefits.
-                  </p>
-                  <div className="text-sm text-orange-600 mb-2">
-                    ₹3,00,000 + ₹54,000 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-orange-800 mb-3">
-                    Total: ₹3,54,000
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('annual', 354000)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Meeting/Event Fees Card */}
-              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-orange-800 mb-2">Meeting/Event Fees</h5>
-                  <p className="text-sm text-orange-700 mb-3">
-                    A recurring charge for attending structured BizCivitas networking meetings and events.
-                  </p>
-                  <div className="text-sm text-orange-600 mb-2">
-                    ₹25,000 + ₹4,500 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-orange-800 mb-3">
-                    Total: ₹29,500
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('meeting', 29500)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-orange-600 border-2 border-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : membership.price.breakdown && membership.id === 'flagship' ? (
-          <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900 mb-4">Choose Payment Option:</h4>
-
-            {/* Four Payment Cards for Flagship */}
-            <div className="grid grid-cols-1 gap-4">
-              {/* One-Time Registration Fees Card */}
-              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-purple-800 mb-2">One-Time Registration Fees</h5>
-                  <p className="text-sm text-purple-700 mb-3">
-                    A non-refundable fee for onboarding and activating your Bizcivitas membership.
-                  </p>
-                  <div className="text-sm text-purple-600 mb-2">
-                    ₹25,000 + ₹4,500 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-purple-800 mb-3">
-                    Total: ₹29,500
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('registration', 29500)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Membership Fees Card */}
-              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-purple-800 mb-2">Membership Fees</h5>
-                  <p className="text-sm text-purple-700 mb-3">
-                    An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.
-                  </p>
-                  <div className="text-sm text-purple-600 mb-2">
-                    ₹3,00,000 + ₹54,000 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-purple-800 mb-3">
-                    Total: ₹3,54,000
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('annual', 354000)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Meeting/Event Fees Card */}
-              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-purple-800 mb-2">Meeting/Event Fees</h5>
-                  <p className="text-sm text-purple-700 mb-3">
-                    A recurring charge for attending structured Bizcivitas networking meetings and events.
-                  </p>
-                  <div className="text-sm text-purple-600 mb-2">
-                    ₹25,000 + ₹4,500 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-purple-800 mb-3">
-                    Total: ₹29,500
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('meeting', 29500)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Community Launch Fees Card */}
-              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
-                <div className="text-center">
-                  <h5 className="text-lg font-bold text-purple-800 mb-2">Community Launch Fees</h5>
-                  <p className="text-sm text-purple-700 mb-3">
-                    Core member frees for launching community (Valid for 2 years)
-                  </p>
-                  <div className="text-sm text-purple-600 mb-2">
-                    ₹3,00,000 + ₹54,000 (18% GST)
-                  </div>
-                  <div className="text-xl font-bold text-purple-800 mb-3">
-                    Total: ₹3,54,000
-                  </div>
-                  <button
-                    onClick={() => handlePurchase('community', 354000)}
-                    disabled={isLoading}
-                    className="w-full bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isLoading ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : membership.price.breakdown && (membership.id === 'core') ? (
-          <div className="space-y-3">
-            <h4 className="font-semibold text-gray-900 mb-3">Choose Payment Option:</h4>
-
-            {/* Registration Fee */}
-            {membership.price.breakdown.registration && (
-              <button
-                onClick={() => handlePurchase('registration', membership.price.breakdown!.registration)}
-                disabled={isLoading}
-                className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2"
-                style={{ 
-                  borderColor: membership.color.primary,
-                  color: membership.color.primary,
-                  backgroundColor: 'white'
-                }}
+        
+        <div className="grid grid-cols-1 gap-3">
+          {getFeaturesByPlanType(plan.title, membership).map((feature, idx) => (
+            <div key={idx} className="flex items-start gap-3 text-sm">
+              <div 
+                className="w-4 h-4 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300"
+                style={{ backgroundColor: membership.color.primary }}
               >
-                Pay Registration Fee - ₹{membership.price.breakdown.registration.toLocaleString()}
-              </button>
-            )}
-
-            {/* Annual Membership Fee */}
-            {membership.price.breakdown.annual && (
-              <button
-                onClick={() => handlePurchase('annual', membership.price.breakdown!.annual)}
-                disabled={isLoading}
-                className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2"
-                style={{ 
-                  borderColor: membership.color.primary,
-                  color: membership.color.primary,
-                  backgroundColor: 'white'
-                }}
-              >
-                Pay Annual Membership - ₹{membership.price.breakdown.annual.toLocaleString()}
-              </button>
-            )}
-
-            {/* Meeting Fee */}
-            {membership.price.breakdown.meeting && (
-              <button
-                onClick={() => handlePurchase('meeting', membership.price.breakdown!.meeting)}
-                disabled={isLoading}
-                className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2"
-                style={{ 
-                  borderColor: membership.color.primary,
-                  color: membership.color.primary,
-                  backgroundColor: 'white'
-                }}
-              >
-                Pay Meeting Fee - ₹{membership.price.breakdown.meeting.toLocaleString()}
-              </button>
-            )}
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
+                <div className="w-1.5 h-1.5 bg-white rounded-full" />
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">or</span>
-              </div>
+              <span className="text-gray-700 leading-relaxed">{feature}</span>
             </div>
-
-            {/* Full Payment */}
-            <button
-              onClick={() => handlePurchase()}
-              disabled={isLoading}
-              className="w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ 
-                backgroundColor: membership.color.primary,
-                color: 'white'
-              }}
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing...
-                </div>
-              ) : (
-                `Pay Full Amount - ₹${membership.price.amount.toLocaleString()}`
-              )}
-            </button>
-          </div>
-        ) : (
-          /* Single Payment Button for Digital */
-          <button
-            onClick={() => handlePurchase()}
-            disabled={isLoading}
-            className="w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ 
-              backgroundColor: membership.color.primary,
-              color: 'white'
-            }}
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Processing...
-              </div>
-            ) : (
-              membership.ctaText
-            )}
-          </button>
-        )}
-
-        <div className="mt-4 text-center">
-          <p className="text-xs text-gray-500">
-            Secure payment powered by Razorpay
-          </p>
-          <div className="mt-2 space-y-1 text-xs text-gray-600">
-            {/* Contact Info for all memberships */}
-                <div className="space-y-1 text-xs text-gray-600">
-                  <p className="flex items-center justify-center">
-                    <PhoneIcon className="mr-2" size={14} />
-                    {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
-                  </p>
-                  <p className="flex items-center justify-center">
-                    <EmailIcon className="mr-2" size={14} />
-                    info@bizcivitas.com
-                  </p>
-                  <p className="flex items-center justify-center">
-                    <WebsiteIcon className="mr-2" size={14} />
-                    www.bizcivitas.com
-                  </p>
-                </div>
-          </div>
+          ))}
         </div>
+      </div>
+
+      {/* Action Button */}
+      <AnimatedButton href={plan.url}>
+        {getButtonText(plan.title)}
+      </AnimatedButton>
+
+      {/* Security badge */}
+      <div className="flex items-center justify-center gap-2 mt-4 text-xs text-gray-500">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <span>Secure Payment</span>
       </div>
     </div>
   );
+
+  const ContactInfo = () => (
+    <address className="not-italic space-y-3 text-sm text-gray-600">
+      <div className="flex items-center justify-center gap-3">
+        <PhoneIcon className="flex-shrink-0" size={16} aria-hidden="true" />
+        <a 
+          href={`tel:${membership.id === 'digital' || membership.id === 'industria' ? '+918160679917' : '+918000023786'}`}
+          className="hover:text-gray-800 transition-colors font-medium"
+          aria-label="Call us"
+        >
+          {membership.id === 'digital' || membership.id === 'industria' ? '+91 81606 79917' : '+91 80000 23786'}
+        </a>
+      </div>
+      <div className="flex items-center justify-center gap-3">
+        <EmailIcon className="flex-shrink-0" size={16} aria-hidden="true" />
+        <a 
+          href="mailto:info@bizcivitas.com"
+          className="hover:text-gray-800 transition-colors font-medium"
+          aria-label="Send us an email"
+        >
+          info@bizcivitas.com
+        </a>
+      </div>
+      <div className="flex items-center justify-center gap-3">
+        <WebsiteIcon className="flex-shrink-0" size={16} aria-hidden="true" />
+        <a 
+          href="https://www.bizcivitas.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-gray-800 transition-colors font-medium"
+          aria-label="Visit our website"
+        >
+          www.bizcivitas.com
+        </a>
+      </div>
+    </address>
+  );
+
+  return (
+    <aside className="sticky top-8" role="complementary" aria-label="Membership purchase options">
+      <div className="space-y-8">
+        {/* Header Section */}
+        <div 
+          className="bg-gradient-to-r from-white to-gray-50 rounded-3xl shadow-xl border-2 p-8"
+          style={{ borderColor: membership.color.primary }}
+        >
+          {/* Popular Badge */}
+          {membership.popularBadge && (
+            <div 
+              className="text-center text-white px-6 py-3 rounded-2xl mb-6 font-bold text-sm shadow-lg transform hover:scale-105 transition-transform duration-300"
+              style={{ 
+                background: `linear-gradient(135deg, ${membership.color.primary}, ${membership.color.primary}dd)`
+              }}
+              role="banner"
+            >
+              🏆 {membership.popularBadge}
+            </div>
+          )}
+
+          {/* Header */}
+          <header className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{membership.name}</h2>
+            <p className="text-gray-600 text-lg leading-relaxed">{membership.tagline}</p>
+          </header>
+
+          {/* Total Investment */}
+          <div className="text-center mb-6">
+            <div className="text-sm text-gray-600 mb-2">Total Investment</div>
+            <div 
+              className="text-5xl font-bold tracking-tight transform hover:scale-105 transition-transform duration-300"
+              style={{ color: membership.color.primary }}
+            >
+              {membership.price.currency}{membership.price.amount.toLocaleString()}
+            </div>
+          </div>
+
+          {/* Quick Features */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {membership.highlights.slice(0, 4).map((highlight, index) => (
+              <div key={index} className="text-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                <div className="text-xs text-gray-600 font-medium">{highlight}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Payment Plans Grid */}
+        {membership.plans && membership.plans.length > 0 && (
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">
+              Choose Your Payment Plan
+            </h3>
+            
+            <div className="grid grid-cols-1 gap-6">
+              {membership.plans.map((plan, index) => (
+                <PlanCard key={index} plan={plan} index={index} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Contact Footer */}
+        <footer 
+          className="bg-gradient-to-r from-gray-50 to-white rounded-2xl shadow-lg border p-6"
+          style={{ borderColor: membership.color.primary + '30' }}
+        >
+          <div className="text-center space-y-4">
+            <h4 className="font-bold text-gray-900 mb-4">Need Help?</h4>
+            <ContactInfo />
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-500 pt-4 border-t border-gray-200">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              <span>100% Secure & Trusted Platform</span>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </aside>
+  );
+}
+
+// Helper functions
+function getFeaturesByPlanType(planTitle: string, membership: MembershipPlan): string[] {
+  const baseFeatures = membership.features.slice(0, 3);
+  
+  if (planTitle.includes('Registration')) {
+    return [
+      'Complete onboarding process',
+      'Access to member directory',
+      'Welcome orientation session',
+      'Membership credentials & materials'
+    ];
+  } else if (planTitle.includes('Membership')) {
+    return [
+      'Full access to all events',
+      'Annual networking retreats',
+      'Expert-led workshops',
+      'Business collaboration opportunities'
+    ];
+  } else if (planTitle.includes('Meeting') || planTitle.includes('Event')) {
+    return [
+      'Monthly networking sessions',
+      'Structured business meetings',
+      'Industry expert interactions',
+      'Referral opportunities'
+    ];
+  } else if (planTitle.includes('Community Launch')) {
+    return [
+      'Launch your own community',
+      '2-year validity period',
+      'Leadership opportunities',
+      'Brand visibility & recognition'
+    ];
+  }
+  
+  return baseFeatures;
+}
+
+function getButtonText(planTitle: string): string {
+  if (planTitle.includes('Registration')) {
+    return 'Complete Registration';
+  } else if (planTitle.includes('Membership')) {
+    return 'Join Membership';
+  } else if (planTitle.includes('Meeting') || planTitle.includes('Event')) {
+    return 'Book Events';
+  } else if (planTitle.includes('Community Launch')) {
+    return 'Launch Community';
+  }
+  
+  return 'Get Started';
 }

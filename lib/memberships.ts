@@ -14,6 +14,13 @@ export interface MembershipPlan {
       community?: number;
     };
   };
+  plans?: {
+    title: string;
+    price: number;
+    paragraph?: string;
+    breakdown?: string;
+    url : string;
+  }[];
   features: string[];
   benefits: string[];
   highlights: string[];
@@ -32,11 +39,11 @@ export const membershipPlans: MembershipPlan[] = [
   {
     id: 'core',
     name: 'BizCivitas Core Membership',
-    slug: 'core',
+    slug: 'core-membership',
     tagline: 'Connect. Collaborate. Transform.',
     description: 'Join a curated network of purpose-driven professionals and engage in transformative experiences that blend business with personal growth.',
     price: {
-      amount: 350000,
+      amount: 354000,
       currency: '₹'
     },
     features: [
@@ -68,22 +75,45 @@ export const membershipPlans: MembershipPlan[] = [
       primary: '#3b82f6',
       secondary: '#dbeafe'
     },
-    ctaText: 'Join Core Community'
+    ctaText: 'Join Core Community',
+    plans:[
+      {
+        title: 'One-Time Registration Fees',
+        price: 29500,
+        paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas membership.',
+        breakdown: '₹25,000 + ₹4,500 (18% GST)',
+        url: 'https://rzp.io/rzp/zL0kOwm'
+      },
+      {
+         title: 'Membership Fees',
+        price: 354000,
+        paragraph: 'An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.',
+        breakdown: '₹300,000 + ₹54,000 (18% GST)',
+        url: 'https://rzp.io/rzp/a2iQJsS8'
+      },
+      {
+         title: 'Meeting/Event Fees',
+        price: 29500,
+        paragraph: 'A recurring charge for attending structured Bizcivitas networking meetings and events.',
+        breakdown: '₹25,000 + ₹4,500 (18% GST)',
+        url: 'https://rzp.io/rzp/1Ay1LvL'
+      }
+    ]
   },
   {
     id: 'flagship',
     name: 'BizCivitas Flagship Membership',
-    slug: 'flagship',
+    slug: 'flagship-membership',
     tagline: 'Where Ventures and Voyages Intersect',
     description: 'BizCivitas redefines business networking by blending professional growth with immersive travel experiences. The Flagship Membership offers entrepreneurs and professionals a unique platform to expand their network, explore new markets, and build meaningful collaborations beyond the boardroom.',
     price: {
-      amount: 750000,
+      amount: 767000,
       currency: '₹',
       breakdown: {
-        registration: 25000,
-        annual: 300000,
-        meeting: 25000,
-        community: 300000
+        registration: 29500,
+        annual: 354000,
+        meeting: 29500,
+        community: 354000
       }
     },
     features: [
@@ -108,6 +138,36 @@ export const membershipPlans: MembershipPlan[] = [
       'Global network spanning multiple industries',
       'Premium experiences and luxury events'
     ],
+    plans:[
+      {
+        title: 'One-Time Registration Fees',
+        price: 29500,
+        paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas membership.',
+        breakdown: '₹25,000 + ₹4,500 (18% GST)',
+        url: 'https://rzp.io/rzp/AhPII0P'
+      },
+      {
+         title: 'Membership Fees',
+        price: 354000,
+        paragraph: 'An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.',
+        breakdown: '₹300,000 + ₹54,000 (18% GST)',
+        url: 'https://rzp.io/rzp/cDsPU3r7'
+      },
+      {
+         title: 'Meeting/Event Fees',
+        price: 29500,
+        paragraph: 'A recurring charge for attending structured Bizcivitas networking meetings and events.',
+        breakdown: '₹25,000 + ₹4,500 (18% GST)',
+        url: 'https://rzp.io/rzp/8nI41SXe'
+      },
+      {
+         title: 'Community Launch Fees',
+        price: 354000,
+        paragraph: 'Core member frees for launching community (Valid for 2 years).',
+        breakdown: '₹300,000 + ₹54,000 (18% GST)',
+        url: 'https://rzp.io/rzp/jESryFJd'
+      },
+    ],
     images: ['/flagship.jpg'],
     color: {
       primary: '#7c3aed',
@@ -119,7 +179,7 @@ export const membershipPlans: MembershipPlan[] = [
   {
     id: 'industria',
     name: 'BizCivitas Industria Membership',
-    slug: 'industria',
+    slug: 'industria-membership',
     tagline: 'Built for Industry Leaders.',
     description: 'Designed exclusively for manufacturing leaders, industrialists, and B2B innovators. Connect with verified industrial decision-makers and grow your business through qualified referrals.',
     price: {
@@ -165,12 +225,35 @@ export const membershipPlans: MembershipPlan[] = [
       primary: '#ea580c',
       secondary: '#fed7aa'
     },
-    ctaText: 'Apply for Industria'
+    ctaText: 'Apply for Industria',
+    plans:[
+      {
+        title: 'One-Time Registration Fees',
+        price: 29500,
+        paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas membership.',
+        breakdown: '₹25,000 + ₹4,500 (18% GST)',
+        url: 'https://rzp.io/rzp/u2d7vck'
+      },
+      {
+         title: 'Membership Fees',
+        price: 354000,
+        paragraph: 'An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.',
+        breakdown: '₹300,000 + ₹54,000 (18% GST)',
+        url: 'https://rzp.io/rzp/9vy1uiw'
+      },
+      {
+         title: 'Meeting/Event Fees',
+        price: 29500,
+        paragraph: 'A recurring charge for attending structured Bizcivitas networking meetings and events.',
+        breakdown: '₹25,000 + ₹4,500 (18% GST)',
+        url: 'https://rzp.io/rzp/GzDLVIuR'
+      }
+    ],
   },
   {
     id: 'digital',
     name: 'Bizcivitas Digital Membership',
-    slug: 'digital',
+    slug: 'digital-membership',
     tagline: 'Your First Step Into a Smarter Business World',
     description: 'The Digital Membership is your gateway to the BizCivitas ecosystem. Perfect for emerging entrepreneurs and growing businesses, this membership provides essential networking tools, online resources, and community access to help you build meaningful connections and accelerate your business growth.',
     price: {
@@ -205,7 +288,16 @@ export const membershipPlans: MembershipPlan[] = [
       primary: '#22c55e',
       secondary: '#dcfce7'
     },
-    ctaText: 'Start Digital Journey'
+    ctaText: 'Start Digital Journey',
+    plans:[
+      {
+        title: 'One-Time Registration Fees',
+        price: 8259,
+        paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas online membership.',
+        breakdown: '₹6,999 + ₹1,260 (18% GST)',
+        url: 'https://rzp.io/rzp/oqFOga1'
+      }
+    ],
   }
 ];
 
