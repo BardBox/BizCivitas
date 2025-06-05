@@ -180,7 +180,7 @@ export default async function InsightsPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="bg-white min-h-screen">
+      <div className="bg-white min-h-screen transition-fade">
         {/* Hero Video Section */}
         <TopSection
           heading="Insights"
@@ -306,7 +306,7 @@ export default async function InsightsPage({
                     </div>
                   ) : (
                     filteredBlogs.map((blog) => (
-                      <article key={blog.id}>
+                      <article key={blog.id} className="transition-scale">
                         <Link href={`/insights/${blog.slug}`} className="block">
                           <div className="custom-blog-card">
                             <div className="image-container">
