@@ -122,7 +122,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         <TopSection
         heading="Contact Us"
         subheading="Stay up to date with the most recent insights, trends, articles, and news from Bizcivitas around the world."
-        backgroundImage="/contact.jpg"
+        backgroundImage="/HeroSection_1_Contact.jpg"
         />
 
         {/* Success/Error Messages */}

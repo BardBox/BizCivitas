@@ -5,6 +5,7 @@ import { getAllTeamMembers } from "@/lib/team";
 import { FaLinkedin, FaGlobe } from "react-icons/fa";
 import "./team-styles.css";
 import Footer from "@/components/Footer";
+import TopSection from "@/components/TopSection";
 
 export const metadata: Metadata = {
   title: "Our Team | BizCivitas - Meet Our Business Experts & Leaders",
@@ -153,18 +154,13 @@ export default async function TeamPage() {
       />
 
       <div className="bg-white min-h-screen">
+         <TopSection
+          heading="Our Team"
+          subheading="We empower businesses to thrive and build stronger communities through connection, innovation, and collaboration."
+          backgroundImage="/HeroSection_1_OurTeam.jpg"
+        />
         {/* Hero Section */}
-        <header className="py-20 bg-[#FF9D00]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 ">
-              Our Team
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto ">
-              The world is your network. Expand your business by exploring new
-              destinations and forming meaningful collaborations.
-            </p>
-          </div>
-        </header>
+        
 
         {/* Team Members Section */}
         <main className="py-16 bg-flat-surface">

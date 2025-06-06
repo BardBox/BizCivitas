@@ -192,9 +192,9 @@ export default async function BlogsPage({
       <div className="bg-white min-h-screen">
         {/* Hero Video Section */}
         <TopSection
-          heading="Blogs"
+          heading="Insights"
           subheading="Stay up to date with the most recent blogs, insights, trends, articles, and news from Bizcivitas around the world."
-          backgroundImage="/blogs/heroBlogs.png"
+          backgroundImage="/HeroSection_1_Insights.jpg"
         />
 
         {/* Mobile Search Bar - Only visible on mobile, positioned at top */}
