@@ -316,8 +316,8 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
           </div>
           <div className="text-gray-600">
             {membership.id === 'digital' 
-              ? 'plus GST' 
-              : 'plus GST'
+              ? 'Plus 18% GST' 
+              : 'Plus 18% GST'
             }
           </div>
         </div>
