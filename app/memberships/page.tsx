@@ -161,7 +161,7 @@ export default function MembershipsPage() {
                       <div className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: plan.color.primary }}>
                         {plan.price.currency}{plan.price.amount.toLocaleString()}
                         <div className="text-xs sm:text-sm text-gray-500 font-normal">
-                          Inclusive of GST
+      Plus GST
                         </div>
                       </div>
                     </div>
