@@ -107,7 +107,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Where Ventures and Voyages Intersect',
     description: 'BizCivitas redefines business networking by blending professional growth with immersive travel experiences. The Flagship Membership offers entrepreneurs and professionals a unique platform to expand their network, explore new markets, and build meaningful collaborations beyond the boardroom.',
     price: {
-      amount: 767000,
+      amount: 350000,
       currency: '₹',
       breakdown: {
         registration: 29500,
@@ -183,7 +183,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Built for Industry Leaders.',
     description: 'Designed exclusively for manufacturing leaders, industrialists, and B2B innovators. Connect with verified industrial decision-makers and grow your business through qualified referrals.',
     price: {
-      amount: 413000,
+      amount: 350000,
       currency: '₹',
       breakdown: {
         registration: 29500,
