@@ -193,102 +193,6 @@ class WebVitalsMonitor {
 // Create singleton instance
 const webVitalsMonitor = new WebVitalsMonitor();
 
-// React component for Web Vitals monitoring
-const WebVitalsMonitoring = () => {
-  useEffect(() => {
-    // Monitor for navigation performance
-    const measureNavigationTiming = () => {
-      if ('performance' in window && 'getEntriesByType' in performance) {
-        const navigationEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
-        
-        if (navigationEntries.length > 0) {
-          const entry = navigationEntries[0];
-          
-          // Calculate key timing metrics
-          const metrics = {
-            dns: entry.domainLookupEnd - entry.domainLookupStart,
-            tcp: entry.connectEnd - entry.connectStart,
-            request: entry.responseStart - entry.requestStart,
-            response: entry.responseEnd - entry.responseStart,
-            dom: entry.domContentLoadedEventEnd - entry.responseEnd,
-            load: entry.loadEventEnd - entry.loadEventStart,
-            total: entry.loadEventEnd - entry.fetchStart
-          };
-
-          console.log('Navigation Timing:', metrics);
-
-          // Send to analytics if total load time is poor (>3s)
-          if (metrics.total > 3000) {
-            console.warn('Slow page load detected:', metrics.total + 'ms');
-          }
-        }
-      }
-    };
-
-    // Monitor resource loading performance
-    const measureResourceTiming = () => {
-      if ('performance' in window && 'getEntriesByType' in performance) {
-        const resourceEntries = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-        
-        // Find slow resources (>1s)
-        const slowResources = resourceEntries.filter(entry => 
-          entry.duration > 1000
-        );
-
-        if (slowResources.length > 0) {
-          console.warn('Slow resources detected:', slowResources.map(r => ({
-            name: r.name,
-            duration: r.duration
-          })));
-        }
-      }
-    };
-
-    // Measure after page load
-    if (document.readyState === 'complete') {
-      measureNavigationTiming();
-      measureResourceTiming();
-    } else {
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          measureNavigationTiming();
-          measureResourceTiming();
-        }, 0);
-      });
-    }
-
-    // Monitor for layout shifts
-    if ('PerformanceObserver' in window) {
-      try {
-        const layoutShiftObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          let totalShift = 0;
-          
-          entries.forEach((entry: any) => {
-            if (entry.hadRecentInput) return; // Ignore user-initiated shifts
-            totalShift += entry.value;
-          });
-
-          if (totalShift > 0.1) {
-            console.warn('Layout shift detected:', totalShift);
-          }
-        });
-
-        layoutShiftObserver.observe({ entryTypes: ['layout-shift'] });
-
-        // Clean up observer
-        return () => {
-          layoutShiftObserver.disconnect();
-        };
-      } catch (error) {
-        console.warn('Failed to setup layout shift observer:', error);
-      }
-    }
-  }, []);
-
-  return null; // This is a monitoring component, no UI
-};
-
 // Hook for accessing Web Vitals data
 export const useWebVitals = () => {
   return {
@@ -323,5 +227,3 @@ export const getPerformanceRecommendations = (metrics: any): string[] => {
 
   return recommendations;
 };
-
-export default WebVitalsMonitoring;
