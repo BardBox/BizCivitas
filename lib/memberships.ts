@@ -43,7 +43,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Connect. Collaborate. Transform.',
     description: 'Join a curated network of purpose-driven professionals and engage in transformative experiences that blend business with personal growth.',
     price: {
-      amount: 354000,
+      amount: 550000,
       currency: '₹'
     },
     features: [
@@ -97,7 +97,14 @@ export const membershipPlans: MembershipPlan[] = [
         paragraph: 'A recurring charge for attending structured Bizcivitas networking meetings and events.',
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/1Ay1LvL'
-      }
+      },
+      {
+         title: 'Community Launch Fees',
+        price: 354000,
+        paragraph: 'Core member frees for launching community (Valid for 2 years).',
+        breakdown: '₹300,000 + ₹54,000 (18% GST)',
+        url: 'https://rzp.io/rzp/jESryFJd'
+      },
     ]
   },
   {
@@ -160,13 +167,7 @@ export const membershipPlans: MembershipPlan[] = [
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/8nI41SXe'
       },
-      {
-         title: 'Community Launch Fees',
-        price: 354000,
-        paragraph: 'Core member frees for launching community (Valid for 2 years).',
-        breakdown: '₹300,000 + ₹54,000 (18% GST)',
-        url: 'https://rzp.io/rzp/jESryFJd'
-      },
+      
     ],
     images: ['/flagship.jpg'],
     color: {
@@ -186,7 +187,7 @@ export const membershipPlans: MembershipPlan[] = [
       amount: 350000,
       currency: '₹',
       breakdown: {
-        registration: 29500,
+        registration:25000,
         annual: 354000,
         meeting: 29500
       }
@@ -257,7 +258,7 @@ export const membershipPlans: MembershipPlan[] = [
     tagline: 'Your First Step Into a Smarter Business World',
     description: 'The Digital Membership is your gateway to the BizCivitas ecosystem. Perfect for emerging entrepreneurs and growing businesses, this membership provides essential networking tools, online resources, and community access to help you build meaningful connections and accelerate your business growth.',
     price: {
-      amount: 8259,
+      amount: 6999,
       currency: '₹'
     },
     features: [
