@@ -78,7 +78,7 @@ export default function DiscoverPage() {
         <TopSection
           heading="Discover BizCivitas"
           subheading="We empower businesses to thrive and build stronger communities through connection, innovation, and collaboration."
-          backgroundImage="/heroDis.png"
+          backgroundImage="/patanhi.jpg"
         />
 
         <ContentSection

@@ -104,11 +104,9 @@ const FeaturesSection2 = () => {
             <div className={styles.container}>
                 <header className={styles.sectionHeader}>
                     <h2 id="features-heading" className={styles.mainTitle}>
-                        Why Choose Our Platform
+                        Who Can Join BizCivitas?
                     </h2>
-                    <p className={styles.subtitle}>
-                        Discover the key features that make us the preferred choice for professionals worldwide
-                    </p>
+                    
                 </header>
 
                 <div className={styles.cardsContainer}>
@@ -171,15 +169,7 @@ const FeaturesSection2 = () => {
                         </div>
                     </article>
 
-                    <div className={styles.backgroundElement} aria-hidden="true">
-                        <Image
-                            src="https://i.ibb.co/XrfQgW33/Elements.png"
-                            alt=""
-                            width={400}
-                            height={300}
-                            className={styles.backgroundImage}
-                        />
-                    </div>
+                    
                 </div>
 
                 {/* Animated background elements */}
