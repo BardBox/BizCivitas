@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import PWAInstaller from "@/components/PWAInstaller";
-import WebVitalsMonitoring from "@/components/WebVitalsMonitoring";
 // import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
 
@@ -97,7 +97,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="BizCivitas" />
-        <link rel="apple-touch-icon" href="/bizcivitas.svg" />
+        <Link rel="apple-touch-icon" href="/bizcivitas.svg" />
         
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="afterInteractive">
@@ -199,7 +199,6 @@ export default function RootLayout({
 
         <Analytics />
         <SpeedInsights/>
-        <WebVitalsMonitoring />
         <PWAInstaller />
         <Navbar />
         <main className={`min-h-screen ${geistSans.className}`} >
