@@ -287,7 +287,7 @@ export const membershipPlans: MembershipPlan[] = [
     plans:[
       {
         title: 'One-Time Registration Fees',
-        price: 8299,
+        price: 8259,
         paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas online membership.',
         breakdown: '₹6,999 + ₹1,260 (18% GST)',
         url: 'https://rzp.io/rzp/oqFOga1'
