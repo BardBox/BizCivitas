@@ -8,7 +8,7 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Discover BizCivitas', href: '/discover' },
   { name: 'Our Team', href: '/team' },
-  { name: 'Insights', href: '/insights' },
+  { name: 'Insights', href: '/blogs' },
   { name: 'Events', href: '/events' },
   { 
     name: 'Memberships', 
