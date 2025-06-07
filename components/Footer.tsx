@@ -25,31 +25,31 @@ const footerLinks = [
     title: "Join BizCivitas Membership",
   },
   { name: "Contact", href: "/contact", title: "Contact BizCivitas Support" },
-  {
-    name: "Corporate Networking",
-    href: "/corporate-networking",
-    title: "Corporate Networking Opportunities",
-  },
-  {
-    name: "Entrepreneur Networking",
-    href: "/entrepreneur-networking",
-    title: "Entrepreneur Networking Events",
-  },
-  {
-    name: "Travel Networking",
-    href: "/travel-networking",
-    title: "Travel Networking for Professionals",
-  },
-  {
-    name: "Privacy Policy",
-    href: "/privacy",
-    title: "BizCivitas Privacy Policy",
-  },
-  {
-    name: "Terms & Conditions",
-    href: "/terms",
-    title: "BizCivitas Terms and Conditions",
-  },
+  // {
+  //   name: "Corporate Networking",
+  //   href: "/corporate-networking",
+  //   title: "Corporate Networking Opportunities",
+  // },
+  // {
+  //   name: "Entrepreneur Networking",
+  //   href: "/entrepreneur-networking",
+  //   title: "Entrepreneur Networking Events",
+  // },
+  // {
+  //   name: "Travel Networking",
+  //   href: "/travel-networking",
+  //   title: "Travel Networking for Professionals",
+  // },
+  // {
+  //   name: "Privacy Policy",
+  //   href: "/privacy",
+  //   title: "BizCivitas Privacy Policy",
+  // },
+  // {
+  //   name: "Terms & Conditions",
+  //   href: "/terms",
+  //   title: "BizCivitas Terms and Conditions",
+  // },
 ];
 
 const services = [
