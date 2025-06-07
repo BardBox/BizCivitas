@@ -273,7 +273,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
         </section>
 
         {/* Full Description Section */}
-        {member.description && member.description.length > 300 && (
+        {member.description && member.description.length > 290 && (
           <section className="py-16 bg-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="bg-white rounded-2xl shadow-lg p-8">
