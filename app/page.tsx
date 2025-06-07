@@ -157,7 +157,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <EnhancedCTA
-                href="/membership"
+                href="/memberships"
                 variant="primary"
                 size="lg"
                 className="bg-flat-btn-primary min-w-[180px] text-white hover:bg-flat-btn-secondary transition-colors duration-300"

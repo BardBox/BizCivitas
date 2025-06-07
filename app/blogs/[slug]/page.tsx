@@ -301,21 +301,6 @@ export default async function BlogPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Social Share */}
-            <div className="mt-12 text-center">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Share this blog</h3>
-              <div className="flex justify-center space-x-4">
-                <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                  Share on Facebook
-                </button>
-                <button className="bg-blue-400 text-white px-6 py-3 rounded-lg hover:bg-blue-500 transition-colors">
-                  Share on Twitter
-                </button>
-                <button className="bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition-colors">
-                  Share on LinkedIn
-                </button>
-              </div>
-            </div>
           </div>
         </article>
 
