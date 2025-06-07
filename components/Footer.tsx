@@ -188,38 +188,7 @@ export default function Footer() {
             </section>
 
             {/* Newsletter Section */}
-            <section
-              className="lg:col-span-1 lg:text-center"
-              aria-labelledby="newsletter"
-            >
-              <h2 id="newsletter" className="text-lg font-medium mb-4">
-                Join Our Business Networking Newsletter
-              </h2>
-              <form
-                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-                action="/subscribe"
-                method="POST"
-              >
-                <label htmlFor="email-input" className="sr-only">
-                  Email Address
-                </label>
-                <input
-                  id="email-input"
-                  type="email"
-                  placeholder="Enter your email for updates"
-                  className="flex-1 px-4 py-2 rounded-md text-gray-900 bg-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  required
-                  aria-required="true"
-                />
-                <button
-                  type="submit"
-                  className="mx-2 px-6 py-2 bg-white text-orange-500 rounded-md font-bold text-sm hover:bg-gray-100 transition-colors"
-                  aria-label="Subscribe to BizCivitas Newsletter"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </section>
+           
 
             {/* App Download Section */}
             <section
