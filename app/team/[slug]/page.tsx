@@ -257,11 +257,8 @@ export default async function TeamMemberPage({ params }: PageProps) {
                     <div>
                       <h4 className="text-lg font-semibold text-gray-900 mb-3">About</h4>
                       <div 
-                        className="text-gray-700 leading-relaxed prose prose-sm max-w-none line-clamp-6"
-                        dangerouslySetInnerHTML={{ 
-                          __html: member.description.length > 300 
-                            ? member.description.substring(0, 300) + '...' 
-                            : member.description 
+                        className="text-gray-700 leading-relaxed prose prose-sm max-w-none"
+                        dangerouslySetInnerHTML={{ __html: member.description 
                         }}
                       />
                     </div>
@@ -272,7 +269,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Full Description Section */}
+        {/* Full Description Section
         {member.description && member.description.length > 290 && (
           <section className="py-16 bg-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -285,7 +282,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
               </div>
             </div>
           </section>
-        )}
+        )} */}
 
         {/* Back to Team */}
         <section className="py-12 ">
