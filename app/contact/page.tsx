@@ -53,7 +53,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     console.log("Server: Received form data:", data);
 
     try {
-      const response = await fetch('https://backend.bizcivitas.com/api/v1/inquiry/add', {
+      const response = await fetch('https://bizcivitas-backend.onrender.com/api/v1/inquiry/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
