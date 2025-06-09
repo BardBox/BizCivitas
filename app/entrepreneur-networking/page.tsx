@@ -1,9 +1,182 @@
+import type { Metadata } from "next";
+import Head from "next/head";
 import TopSection from "@/components/TopSection";
 import ParagraphSection from "@/components/Networking/ParagraphSection";
 import { Paragraph } from "@/types/blogs.types";
 import { CarouselItem, InfiniteCarouselProps } from '@/types/carosual.types';
 import Accordion from "@/components/Accordian";
 import InfiniteCarousel from "@/components/Carousal";
+
+
+const faqs = [
+  {
+    question: "What is Entrepeneur networking?",
+    answer:
+      "It involves blending professional networking with the excitement of exploring new destinations, fostering authentic connections through shared experiences.",
+  },
+  {
+    question: "How can travel networking help my business?",
+    answer: "By building authentic relationships, expanding your global reach, and uncovering unique collaboration opportunities.",
+  },
+  {
+    question: "What types of events are available?",
+    answer: "Business summits, immersive travel experiences, entrepreneur meetups, and cultural exchange trips.",
+  },
+  {
+    question: "How can entrepreneurs benefit from travel groups?",
+    answer: "They gain exposure to diverse perspectives, form trusted partnerships, and expand their professional influence.",
+  },
+  {
+    question: "How do I join your travel networking platform?",
+    answer: "Visit our platform and sign up to access curated trips, premium events, and professional resources.",
+  },
+];
+
+export const metadata: Metadata = {
+  title: "Entrepreneur Networking Groups & Events | BizCivitas - Business Networking Community",
+  description: "Join BizCivitas entrepreneur networking groups and business meetups. Connect with startup founders, investors, and business leaders. Access mentorship, resources, and collaboration opportunities for business growth.",
+  keywords: [
+    "entrepreneur networking",
+    "entrepreneur networking groups",
+    "business networking community",
+    "startup networking events",
+    "entrepreneur meetups",
+    "business meetups",
+    "startup founders networking",
+    "entrepreneur community",
+    "business networking events",
+    "professional networking",
+    "entrepreneur collaboration",
+    "startup networking groups",
+    "business networking platform",
+    "entrepreneur networking platform",
+    "startup community",
+    "business partnerships",
+    "entrepreneur mentorship",
+    "startup resources",
+    "business development networking",
+    "entrepreneur support network"
+  ],
+  openGraph: {
+    title: "Entrepreneur Networking Groups & Events | BizCivitas - Business Networking Community",
+    description: "Connect with startup founders, investors, and business leaders through BizCivitas entrepreneur networking groups. Access mentorship, resources, and collaboration opportunities.",
+    type: "website",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/entrepreneur-networking`,
+    images: [
+      {
+        url: "/og-entrepreneur-networking.jpg",
+        width: 1200,
+        height: 630,
+        alt: "BizCivitas Entrepreneur Networking Groups - Business Community",
+      },
+    ],
+    siteName: "BizCivitas",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Entrepreneur Networking Groups & Events | BizCivitas",
+    description: "Join our entrepreneur networking community. Connect with startup founders, access mentorship, and discover collaboration opportunities.",
+    site: "@BizCivitas",
+    creator: "@BizCivitas",
+    images: ["/og-entrepreneur-networking.jpg"],
+  },
+  alternates: {
+    canonical: "/entrepreneur-networking",
+  },
+  other: {
+    robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+  },
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "BizCivitas",
+      "url": "https://bizcivitas.com",
+      "logo": "https://bizcivitas.com/logo.png",
+      "sameAs": [
+        "https://twitter.com/BizCivitas",
+        "https://www.linkedin.com/company/bizcivitas",
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://bizcivitas.com/entrepreneur-networking#webpage",
+      "url": "https://bizcivitas.com/entrepreneur-networking",
+      "name": "Entrepreneur Networking Groups & Events | BizCivitas - Business Networking Community",
+      "description": "Join BizCivitas entrepreneur networking groups and business meetups. Connect with startup founders, investors, and business leaders. Access mentorship, resources, and collaboration opportunities for business growth.",
+      "isPartOf": {
+        "@id": "https://bizcivitas.com#website",
+      },
+      "publisher": {
+        "@id": "https://bizcivitas.com#organization",
+      },
+      "datePublished": "2025-06-09",
+      "dateModified": "2025-06-09",
+      "breadcrumb": {
+        "@id": "https://bizcivitas.com/entrepreneur-networking#breadcrumb",
+      },
+      "inLanguage": "en-US",
+    },
+    {
+      "@type": "Article",
+      "@id": "https://bizcivitas.com/entrepreneur-networking#article",
+      "headline": "Entrepreneur Networking Groups & Events | BizCivitas",
+      "description": "Learn how BizCivitas entrepreneur networking groups can help you connect with startup founders, investors, and business leaders for mentorship, resources, and collaboration opportunities.",
+      "author": {
+        "@type": "Organization",
+        "name": "BizCivitas",
+        "@id": "https://bizcivitas.com#organization",
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "BizCivitas",
+        "@id": "https://bizcivitas.com#organization",
+      },
+      "datePublished": "2025-06-09",
+      "dateModified": "2025-06-09",
+      "mainEntityOfPage": {
+        "@id": "https://bizcivitas.com/entrepreneur-networking#webpage",
+      },
+      "image": "https://bizcivitas.com/og-entrepreneur-networking.jpg",
+      "articleSection": ["Entrepreneur Networking", "Business Growth"],
+      "keywords": "entrepreneur networking, business networking, startup events, business meetups",
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer,
+        },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://bizcivitas.com/entrepreneur-networking#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bizcivitas.com",
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Entrepreneur Networking",
+          "item": "https://bizcivitas.com/entrepreneur-networking",
+        },
+      ],
+    },
+  ],
+};
+
 
 const Paragraph_1: Partial<Paragraph> = {
     //   title: "Expand Your Horizons with Travel Networking",
@@ -98,29 +271,6 @@ const carouselItems: CarouselItem[] = [
         subtitle: "Digital Nomads Connecting Through Tech",
         description: "Pieter Levels travelled while working remotely and saw the need for a resource to connect nomads. Nomad List now helps thousands find work-friendly cities and communities."
     }
-];
-const faqs = [
-  {
-    question: "What is Entrepeneur networking?",
-    answer:
-      "It involves blending professional networking with the excitement of exploring new destinations, fostering authentic connections through shared experiences.",
-  },
-  {
-    question: "How can travel networking help my business?",
-    answer: "By building authentic relationships, expanding your global reach, and uncovering unique collaboration opportunities.",
-  },
-  {
-    question: "What types of events are available?",
-    answer: "Business summits, immersive travel experiences, entrepreneur meetups, and cultural exchange trips.",
-  },
-  {
-    question: "How can entrepreneurs benefit from travel groups?",
-    answer: "They gain exposure to diverse perspectives, form trusted partnerships, and expand their professional influence.",
-  },
-  {
-    question: "How do I join your travel networking platform?",
-    answer: "Visit our platform and sign up to access curated trips, premium events, and professional resources.",
-  },
 ];
 
 export default function EntrepreneurNetworkingPage() {
