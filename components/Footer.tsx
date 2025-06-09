@@ -25,31 +25,31 @@ const footerLinks = [
     title: "Join BizCivitas Membership",
   },
   { name: "Contact", href: "/contact", title: "Contact BizCivitas Support" },
-  // {
-  //   name: "Corporate Networking",
-  //   href: "/corporate-networking",
-  //   title: "Corporate Networking Opportunities",
-  // },
-  // {
-  //   name: "Entrepreneur Networking",
-  //   href: "/entrepreneur-networking",
-  //   title: "Entrepreneur Networking Events",
-  // },
-  // {
-  //   name: "Travel Networking",
-  //   href: "/travel-networking",
-  //   title: "Travel Networking for Professionals",
-  // },
-  // {
-  //   name: "Privacy Policy",
-  //   href: "/privacy",
-  //   title: "BizCivitas Privacy Policy",
-  // },
-  // {
-  //   name: "Terms & Conditions",
-  //   href: "/terms",
-  //   title: "BizCivitas Terms and Conditions",
-  // },
+  {
+    name: "Corporate Networking",
+    href: "/corporate-networking",
+    title: "Corporate Networking Opportunities",
+  },
+  {
+    name: "Entrepreneur Networking",
+    href: "/entrepreneur-networking",
+    title: "Entrepreneur Networking Events",
+  },
+  {
+    name: "Travel Networking",
+    href: "/travel-networking",
+    title: "Travel Networking for Professionals",
+  },
+  {
+    name: "Privacy Policy",
+    href: "/privacy",
+    title: "BizCivitas Privacy Policy",
+  },
+  {
+    name: "Terms & Conditions",
+    href: "/terms",
+    title: "BizCivitas Terms and Conditions",
+  },
 ];
 
 const services = [
@@ -161,7 +161,7 @@ export default function Footer() {
         style={{ backgroundColor: bgColor }}
         aria-label="Site Footer"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Company Info */}
             <section className="lg:col-span-1" aria-labelledby="company-info">

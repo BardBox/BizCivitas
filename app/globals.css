@@ -136,11 +136,7 @@ html {
 }
 
 /* Focus states for accessibility */
-a:focus,
-button:focus {
-  outline: 2px solid var(--color-flat-btn-primary);
-  outline-offset: 2px;
-}
+
 
 /* Video styling */
 .fullscreen-video {

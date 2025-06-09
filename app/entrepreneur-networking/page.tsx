@@ -1,454 +1,166 @@
-import type { Metadata } from "next";
-import Link from "next/link";
 import TopSection from "@/components/TopSection";
+import ParagraphSection from "@/components/Networking/ParagraphSection";
+import { Paragraph } from "@/types/blogs.types";
+import { CarouselItem, InfiniteCarouselProps } from '@/types/carosual.types';
+import Accordion from "@/components/Accordian";
+import InfiniteCarousel from "@/components/Carousal";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | BizCivitas - Your Data Protection & Privacy Rights",
-  description: "BizCivitas Privacy Policy detailing how we collect, use, protect, and manage your personal information. Learn about your privacy rights, data security measures, and cookie usage policies.",
-  keywords: [
-    "BizCivitas privacy policy",
-    "data protection",
-    "privacy rights",
-    "personal information security",
-    "cookie policy",
-    "data collection policy",
-    "GDPR compliance",
-    "user privacy",
-    "data security",
-    "information handling",
-    "privacy practices",
-    "data processing"
-  ],
-  openGraph: {
-    title: "Privacy Policy | BizCivitas - Your Data Protection & Privacy Rights",
-    description: "Learn how BizCivitas protects your personal information and respects your privacy rights. Comprehensive data protection and privacy policy details.",
-    type: "website",
-    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/privacy`,
-    images: [
-      {
-        url: "/og-privacy.jpg",
-        width: 1200,
-        height: 630,
-        alt: "BizCivitas Privacy Policy - Data Protection",
-      },
+const Paragraph_1: Partial<Paragraph> = {
+    //   title: "Expand Your Horizons with Travel Networking",
+    contentTop: "By BizCivitas",
+    listItems: [
+        "Entrepreneur networking groups are more than essential when it comes to growth. Networking with the right people leads to a kind of snowball effect. But here’s the kicker: face-to-face travel networking is the real game-changer. While the world is going all-in on digital, nothing beats the power of real, in-person connections..",
+        "It not only builds a foundation of deeper connection but also acts as a launchpad for success in your various endeavours.",
+        "It leads to game-changing collaborations, turning handshakes into head starts one collaboration at a time.",
     ],
-    siteName: "BizCivitas",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Privacy Policy | BizCivitas - Your Data Protection & Privacy Rights",
-    description: "Learn how BizCivitas protects your personal information and respects your privacy rights.",
-    site: "@BizCivitas",
-    creator: "@BizCivitas",
-  },
-  alternates: {
-    canonical: "/privacy",
-  },
-  other: {
-    robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-  },
+};
+const Paragraph_2: Partial<Paragraph> = {
+    title: "Connect & Thrive with Entrepreneur Networking Groups",
+
+    listItems: [
+        "Entrepreneur networking groups provide a powerful platform to engage with like-minded professionals, exchange insights, and unlock new opportunities.",
+        "These groups foster collaboration, mentorship, and strategic partnerships that can propel your business forward.",
+        "Whether you’re a startup founder or an experienced business leader, joining the right network and attending business meetups can be a game-changer.",
+    ],
+    listItemIcon: "blogs/UL-icon-blue.svg",
+    };
+
+const Paragraph_3: Partial<Paragraph> = {
+    title: "Why Entrepreneur Networking is Essential",
+
+    listItems: [
+        "Access to Resources: Networking connects you to valuable resources. This includes funding opportunities, industry insights, and expert advice. Whether it's finding the right mentor, investor, or service provider, a strong network can provide the tools and knowledge needed to scale your business.",
+        "Expand Your Network: Building relationships with fellow entrepreneurs, investors, and industry leaders opens doors to new opportunities. A strong professional network can lead to potential partnerships, client referrals, and valuable connections.",
+        "Skill Enhancement: Engaging with experienced professionals helps sharpen your business acumen, leadership abilities, and problem-solving skills. Networking groups often provide workshops, panel discussions, and knowledge-sharing sessions.",
+        "Business Collaboration: Collaboration with other entrepreneurs can lead to innovative ideas, joint ventures, and strategic partnerships.By leveraging complementary skills and expertise, businesses can create mutually beneficial relationships that drive long-term success which would all be an ode to business meetups.",
+        "Motivation & Support: Entrepreneurship can be challenging, but being part of a supportive network keeps you motivated.Surrounding yourself with like-minded individuals provides encouragement, accountability, and fresh perspectives that help you overcome obstacles and stay focused on your goals."
+    ],
+    
+    listItemIcon: "blogs/UL-icon-blue.svg",
+};
+const Paragraph_4: Partial<Paragraph> = {
+    title: "Why Choose Our Entrepreneur Networking Groups?",
+
+    listItems: [
+        "Curated Community: Sign up to become part of an exclusive network of entrepreneurs, business leaders, and industry experts. Our membership process ensures you connect with like-minded professionals who align with your business goals.",
+        "Personalized Matchmaking: BizCivitas uses intelligent networking tools to connect you with the right people—whether you're looking for investors, mentors, collaborators, or clients. Our targeted approach ensures meaningful and productive interactions.",
+        "Attend Exclusive Events & Workshops: Gain access to high-value networking events, mastermind sessions, and industry-specific workshops. Engage in insightful discussions, expand your knowledge, and build relationships that drive business growth.",
+        "Access Expert Mentorship & Resources: Leverage guidance from experienced entrepreneurs and industry specialists through mentorship programs, panel discussions, and one-on-one advisory sessions. BizCivitas provides valuable resources to help you navigate business challenges.",
+        "Collaborate & Grow Your Business: Our platform fosters an environment where members can exchange ideas, form strategic partnerships, and explore new opportunities. Whether it’s securing funding, launching a joint venture, or expanding into new markets, BizCivitas helps turn connections into success."
+    ],
+    
+    listItemIcon: "blogs/UL-icon-blue.svg",
+};
+const Paragraph_5: Partial<Paragraph> = {
+    title: "Types of Networking Opportunities Available",
+
+    listItems: [
+        "Business Meetups: Casual and structured gatherings where entrepreneurs connect, share ideas and explore collaborations. These meetups provide valuable networking opportunities in an informal setting.",
+        "Entrepreneur Network Marketing: Entrepreneur network marketing is a platform for business owners to promote their services, exchange referrals, and build mutually beneficial partnerships. Ideal for those looking to expand their customer base and brand visibility.",
+        "Female Entrepreneur Groups: Exclusive communities supporting women in business through mentorship, networking, and skill-building events. These groups foster empowerment, collaboration, and business growth.",
+        "Small Business Meetup: Small business meetup designed for small business owners to connect, share experiences, and learn from industry experts.",
+        "Networking Events for Entrepreneurs: Networking events for entrepreneurs’ industry-focused events, conferences, and workshops that bring together business leaders and innovators. These events facilitate high-value connections and learning opportunities.",
+        "Young Entrepreneurs Network: The Young Entrepreneurs network provides a dynamic space for aspiring and early-stage entrepreneurs to connect, collaborate, and gain mentorship."
+    ],
+    
+    listItemIcon: "blogs/UL-icon-blue.svg",
 };
 
-export default function PrivacyPolicyPage() {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Privacy Policy - BizCivitas",
-    description: "BizCivitas Privacy Policy detailing data protection, privacy rights, and information handling practices",
-    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/privacy`,
-    mainEntity: {
-      "@type": "PrivacyPolicy",
-      name: "BizCivitas Privacy Policy",
-      datePublished: "2025-06-08",
-      dateModified: "2025-06-08",
-      publisher: {
-        "@type": "Organization",
-        name: "BizCivitas",
-        url: "https://bizcivitas.com",
-        logo: {
-          "@type": "ImageObject",
-          url: "https://bizcivitas.com/logo.png"
-        }
-      }
+
+const carouselItems: CarouselItem[] = [
+    {
+        id: 1,
+        title: "CouchSurfing",
+        subtitle: "A Community Built on Travel Connections",
+        description: "Casey Fenton's spontaneous trip to Iceland sparked the idea for CouchSurfing, where travellers connect, share homes, and experience cultures authentically."
     },
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://bizcivitas.com"
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Privacy Policy",
-          item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/privacy`
-        }
-      ]
+    {
+        id: 2,
+        title: "Lonely Planet",
+        subtitle: "Travel-Fuelled Networking Turns into a Global Brand",
+        description: "Tony and Maureen Wheeler's backpacking adventures inspired them to share travel tips. Through word-of-mouth and travel networks, Lonely Planet became a global guidebook giant."
+    },
+    {
+        id: 3,
+        title: "Remote Year",
+        subtitle: "Building Professional Networks While Traveling",
+        description: "By connecting digital nomads, Remote Year created a movement where professionals work remotely while traveling, forming lifelong business and personal relationships."
+    },
+    {
+        id: 4,
+        title: "Selina",
+        subtitle: "Travel-Driven Co-working & Hospitality",
+        description: "By staying in hostels and meeting digital nomads, Selina founders saw the need for work-friendly accommodations, leading to a network of co-living and co-working spaces."
+    },
+    {
+        id: 5,
+        title: "Nomad List",
+        subtitle: "Digital Nomads Connecting Through Tech",
+        description: "Pieter Levels travelled while working remotely and saw the need for a resource to connect nomads. Nomad List now helps thousands find work-friendly cities and communities."
     }
-  };
+];
+const faqs = [
+  {
+    question: "What is Entrepeneur networking?",
+    answer:
+      "It involves blending professional networking with the excitement of exploring new destinations, fostering authentic connections through shared experiences.",
+  },
+  {
+    question: "How can travel networking help my business?",
+    answer: "By building authentic relationships, expanding your global reach, and uncovering unique collaboration opportunities.",
+  },
+  {
+    question: "What types of events are available?",
+    answer: "Business summits, immersive travel experiences, entrepreneur meetups, and cultural exchange trips.",
+  },
+  {
+    question: "How can entrepreneurs benefit from travel groups?",
+    answer: "They gain exposure to diverse perspectives, form trusted partnerships, and expand their professional influence.",
+  },
+  {
+    question: "How do I join your travel networking platform?",
+    answer: "Visit our platform and sign up to access curated trips, premium events, and professional resources.",
+  },
+];
 
-  return (
-    <>
-      {/* Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+export default function EntrepreneurNetworkingPage() {
+    return (
+        <main className="flex flex-col items-start justify-center">
+            <TopSection
+                heading="Entrepreneur Networking"
+                subheading="Connect with like-minded professionals while exploring the world. Our travel networking events offer unique opportunities to build relationships, share experiences, and create lasting connections."
+                backgroundImage="/blogs/purpleSection.svg"
+            />
+            <div className="py-6"></div>
+            <h1 className="text-4xl font-bold px-4 sm:px-10 lg:px-14 pt-14 text-blue-500"> Connect & Thrive with Entrepreneur Networking Groups  </h1>
+            <ParagraphSection paragraph={Paragraph_1} className="text-blue-500 " />
+            <ParagraphSection paragraph={Paragraph_2} className="" />
+            <ParagraphSection paragraph={Paragraph_3} className="text-blue-500" />
 
-      <div className="bg-white min-h-screen">
-        {/* Hero Section */}
-        <TopSection
-          heading="Privacy Policy"
-          subheading="Your privacy is important to us. Learn how we protect and handle your personal information with transparency and care."
-          backgroundImage="/HeroSection_1_Contact.jpg"
-        />
 
-        {/* Breadcrumb Navigation */}
-        <nav className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center space-x-2 py-4 text-sm">
-              <Link href="/" className="text-blue-600 hover:text-blue-800 transition-colors">
-                Home
-              </Link>
-              <span className="text-gray-400">/</span>
-              <span className="text-gray-600">Privacy Policy</span>
-            </div>
-          </div>
-        </nav>
-
-        {/* Main Content */}
-        <main className="py-12 lg:py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white shadow-sm border border-gray-100 rounded-2xl p-8 lg:p-12">
-              
-              {/* Effective Date */}
-              <div className="mb-8 p-4 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
-                <p className="text-blue-800 font-medium">
-                  <strong>Effective Date:</strong> June 8, 2025
-                </p>
-              </div>
-
-              {/* Introduction */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="overview">
-                  1. Overview
-                </h2>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  BizCivitas values your privacy. This Privacy Policy outlines how we collect, use, and safeguard your personal information when you interact with our Platform.
-                </p>
-              </section>
-
-              {/* Information We Collect */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="information-collection">
-                  2. Information We Collect
-                </h2>
-                
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                      a) Information You Provide:
-                    </h3>
-                    <ul className="space-y-2 text-gray-700 ml-6">
-                      <li className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        Registration details: name, email, phone number, company, job title.
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        Profile details: biography, photos, business descriptions.
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        Payment information for membership and event transactions.
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                      b) Information Collected Automatically:
-                    </h3>
-                    <ul className="space-y-2 text-gray-700 ml-6">
-                      <li className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        Device information: IP address, browser type, operating system.
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        Site activity: pages viewed, time spent, interaction patterns.
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        Participation records: event attendance and engagement metrics.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              {/* How We Use Your Information */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="information-usage">
-                  3. How We Use Your Information
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  We use your data to:
-                </p>
-                <ul className="space-y-2 text-gray-700 ml-6 mb-6">
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Manage your account and membership;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Facilitate networking, events, and community engagement;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Communicate updates and promotional offers;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Analyze usage to improve our services;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Comply with legal obligations.
-                  </li>
-                </ul>
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-green-800 font-medium">
-                    BizCivitas does not sell your personal information to third parties.
-                  </p>
-                </div>
-              </section>
-
-              {/* Sharing of Information */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="information-sharing">
-                  4. Sharing of Information
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  We may share information with:
-                </p>
-                <ul className="space-y-2 text-gray-700 ml-6">
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Service providers assisting with payment processing, hosting, and analytics;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Legal authorities if required by law;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Potential business partners in the event of a merger or acquisition, under strict confidentiality.
-                  </li>
-                </ul>
-              </section>
-
-              {/* Cookies & Tracking Technologies */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="cookies-tracking">
-                  5. Cookies & Tracking Technologies
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  We use cookies to enhance user experience, analyze site traffic, and personalize content. You can manage cookie preferences through your browser settings, but disabling cookies may affect certain functionalities.
-                </p>
-              </section>
-
-              {/* Data Security */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="data-security">
-                  6. Data Security
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  We implement commercially reasonable security measures to protect your data. However, no system can be guaranteed 100% secure, and you use our Platform at your own risk.
-                </p>
-              </section>
-
-              {/* Third-Party Links */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="third-party-links">
-                  7. Third-Party Links
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Our Platform may contain links to external websites. We are not responsible for the privacy practices of such third parties and encourage you to review their policies independently.
-                </p>
-              </section>
-
-              {/* Children's Privacy */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="childrens-privacy">
-                  8. Children's Privacy
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Our services are intended for individuals aged 18 and older. We do not knowingly collect data from children. If we learn we have collected personal information from a child, we will promptly delete it.
-                </p>
-              </section>
-
-              {/* International Data Transfers */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="data-transfers">
-                  9. International Data Transfers
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Your information may be transferred and maintained on servers outside your jurisdiction. By using our services, you consent to such transfer in accordance with applicable laws.
-                </p>
-              </section>
-
-              {/* Your Rights */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="your-rights">
-                  10. Your Rights
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Depending on your jurisdiction, you may have the right to:
-                </p>
-                <ul className="space-y-2 text-gray-700 ml-6 mb-6">
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Access the personal data we hold about you;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Request corrections to inaccurate data;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Request deletion of your data;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Restrict certain processing;
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    Opt-out of marketing communications.
-                  </li>
-                </ul>
-                <p className="text-gray-700 leading-relaxed">
-                  For requests, please email{" "}
-                  <a 
-                    href="mailto:privacy@bizcivitas.com" 
-                    className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
-                  >
-                    privacy@bizcivitas.com
-                  </a>.
-                </p>
-              </section>
-
-              {/* Policy Updates */}
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="policy-updates">
-                  11. Policy Updates
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.
-                </p>
-              </section>
-
-              {/* Contact Information */}
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" id="contact-information">
-                  12. Contact Information
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  For any privacy-related inquiries, please contact:
-                </p>
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                  <h3 className="font-semibold text-gray-900 mb-2">BizCivitas Privacy Team</h3>
-                  <p className="text-gray-700 mb-2">
-                    <strong>Email:</strong>{" "}
-                    <a 
-                      href="mailto:privacy@bizcivitas.com" 
-                      className="text-blue-600 hover:text-blue-800 transition-colors"
-                    >
-                      privacy@bizcivitas.com
-                    </a>
-                  </p>
-                  <p className="text-gray-700">
-                    <strong>Location:</strong> Vadodara, Gujarat, India
-                  </p>
-                </div>
-              </section>
-            </div>
-
-            {/* Quick Navigation */}
-            <div className="mt-12 bg-gray-50 p-8 rounded-2xl">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Navigation</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <a href="#overview" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  1. Overview
-                </a>
-                <a href="#information-collection" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  2. Information Collection
-                </a>
-                <a href="#information-usage" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  3. Information Usage
-                </a>
-                <a href="#information-sharing" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  4. Information Sharing
-                </a>
-                <a href="#cookies-tracking" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  5. Cookies & Tracking
-                </a>
-                <a href="#data-security" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  6. Data Security
-                </a>
-                <a href="#third-party-links" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  7. Third-Party Links
-                </a>
-                <a href="#childrens-privacy" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  8. Children's Privacy
-                </a>
-                <a href="#data-transfers" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  9. Data Transfers
-                </a>
-                <a href="#your-rights" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  10. Your Rights
-                </a>
-                <a href="#policy-updates" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  11. Policy Updates
-                </a>
-                <a href="#contact-information" className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
-                  12. Contact Information
-                </a>
-              </div>
-            </div>
-
-            {/* Additional Resources */}
-            <div className="mt-12 text-center">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Related Information</h3>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link 
-                  href="/terms" 
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                >
-                  Terms & Conditions
-                </Link>
-                <Link 
-                  href="/contact" 
-                  className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-colors"
-                >
-                  Contact Us
-                </Link>
-                <Link 
-                  href="/discover" 
-                  className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-                >
-                  Learn More About Us
-                </Link>
-              </div>
-            </div>
-          </div>
+            <div className="py-6"></div>
+            <ParagraphSection paragraph={Paragraph_4} className="" />
+            <ParagraphSection paragraph={Paragraph_5} className="" />
+            
+            <div className="py-6"></div>
+            <InfiniteCarousel
+                items={carouselItems}
+                title="Success Stories that Go with Our Motto"
+                speed={25}
+                pauseOnHover={true}
+                backgroundColor="bg-[#C7CEE6]"
+                cardBackgroundColor="bg-white"
+                titleColor="text-blue-500"
+                textColor="text-gray-700"
+                mainTitleColor="text-blue-500"
+                gap={6}
+            />
+        
+            <div className="py-6"></div>
+            <h1 className="text-4xl font-bold px-4 sm:px-10 lg:px-14 pt-14 text-blue-500"> FAQ's  </h1>
+            <Accordion items={faqs} />
+            
+            <div className="py-6"></div>
         </main>
-      </div>
-    </>
-  );
+    );
 }

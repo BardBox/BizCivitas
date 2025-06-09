@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 // Define the interface for each item
@@ -39,7 +40,7 @@ const HoverCards: React.FC<HoverCardsProps> = ({ item1, item2, item3 }) => {
           </div>
 
           <div className="background-div">
-            <img src="https://i.ibb.co/XrfQgW33/Elements.png" alt="Decorative elements background" />
+            <Image src="https://i.ibb.co/XrfQgW33/Elements.png" alt="Decorative elements background" />
           </div>
         </div>
       </div>
