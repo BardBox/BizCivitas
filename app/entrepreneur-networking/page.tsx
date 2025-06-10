@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/entrepreneur-networking`,
     images: [
       {
-        url: "/og-entrepreneur-networking.jpg",
+        url: "/blogs/left-cn.png",
         width: 1200,
         height: 630,
         alt: "BizCivitas Entrepreneur Networking Groups - Business Community",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     description: "Join our entrepreneur networking community. Connect with startup founders, access mentorship, and discover collaboration opportunities.",
     site: "@BizCivitas",
     creator: "@BizCivitas",
-    images: ["/og-entrepreneur-networking.jpg"],
+    images: ["/blogs/left-cn.png", "blogs/right-cn.jpg"],
   },
   alternates: {
     canonical: "/entrepreneur-networking",
@@ -275,6 +275,13 @@ const carouselItems: CarouselItem[] = [
 
 export default function EntrepreneurNetworkingPage() {
     return (
+      <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </Head>
         <main className="flex flex-col items-start justify-center">
             <TopSection
                 heading="Entrepreneur Networking"
@@ -312,5 +319,6 @@ export default function EntrepreneurNetworkingPage() {
             
             <div className="py-6"></div>
         </main>
+        </>
     );
 }

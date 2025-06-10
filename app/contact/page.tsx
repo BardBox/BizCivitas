@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/contact`,
     images: [
       {
-        url: "/og-contact.jpg",
+        url: "/HeroSection_1_Contact.jpg",
         width: 1200,
         height: 630,
         alt: "Contact BizCivitas",

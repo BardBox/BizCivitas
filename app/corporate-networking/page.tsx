@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/corporate-networking`,
     images: [
       {
-        url: "/og-corporate-networking.jpg",
+        url: "/patani.jpg",
         width: 1200,
         height: 630,
         alt: "BizCivitas Corporate Networking Events - Business Travel Groups",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     description: "Join exclusive corporate networking events and travel groups. Connect with business leaders worldwide.",
     site: "@BizCivitas",
     creator: "@BizCivitas",
-    images: ["/og-corporate-networking.jpg"],
+    images: ["/patani.jpg"],
   },
   alternates: {
     canonical: "/corporate-networking",
