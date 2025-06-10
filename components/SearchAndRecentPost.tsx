@@ -89,6 +89,7 @@ export default function SearchAndRecentPosts({
                   onClick={clearSearch}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors z-10"
                 >
+                
                   <svg
                     className="h-5 w-5"
                     fill="none"
