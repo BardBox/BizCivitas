@@ -156,13 +156,13 @@ export default function SearchAndRecentPosts({
                     href={`/blogs/${post.slug}`}
                     className="flex gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                   >
-                    <div className="w-24 h-full flex-shrink-0">
+                    <div className="w-52">
                       <Image
                         src={post.cover_url || "/placeholder-event.jpg"}
                         alt={post.topic_name || "Blog post"}
                         width={60}
                         height={60}
-                        className="w-4 h-4 object-contain rounded-lg group-hover:scale-105 transition-transform duration-200"
+                        className="w-6 h-6 object-cover rounded-lg group-hover:scale-105 transition-transform duration-200"
                       />
                     </div>
                     <div className=" min-w-0">
