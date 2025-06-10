@@ -4,6 +4,27 @@ body {
   overflow-x: hidden;
 }
 
+@layer base {
+  h1 {
+    @apply text-4xl font-bold pt-4;
+  }
+  h2 {
+    @apply text-3xl font-semibold pt-4;
+  }
+  h3 {
+    @apply text-2xl font-medium pt-4;
+  }
+  h4 {
+    @apply text-xl font-medium pt-4;
+  }
+  h5 {
+    @apply text-lg font-medium pt-4;
+  }
+  h6 {
+    @apply text-base font-medium pt-4;
+  }
+}
+
 @theme {
   /* Consistent spacing max-width 1440px, video and all full width layover */
   --breakpoint-3xl: 120rem;

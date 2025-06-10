@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
       {
+        protocol: 'https',
+        hostname: 'https://i.ibb.co/**',
+      },
+      {
         protocol: 'http',
         hostname: 'deeppink-starling-710457.hostingersite.com',
       },
