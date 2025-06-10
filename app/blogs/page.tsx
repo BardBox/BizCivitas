@@ -80,7 +80,7 @@ const TOPIC_TYPES = [
 ];
 
 interface BlogsPageProps {
-  searchParams: Promise<{ topic?: string; search?: string }>;
+  searchParams: Promise<{ topic?: string; search?: string; page?: string }>;
 }
 
 export default async function BlogsPage({
@@ -89,6 +89,8 @@ export default async function BlogsPage({
   const params = await searchParams;
   const selectedTopic = params.topic || "All";
   const searchQuery = params.search || "";
+  const currentPage = parseInt(params.page || "1", 10);
+  const blogsPerPage = 6;
 
   const allBlogs = await getAllBlogs();
 
@@ -105,6 +107,13 @@ export default async function BlogsPage({
       (blog.author_name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
     );
   }
+
+  // Pagination calculations
+  const totalBlogs = filteredBlogs.length;
+  const totalPages = Math.ceil(totalBlogs / blogsPerPage);
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const endIndex = startIndex + blogsPerPage;
+  const paginatedBlogs = filteredBlogs.slice(startIndex, endIndex);
 
   // Get recent posts (latest 5)
   const recentPosts = allBlogs.slice(0, 5);
@@ -148,8 +157,8 @@ export default async function BlogsPage({
     },
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: filteredBlogs.length,
-      itemListElement: filteredBlogs.slice(0, 10).map((blog, index) => ({
+      numberOfItems: totalBlogs,
+      itemListElement: paginatedBlogs.map((blog, index) => ({
         "@type": "Article",
         position: index + 1,
         name: blog.topic_name || "Untitled Article",
@@ -259,19 +268,20 @@ export default async function BlogsPage({
                   <p className="text-gray-600 text-sm lg:text-base">
                     {searchQuery ? (
                       <>
-                        Showing {filteredBlogs.length} results for "{searchQuery}"
+                        Showing {paginatedBlogs.length} of {totalBlogs} results for "{searchQuery}"
                         {selectedTopic !== "All" && ` in "${selectedTopic}"`}
+                        {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
                       </>
                     ) : selectedTopic === "All" ? (
-                      `Showing all ${filteredBlogs.length} blogs`
+                      `Showing ${paginatedBlogs.length} of ${totalBlogs} blogs${totalPages > 1 ? ` (Page ${currentPage} of ${totalPages})` : ""}`
                     ) : (
-                      `Showing ${filteredBlogs.length} blogs in "${selectedTopic}"`
+                      `Showing ${paginatedBlogs.length} of ${totalBlogs} blogs in "${selectedTopic}"${totalPages > 1 ? ` (Page ${currentPage} of ${totalPages})` : ""}`
                     )}
                   </p>
                 </header>
 
                 <main className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                  {filteredBlogs.length === 0 ? (
+                  {totalBlogs === 0 ? (
                     <div className="col-span-full bg-white border border-gray-200 rounded-lg shadow-sm p-8 text-center">
                       <svg
                         className="w-16 h-16 text-gray-400 mx-auto mb-4"
@@ -314,7 +324,7 @@ export default async function BlogsPage({
                       )}
                     </div>
                   ) : (
-                    filteredBlogs.map((blog) => (
+                    paginatedBlogs.map((blog) => (
                       <article key={blog.id}>
                         <Link href={`/blogs/${blog.slug}`} className="block">
                           <div className="custom-blog-card">
@@ -373,6 +383,94 @@ export default async function BlogsPage({
                     ))
                   )}
                 </main>
+
+                {/* Pagination Component */}
+                {totalPages > 1 && (
+                  <div className="mt-12 flex justify-center">
+                    <nav className="flex items-center space-x-2" aria-label="Pagination">
+                      {/* Previous Button */}
+                      {currentPage > 1 ? (
+                        <Link
+                          href={`/blogs?${new URLSearchParams({
+                            ...(selectedTopic !== "All" && { topic: selectedTopic }),
+                            ...(searchQuery && { search: searchQuery }),
+                            page: (currentPage - 1).toString(),
+                          }).toString()}`}
+                          className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition-colors"
+                        >
+                          Previous
+                        </Link>
+                      ) : (
+                        <span className="px-3 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
+                          Previous
+                        </span>
+                      )}
+
+                      {/* Page Numbers */}
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                        const isCurrentPage = pageNum === currentPage;
+                        
+                        // Show first page, last page, current page, and pages around current page
+                        const showPage = 
+                          pageNum === 1 ||
+                          pageNum === totalPages ||
+                          (pageNum >= currentPage - 1 && pageNum <= currentPage + 1);
+
+                        if (!showPage) {
+                          // Show ellipsis for gaps
+                          if (pageNum === currentPage - 2 || pageNum === currentPage + 2) {
+                            return (
+                              <span key={pageNum} className="px-3 py-2 text-sm font-medium text-gray-500">
+                                ...
+                              </span>
+                            );
+                          }
+                          return null;
+                        }
+
+                        return isCurrentPage ? (
+                          <span
+                            key={pageNum}
+                            className="px-3 py-2 text-sm font-medium text-white bg-flat-btn-primary border border-flat-btn-primary rounded-md"
+                            aria-current="page"
+                          >
+                            {pageNum}
+                          </span>
+                        ) : (
+                          <Link
+                            key={pageNum}
+                            href={`/blogs?${new URLSearchParams({
+                              ...(selectedTopic !== "All" && { topic: selectedTopic }),
+                              ...(searchQuery && { search: searchQuery }),
+                              page: pageNum.toString(),
+                            }).toString()}`}
+                            className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition-colors"
+                          >
+                            {pageNum}
+                          </Link>
+                        );
+                      })}
+
+                      {/* Next Button */}
+                      {currentPage < totalPages ? (
+                        <Link
+                          href={`/blogs?${new URLSearchParams({
+                            ...(selectedTopic !== "All" && { topic: selectedTopic }),
+                            ...(searchQuery && { search: searchQuery }),
+                            page: (currentPage + 1).toString(),
+                          }).toString()}`}
+                          className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition-colors"
+                        >
+                          Next
+                        </Link>
+                      ) : (
+                        <span className="px-3 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
+                          Next
+                        </span>
+                      )}
+                    </nav>
+                  </div>
+                )}
               </div>
 
               {/* Desktop Sidebar - Hidden on mobile */}
