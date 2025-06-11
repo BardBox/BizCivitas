@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllMemberships } from "@/lib/memberships";
 import TopSection from "@/components/TopSection";
-
 export const metadata: Metadata = {
   title: "BizCivitas Memberships - Join Our Business Community",
   description: "Discover BizCivitas membership plans designed for entrepreneurs, business leaders, and innovators. Unlock exclusive networking opportunities, events, and business growth resources.",
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/memberships`,
     images: [
       {
-        url: "/og-memberships.jpg",
+        url: "/patani.jpg",
         width: 1200,
         height: 630,
         alt: "BizCivitas Memberships",

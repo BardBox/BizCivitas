@@ -37,6 +37,7 @@ body {
 
   /* Brand Colors */
   --color-blue-500: #4A62AD;
+  --color-green-400: #22C55E;
   --color-green-500: #24B34B;
   --color-mint-500: oklch(0.72 0.11 178);
   --color-orange-500 : #F99D1C;
