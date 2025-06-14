@@ -370,11 +370,11 @@ export default async function BlogsPage({
                                   By {blog.author_name || "BizCivitas"} on{" "}
                                   {formatBlogDate(blog.date)}
                                 </div>
-                                {blog.content && (
+                                {/* {blog.content && (
                                   <div className="mt-1">
                                     {getBlogReadTime(blog.content)} min read
                                   </div>
-                                )}
+                                )} */}
                               </div>
                             </div>
                           </div>
