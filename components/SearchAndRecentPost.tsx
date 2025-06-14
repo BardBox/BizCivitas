@@ -202,7 +202,7 @@ export default function SearchAndRecentPosts({
               Upcoming Events
             </Link>
             <Link
-              href="/membership"
+              href="/memberships"
               className="block text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
             >
               Join Our Community
