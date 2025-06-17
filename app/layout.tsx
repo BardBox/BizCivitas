@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import PWAInstaller from "@/components/PWAInstaller";
+import { GoogleTagManager } from '@next/third-parties/google'
 // import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
 
@@ -162,7 +163,7 @@ export default function RootLayout({
         
         {/* Google Analytics 4 */}
         <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=GTM-M85WZNMH`}
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -170,7 +171,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+            gtag('config', 'GTM-M85WZNMH', {
               page_title: document.title,
               page_location: window.location.href,
               anonymize_ip: true,
@@ -195,10 +196,10 @@ export default function RootLayout({
             }
           `}
         </Script>
-
         <Analytics />
         <SpeedInsights/>
         <PWAInstaller />
+        <GoogleTagManager gtmId="GTM-M85WZNMH" />
         <Navbar />
         <main className={`min-h-screen ${geistSans.className}`} >
           {children}
