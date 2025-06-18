@@ -17,7 +17,6 @@ export async function generateStaticParams() {
     slug: membership.slug,
   }));
 }
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const membership = getMembershipBySlug(slug);
