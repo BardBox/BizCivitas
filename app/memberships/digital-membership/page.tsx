@@ -87,11 +87,11 @@ function PremiumFeatureCard({ feature, index, colors }: { feature: string; index
   const IconComponent = icons[index % icons.length];
 
   return (
-    <div className="group relative ">
+    <div className="group relative">
       <div className="absolute inset-0 transition-all duration-300 rounded-3xl" style={{ backgroundColor: `${colors.primary}08` }}>
       </div>
 
-      <div className="relative bg-white/80 backdrop-blur-sm rounded-t-3xl p-8 shadow-xl border border-gray-200/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105">
+      <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105">
         <div className="absolute top-4 right-4">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg" style={{ backgroundColor: colors.primary }}>
             <IconComponent size={24} className="text-white" />
@@ -147,7 +147,7 @@ function StickyBottomCTA({ membership }: { membership: MembershipPlan }) {
           <div className="flex items-center gap-6">
             <div className="text-right">
               <div className="text-3xl font-black" style={{ color: membership.color.primary }}>
-                ₹{ membership.price.amount.toLocaleString()}
+                ₹{membership.plans?.[0]?.price.toLocaleString() || membership.price.amount.toLocaleString()}
               </div>
               <div className="text-gray-500 text-xs">+ 18% GST</div>
             </div>
