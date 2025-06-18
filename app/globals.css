@@ -2,6 +2,13 @@
 
 body {
   overflow-x: hidden;
+  padding-bottom: 80px; /* Space for sticky bottom timer */
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 120px; /* More space on mobile for expanded timer */
+  }
 }
 
 @layer base {
@@ -903,4 +910,102 @@ button {
     justify-content: flex-end;
     gap: 0.5rem;
   }
+}
+
+/* Enhanced Countdown Timer Styles */
+.countdown-enhanced {
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
+}
+
+.countdown-enhanced .flip-clock__slot {
+  background: linear-gradient(145deg, #1f2937, #111827) !important;
+  border: 2px solid #374151 !important;
+  border-radius: 12px !important;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.countdown-enhanced .flip-clock__slot:before {
+  background: linear-gradient(145deg, #374151, #1f2937) !important;
+  border-radius: 12px !important;
+}
+
+.countdown-enhanced .flip-clock__slot-inner {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.countdown-enhanced .flip-clock__divider {
+  background: #10b981 !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4) !important;
+  border-radius: 50% !important;
+}
+
+/* Glowing effect on hover */
+.countdown-enhanced:hover .flip-clock__slot {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Animation for the flip effect */
+.countdown-enhanced .flip-clock__slot {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Sticky Bottom Timer Enhancements */
+.sticky-bottom-timer {
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-bottom-timer .timer-gradient {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.compact-timer-badge {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.compact-timer-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Finished state animations */
+.timer-finished {
+  animation: celebrationPulse 2s ease-in-out infinite;
+}
+
+@keyframes celebrationPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.finished-gradient {
+  background: linear-gradient(90deg, #10b981, #059669, #047857);
+  background-size: 200% 200%;
+  animation: finishedGradientShift 2s ease infinite;
+}
+
+@keyframes finishedGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

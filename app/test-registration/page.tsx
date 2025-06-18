@@ -2,15 +2,16 @@
 
 import EventRegistrationButton from '@/components/EventRegistrationButton';
 import { ToastContainer, useToast } from '@/components/Toast';
-
+import{Timer} from '@/components/Countdown';
 export default function TestRegistration() {
   const { toasts, removeToast } = useToast();
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">Registration System Test</h1>
         
+        <h1 className="text-3xl font-bold mb-8 text-center">Registration System Test</h1>
+        <Timer/>
         <div className="grid gap-8 md:grid-cols-2">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Button Variants</h2>

@@ -4,6 +4,8 @@ import Script from "next/script";
 import { theme } from "@/lib/theme";
 import ContentSection, { ContentSection2 } from "@/components/ContentSection";
 import EnhancedCTA from "@/components/EnhancedCTA";
+import ClientTimer from '@/components/ClientTimer';
+import { StickyBottomTimer } from '@/components/ClientTimer';
 import EventRegistrationButton from "@/components/EventRegistrationButton";
 import Image from "next/image";
 import FeaturesSection from "@/components/Home/WhyChooseUs";
@@ -117,10 +119,9 @@ export default function HomePage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-
       <div className="bg-flat-bg min-h-screen">
         {/* Hero Section with Video Background */}
-        <section className="relative w-full h-screen overflow-hidden">
+        <section className="relative w-screen h-screen overflow-hidden">
           <div className="absolute inset-0 w-full h-full">
             <video
               className="w-full h-full object-cover"
@@ -136,7 +137,7 @@ export default function HomePage() {
               suppressHydrationWarning
             />
           </div>
-
+          
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-1">
             {" "}
@@ -333,6 +334,9 @@ export default function HomePage() {
           <LetsConnect />
         </section>
       </div>
+      
+      {/* Sticky Bottom Timer */}
+      <StickyBottomTimer targetDate="2025-06-28 12:30" />
     </>
   );
 }
