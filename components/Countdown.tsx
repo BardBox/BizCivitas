@@ -65,7 +65,6 @@ export class Timer extends Component<TimerProps> {
           separatorStyle={{ 
             color: '#10b981', // emerald-500
             size: '6px',
-            fontWeight: 'bold'
           }}
           duration={0.8}
           className="countdown-enhanced"
