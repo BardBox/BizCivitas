@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getMembershipBySlug, getAllMemberships } from "@/lib/memberships";
+import { getMembershipBySlug, getAllMemberships, MembershipPlan } from "@/lib/memberships";
 import MembershipPurchaseBox from "@/components/MembershipPurchaseBox";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "@/components/Icons";
 
