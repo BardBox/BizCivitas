@@ -120,7 +120,7 @@ export function StickyBottomTimer({
                             </div>
                             <EnhancedCTA
                                 href="/events"
-                                variant="gradient"
+                                variant="primary"
                                 size="sm"
                                 className={`text-white shadow-lg transform hover:scale-105 transition-all duration-300 ${
                                     isFinished 
