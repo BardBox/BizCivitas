@@ -60,8 +60,7 @@ export class Timer extends Component<TimerProps> {
           }}
           dividerStyle={{ 
             color: '#9ca3af', // gray-400
-            height: 2,
-            width: 2
+            height: 2
           }}
           separatorStyle={{ 
             color: '#10b981', // emerald-500
