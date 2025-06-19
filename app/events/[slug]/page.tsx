@@ -246,15 +246,17 @@ export default async function EventPage({ params }: PageProps) {
               <div className="lg:col-span-2">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                   {event.cover_url && (
-                    <div className="h-64 relative">
+                    <div className="relative w-full max-w-full"> {/* fixed width container */}
                       <Image
                         src={event.cover_url}
                         alt={event.event_name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 66vw"
+                        width={800} // original image width
+                        height={500} // original image height
+                        className="object-cover w-full h-auto"
+                        sizes="100vw"
                       />
                     </div>
+
                   )}
                   <div className="p-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -285,9 +287,9 @@ export default async function EventPage({ params }: PageProps) {
                     {/* YouTube Videos */}
                     {event.youtube_links ? (
                       <div className="mt-8">
-                          <h3 className="text-xl font-bold text-gray-900 mb-4">
-                            Event Videos...
-                          </h3>
+                        <h3 className="text-xl font-bold text-gray-900 mb-4">
+                          Event Videos...
+                        </h3>
                         <div className="space-y-6">
                           {(() => {
                             const links = event.youtube_links instanceof Array
