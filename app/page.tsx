@@ -336,7 +336,7 @@ export default function HomePage() {
       </div>
       
       {/* Sticky Bottom Timer */}
-      <StickyBottomTimer targetDate="2025-06-28 12:30" />
+      <StickyBottomTimer targetDate="2025-06-28 18:30" />
     </>
   );
 }

@@ -87,7 +87,7 @@ export function StickyBottomTimer({
                                 </div>
                                 <div>
                                     <p className="text-gray-900 font-semibold text-sm">
-                                        {isFinished ? 'Event Time Has Passed!' : 'Next Event Starts In'}
+                                        {isFinished ? 'Event Time Has Passed!' : 'Digital Membership Launch Event starts in'}
                                     </p>
                                     <p className="text-gray-600 text-xs">{date} • {time}</p>
                                 </div>
