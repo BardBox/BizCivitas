@@ -2,14 +2,8 @@
 
 body {
   overflow-x: hidden;
-  padding-bottom: 80px; /* Space for sticky bottom timer */
 }
 
-@media (max-width: 768px) {
-  body {
-    padding-bottom: 120px; /* More space on mobile for expanded timer */
-  }
-}
 
 @layer base {
   h1 {
