@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { getMembershipBySlug, getAllMemberships, MembershipPlan } from "@/lib/memberships";
 import MembershipPurchaseBox from "@/components/MembershipPurchaseBox";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "@/components/Icons";
-
+import { PageProps, Notes } from "@/types/membership.types";
 import {
   Check,
   Globe,
@@ -23,9 +23,7 @@ import {
   ArrowRight
 } from "lucide-react";
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
+
 
 export async function generateStaticParams() {
   const memberships = getAllMemberships();
@@ -35,6 +33,7 @@ export async function generateStaticParams() {
 }
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  console.log("Generating metadata for membership slug:", slug);
   const membership = getMembershipBySlug(slug);
   if (!membership) {
     return {
@@ -175,9 +174,14 @@ function StickyBottomCTA({ membership }: { membership: MembershipPlan }) {
   );
 }
 
-async function DigitalMembershipPage() {
-  const membership = getMembershipBySlug('digital-membership');
+interface N {
+  notes?: Notes;
+}
 
+
+function DigitalMembershipPage({notes} : N) {
+  const membership = getMembershipBySlug('digital-membership');
+  console.log('Hello ', notes)
   if (!membership) {
     notFound();
   }
@@ -476,8 +480,30 @@ async function DigitalMembershipPage() {
 
 
 
-export default async function MembershipPage({ params }: PageProps) {
+export default async function MembershipPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const s = await searchParams;
+  console.log(s);
+  const utm_source = (await searchParams)?.utm_source;
+  const utm_medium = (await searchParams)?.utm_medium;
+  const utm_campaign = (await searchParams)?.utm_campaign;
+
+  let notes: Notes | undefined = {
+    utm_campaign :'',
+    utm_source :'',
+    utm_medium :'',
+  };
+
+  if (utm_campaign && utm_medium && utm_source) {
+    notes = {
+      utm_source: utm_source,
+      utm_medium: utm_medium,
+      utm_campaign: utm_campaign,
+    };
+  }
+
+  console.log("UTM Notes:", notes);
+  console.log(utm_source, utm_medium, utm_campaign);
   const membership = getMembershipBySlug(slug);
 
   if (!membership) {
@@ -517,7 +543,7 @@ export default async function MembershipPage({ params }: PageProps) {
 
       {
         membership.id === 'digital' ? (
-          <DigitalMembershipPage />
+          <DigitalMembershipPage notes={notes} />
         ) : (
 
           <div className="min-h-screen bg-white">

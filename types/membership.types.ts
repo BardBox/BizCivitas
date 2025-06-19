@@ -1,0 +1,9 @@
+export interface PageProps {
+  params: Promise<{ slug: string }>,
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+export interface Notes {
+  utm_source?: string| string[] | null | undefined;
+  utm_medium?: string | string[] | null | undefined;
+  utm_campaign?: string| string[] | null | undefined;
+}
