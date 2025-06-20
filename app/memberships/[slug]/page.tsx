@@ -500,7 +500,7 @@ export default async function MembershipPage({ params, searchParams }: PageProps
     utm_medium :'',
   };
 
-  if (utm_campaign?.length > 2 && utm_medium?.length > 2 && utm_source.length > 2 ) {
+  if (utm_campaign?.length > 2 && utm_medium?.length > 2 && utm_source?.length > 2 ) {
     notes = {
       utm_source: utm_source,
       utm_medium: utm_medium,
