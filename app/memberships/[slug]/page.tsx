@@ -491,9 +491,9 @@ function DigitalMembershipPage({notes} : N) {
 
 export default async function MembershipPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
-  const utm_source : string | string[] = (await searchParams)?.utm_source || " ";
-  const utm_medium : string | string[]= (await searchParams)?.utm_medium  || " ";
-  const utm_campaign : string | string[] = (await searchParams)?.utm_campaign  || " ";
+  const utm_source : string | string[] | null | undefined = (await searchParams)?.utm_source || " ";
+  const utm_medium : string | string[] | null | undefined= (await searchParams)?.utm_medium  || " ";
+  const utm_campaign : string | string[] | null | undefined = (await searchParams)?.utm_campaign  || " ";
   let notes: Notes | undefined = {
     utm_campaign :'',
     utm_source :'',
