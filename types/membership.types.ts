@@ -1,6 +1,6 @@
 export interface PageProps {
   params: Promise<{ slug: string }>,
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined | null };
 }
 export interface Notes {
   utm_source?: string| string[] | null | undefined;
