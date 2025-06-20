@@ -6,6 +6,7 @@ import { getMembershipBySlug, getAllMemberships, MembershipPlan } from "@/lib/me
 import MembershipPurchaseBox from "@/components/MembershipPurchaseBox";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "@/components/Icons";
 import { PageProps, Notes } from "@/types/membership.types";
+import { insertCampaign } from "@/lib/campaign";
 import {
   Check,
   Globe,
@@ -144,7 +145,7 @@ function GlassBenefitCard({ title, description, IconComponent, colors }: { title
 }
 
 // Sticky Bottom CTA - Flat Green
-function StickyBottomCTA({ membership }: { membership: MembershipPlan }) {
+function StickyBottomCTA({ membership, paymentUrl }: { membership: MembershipPlan, paymentUrl?: string }) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg shadow-2xl border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -161,7 +162,7 @@ function StickyBottomCTA({ membership }: { membership: MembershipPlan }) {
               <div className="text-gray-500 text-xs">+ 18% GST</div>
             </div>
             <Link
-              href={membership.plans?.[0]?.url || '#'}
+              href={paymentUrl || membership.plans?.[0]?.url || '#'}
               className="text-white px-8 py-4 rounded-2xl font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
               style={{ backgroundColor: membership.color.primary }}
             >
@@ -185,6 +186,14 @@ function DigitalMembershipPage({notes} : N) {
   if (!membership) {
     notFound();
   }
+
+  // Create UTM parameter string for payment URL
+  const utmParams = new URLSearchParams();
+  if (notes?.utm_source) utmParams.set('utm_source', notes.utm_source.toString());
+  if (notes?.utm_medium) utmParams.set('utm_medium', notes.utm_medium.toString());
+  if (notes?.utm_campaign) utmParams.set('utm_campaign', notes.utm_campaign.toString());
+  
+  const paymentUrl = `/memberships/digital-membership/payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -242,7 +251,7 @@ function DigitalMembershipPage({notes} : N) {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <Link
-                  href={membership.plans?.[0]?.url || '#'}
+                  href={paymentUrl}
                   className="text-white px-8 py-4 rounded-2xl font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-center"
                   style={{ backgroundColor: membership.color.secondary, color: membership.color.primary }}
                 >
@@ -383,7 +392,7 @@ function DigitalMembershipPage({notes} : N) {
 
           <div className="text-center">
             <Link
-              href={membership.plans?.[0]?.url || '#'}
+              href={paymentUrl}
               className="inline-flex items-center gap-3 text-white px-12 py-5 rounded-2xl font-bold text-xl hover:opacity-90 transition-all duration-300 transform hover:scale-105"
               style={{ backgroundColor: membership.color.primary }}
             >
@@ -454,7 +463,7 @@ function DigitalMembershipPage({notes} : N) {
             <div className="text-5xl font-black mb-2">₹{membership.plans?.[0]?.price.toLocaleString() || membership.price.amount.toLocaleString()}</div>
             <div className="opacity-75 mb-6">{membership.plans?.[0]?.breakdown || '+ 18% GST • One-time payment'}</div>
             <Link
-              href={membership.plans?.[0]?.url || '#'}
+              href={paymentUrl}
               className="block bg-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
               style={{ color: membership.color.primary }}
             >
@@ -473,7 +482,7 @@ function DigitalMembershipPage({notes} : N) {
         </div>
       </section>
 
-      <StickyBottomCTA membership={membership} />
+      <StickyBottomCTA membership={membership} paymentUrl={paymentUrl} />
     </>
   );
 }
@@ -494,15 +503,33 @@ export default async function MembershipPage({ params, searchParams }: PageProps
     utm_medium :'',
   };
 
-  if (utm_campaign && utm_medium && utm_source) {
+  if (utm_campaign?.length && utm_medium && utm_source) {
     notes = {
       utm_source: utm_source,
       utm_medium: utm_medium,
       utm_campaign: utm_campaign,
     };
-  }
 
-  console.log("UTM Notes:", notes);
+    // Track campaign with rate limiting (only for digital membership)
+    if (slug === 'digital-membership') {
+      try {
+        const pageUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/memberships/${slug}`;
+        const campaignResult = await insertCampaign(notes);
+        
+        if (campaignResult.success) {
+          console.log('Campaign tracked successfully');
+        } else {
+          console.log('Campaign tracking skipped:', campaignResult.error);
+        }
+      } catch (error) {
+        console.error('Error tracking campaign:', error);
+        // Don't block page render if campaign tracking fails
+      }
+    }
+  }
+  else{
+    console.log("No UTM parameters found in search params");
+  }
   console.log(utm_source, utm_medium, utm_campaign);
   const membership = getMembershipBySlug(slug);
 
