@@ -491,12 +491,9 @@ function DigitalMembershipPage({notes} : N) {
 
 export default async function MembershipPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
-  const s = await searchParams;
-  console.log(s);
-  const utm_source = (await searchParams)?.utm_source;
-  const utm_medium = (await searchParams)?.utm_medium;
-  const utm_campaign = (await searchParams)?.utm_campaign;
-
+  const utm_source : string | string[] = (await searchParams)?.utm_source || " ";
+  const utm_medium : string | string[]= (await searchParams)?.utm_medium  || " ";
+  const utm_campaign : string | string[] = (await searchParams)?.utm_campaign  || " ";
   let notes: Notes | undefined = {
     utm_campaign :'',
     utm_source :'',
@@ -509,23 +506,7 @@ export default async function MembershipPage({ params, searchParams }: PageProps
       utm_medium: utm_medium,
       utm_campaign: utm_campaign,
     };
-
-    // Track campaign with rate limiting (only for digital membership)
-    if (slug === 'digital-membership') {
-      try {
-        const pageUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bizcivitas.com'}/memberships/${slug}`;
-        const campaignResult = await insertCampaign(notes);
-        
-        if (campaignResult.success) {
-          console.log('Campaign tracked successfully');
-        } else {
-          console.log('Campaign tracking skipped:', campaignResult.error);
-        }
-      } catch (error) {
-        console.error('Error tracking campaign:', error);
-        // Don't block page render if campaign tracking fails
-      }
-    }
+    await insertCampaign(notes);
   }
   else{
     console.log("No UTM parameters found in search params");
