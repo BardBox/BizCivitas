@@ -508,9 +508,6 @@ export default async function MembershipPage({ params, searchParams }: PageProps
     };
     await insertCampaign(notes);
   }
-  else{
-    console.log("No UTM parameters found in search params");
-  }
   console.log(utm_source, utm_medium, utm_campaign);
   const membership = getMembershipBySlug(slug);
 
