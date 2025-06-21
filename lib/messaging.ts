@@ -410,3 +410,24 @@ export async function sendQuickWelcomePackage(
 
   return sendTwilioMessage({ to, message, type });
 }
+
+/**
+ * Send minimal payment confirmation (lowest cost - under 80 characters)
+ * @param to - Phone number to send to
+ * @param amount - Payment amount
+ * @param txnId - Transaction ID (last 6 chars)
+ * @param type - Message type (sms or whatsapp)
+ * @returns Promise with send result
+ */
+export async function sendMinimalPaymentConfirmation(
+  to: string,
+  amount: number,
+  txnId: string,
+  type: 'sms' | 'whatsapp' = 'sms'
+): Promise<SendMessageResult> {
+  // Keep under 80 characters for lowest cost
+  const shortTxnId = txnId; // Last 6 characters only
+  const message = `✅ Paid ₹${amount} | ID:${shortTxnId} | BizCivitas | Thanks!`;
+  
+  return sendTwilioMessage({ to, message, type });
+}

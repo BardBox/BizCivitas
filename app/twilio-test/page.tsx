@@ -97,7 +97,7 @@ export default function TwilioTestPage() {
   };
 
   // Load predefined messages
-  const loadSampleMessage = (type: 'welcome' | 'test' | 'otp' | 'sandbox' | 'comprehensive' | 'quick-package') => {
+  const loadSampleMessage = (type: 'welcome' | 'test' | 'otp' | 'sandbox' | 'comprehensive' | 'quick-package' | 'minimal') => {
     const messages = {
       welcome: 'Welcome to BizCivitas! Thank you for joining our community of innovative entrepreneurs and business leaders.',
       test: 'This is a test message from BizCivitas. If you received this, our Twilio integration is working correctly!',
@@ -157,7 +157,8 @@ What you get:
 
 Need help? WhatsApp: +91 98765 43210
 
-Let's build something extraordinary! 🚀`
+Let's build something extraordinary! 🚀`,
+      minimal: '✅ Paid ₹1770 | ID:xyz123 | BizCivitas | Thanks!'
     };
     setMessage(messages[type]);
   };
@@ -345,6 +346,13 @@ Let's build something extraordinary! 🚀`
                     className="text-sm text-orange-600 hover:text-orange-800 px-2 py-1 bg-orange-50 rounded"
                   >
                     Quick Package
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => loadSampleMessage('minimal')}
+                    className="text-sm text-red-600 hover:text-red-800 px-2 py-1 bg-red-50 rounded"
+                  >
+                    Minimal (Lowest Cost)
                   </button>
                 </div>
               </div>

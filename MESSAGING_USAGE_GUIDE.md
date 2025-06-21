@@ -15,7 +15,8 @@ import {
   sendEventConfirmation,
   sendPaymentConfirmation,
   sendComprehensiveNotification,
-  sendQuickWelcomePackage
+  sendQuickWelcomePackage,
+  sendMinimalPaymentConfirmation
 } from '@/lib/messaging';
 ```
 
@@ -120,6 +121,17 @@ const result = await sendQuickWelcomePackage(
   },
   'sms'             // Good for SMS due to length limit
 );
+```
+
+### 10. `sendMinimalPaymentConfirmation` - Ultra-short payment confirmation (lowest cost)
+```typescript
+const result = await sendMinimalPaymentConfirmation(
+  '+919876543210',
+  1770,             // Amount
+  'pay_xyz123456',  // Transaction ID (will use last 6 chars)
+  'sms'             // Recommended for lowest cost
+);
+// Sends: "✅ Paid ₹1770 | ID:123456 | BizCivitas | Thanks!" (under 80 chars)
 ```
 
 ## Usage in API Routes
@@ -291,6 +303,15 @@ TWILIO_PHONE_NUMBER=your_twilio_phone_number_here
 3. **Use appropriate message types**: SMS for notifications, WhatsApp for rich content
 4. **Respect rate limits**: Twilio has sending limits
 5. **Log for debugging**: Keep track of message IDs and errors
+6. **Cost optimization**: Use `sendMinimalPaymentConfirmation` for lowest charges (under 80 chars)
+7. **Message length**: SMS charges per 160 characters, keep messages short when possible
+
+## Cost Optimization Tips
+
+- **Minimal confirmations**: Use `sendMinimalPaymentConfirmation` for basic confirmations (₹0.5-1 per SMS)
+- **SMS vs WhatsApp**: SMS is often cheaper for short messages
+- **Character limits**: SMS: 160 chars per segment, WhatsApp: ~1600 chars for similar cost
+- **Use abbreviations**: "₹" instead of "Rupees", "ID:" instead of "Transaction ID:"
 
 ## Testing
 

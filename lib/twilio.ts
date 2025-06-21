@@ -13,7 +13,8 @@ export {
   sendEventConfirmation,
   sendPaymentConfirmation,
   sendComprehensiveNotification,
-  sendQuickWelcomePackage
+  sendQuickWelcomePackage,
+  sendMinimalPaymentConfirmation
 } from './messaging';
 
 // Legacy function - use sendSMS from messaging.ts instead
