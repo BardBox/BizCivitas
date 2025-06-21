@@ -17,6 +17,7 @@ export interface MembershipPlan {
   plans?: {
     title: string;
     price: number;
+    priceNoGst?: number;
     paragraph?: string;
     breakdown?: string;
     url : string;
@@ -80,6 +81,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
         title: 'One-Time Registration Fees',
         price: 29500,
+        priceNoGst: 25000,
         paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas membership.',
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/zL0kOwm'
@@ -87,6 +89,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
          title: 'Membership Fees',
         price: 354000,
+        priceNoGst: 300000,
         paragraph: 'An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.',
         breakdown: '₹300,000 + ₹54,000 (18% GST)',
         url: 'https://rzp.io/rzp/a2iQJsS8'
@@ -95,6 +98,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
          title: 'Community Launch Fees',
         price: 265500,
+        priceNoGst: 225000,
         paragraph: 'Core member frees for launching community (Valid for 2 years).',
         breakdown: '₹225,000 + ₹40,500 (18% GST)',
         url: 'https://rzp.io/rzp/jESryFJd'
@@ -143,6 +147,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
         title: 'One-Time Registration Fees',
         price: 29500,
+        priceNoGst: 25000,
         paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas membership.',
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/AhPII0P'
@@ -150,6 +155,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
          title: 'Membership Fees',
         price: 354000,
+        priceNoGst: 300000,
         paragraph: 'An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.',
         breakdown: '₹300,000 + ₹54,000 (18% GST)',
         url: 'https://rzp.io/rzp/cDsPU3r7'
@@ -157,6 +163,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
          title: 'Meeting/Event Fees',
         price: 29500,
+        priceNoGst: 25000,
         paragraph: 'A recurring charge for attending structured Bizcivitas networking meetings and events.',
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/8nI41SXe'
@@ -225,6 +232,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
         title: 'One-Time Registration Fees',
         price: 29500,
+        priceNoGst: 25000,
         paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas membership.',
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/u2d7vck'
@@ -232,6 +240,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
          title: 'Membership Fees',
         price: 354000,
+        priceNoGst: 300000,
         paragraph: 'An annual subscription fee granting access to exclusive Bizcivitas communities, events, and benefits.',
         breakdown: '₹300,000 + ₹54,000 (18% GST)',
         url: 'https://rzp.io/rzp/9vy1uiw'
@@ -239,6 +248,7 @@ export const membershipPlans: MembershipPlan[] = [
       {
          title: 'Meeting/Event Fees',
         price: 29500,
+        priceNoGst: 25000,
         paragraph: 'A recurring charge for attending structured Bizcivitas networking meetings and events.',
         breakdown: '₹25,000 + ₹4,500 (18% GST)',
         url: 'https://rzp.io/rzp/GzDLVIuR'
@@ -287,7 +297,8 @@ export const membershipPlans: MembershipPlan[] = [
     plans:[
       {
         title: 'One-Time Registration Fees',
-        price: 6999,
+        price: 8259,
+        priceNoGst: 6999,
         paragraph: 'A non-refundable fee for onboarding and activating your Bizcivitas online membership.',
         breakdown: '₹6,999 + ₹1,260 (18% GST)',
         url: 'https://rzp.io/rzp/oqFOga1'

@@ -6,8 +6,7 @@ import { getEventBySlug, getAllEvents, getEventSEOData } from "@/lib/events";
 import ImageCarousel from "@/components/ImageCarousel";
 import ShareButton from "@/components/ShareButton";
 import EnhancedCTA from "@/components/EnhancedCTA";
-import EventRegistrationButton from "@/components/EventRegistrationButton";
-
+import PaymentDialog from "@/components/PaymentButton";
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -203,11 +202,18 @@ export default async function EventPage({ params }: PageProps) {
               )}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 {event.type === "upcoming" ? (
-                  <EventRegistrationButton
-                    eventName={event.event_name}
-                    eventSlug={event.slug}
-                    variant="orange-rounded"
-                    size="md"
+                  <PaymentDialog
+                    paymentData={{
+                      color: '#2563eb',
+                      amount: 1500 * 1.18, // ₹1,770 including GST
+                      paidFor: `${event.event_name} - Event Ticket`,
+                      isEvent: true,
+                    }}
+                    buttonText="Register Now"
+                    size="lg"
+                    variant="success"
+                    icon="ticket"
+                    animateIcon={true}
                   />
                 ) : null}
                 <ShareButton
@@ -434,12 +440,19 @@ export default async function EventPage({ params }: PageProps) {
                     </div>
 
                     <div className="mt-8 space-y-3">
-                      <EventRegistrationButton
-                        eventName={event.event_name}
-                        eventSlug={event.slug}
-                        variant="primary"
-                        size="md"
-                        className="w-full"
+                      <PaymentDialog
+                        paymentData={{
+                          color: '#2563eb',
+                          amount: 1500 * 1.18, // ₹1,770 including GST
+                          paidFor: `${event.event_name} - Event Ticket`,
+                          isEvent: true,
+                        }}
+                        buttonText="Register for Event"
+                        size="lg"
+                        variant="success"
+                        icon="ticket"
+                        fullWidth={true}
+                        animateIcon={true}
                       />
                     </div>
 

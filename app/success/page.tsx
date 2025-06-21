@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import DigitalMembershipSuccess from '@/components/DigitalMembershipSuccess';
+import Success from '@/components/SuccessPage';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 function SuccessPageContent() {
-  return <DigitalMembershipSuccess />;
+  return <Success />;
 }
 
 export default function SuccessPage() {

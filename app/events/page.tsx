@@ -9,7 +9,7 @@ import {
 } from "@/lib/events";
 import EnhancedCTA from "@/components/EnhancedCTA";
 import EventRegistrationButton from "@/components/EventRegistrationButton";
-
+import PaymentDialog from "@/components/PaymentButton";
 export const metadata: Metadata = {
   title: "Business Events | BizCivitas - Transform Your Vision Into Reality",
   description:
@@ -93,7 +93,7 @@ export default async function EventsPage() {
         "Inspiring video showcasing how great business ideas transform into successful companies.",
       contentUrl:
         `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"}/event.mp4`,
-      
+
       uploadDate: "2025-01-24",
       duration: "PT30S",
       publisher: {
@@ -115,9 +115,8 @@ export default async function EventsPage() {
           "@type": "ListItem",
           position: 2,
           name: "Events",
-          item: `${
-            process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
-          }/events`,
+          item: `${process.env.NEXT_PUBLIC_SITE_URL || "https://bizcivitas.com"
+            }/events`,
         },
       ],
     },
@@ -152,7 +151,7 @@ export default async function EventsPage() {
 
           {/* Video Overlay */}
           <div className="absolute inset-0 flex items-center justify-center"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
           >
             <div className="text-center text-flat-text-inverse px-4 sm:px-6 lg:px-8 max-w-4xl">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight text-white">
@@ -163,11 +162,18 @@ export default async function EventsPage() {
                 professionals, share insights, and drive business growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <EventRegistrationButton 
-                  eventName="Register for Upcoming Events" 
-                  eventSlug="events-registration"
-                  variant="orange" 
+                <PaymentDialog
+                  paymentData={{
+                    color: '#2563eb',
+                    amount: 1500 * 1.18, // ₹1,770 including GST
+                    paidFor: 'Event Ticket',
+                    isEvent: true,
+                  }}
+                  buttonText="Register Now @ ₹1500"
                   size="lg"
+                  variant="primary"
+                  icon="ticket"
+                  animateIcon={true}
                 />
                 <EnhancedCTA
                   href="/discover"

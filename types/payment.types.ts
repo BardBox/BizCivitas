@@ -12,9 +12,28 @@ export interface Payment {
   last_name: number | string | null | undefined;
   gst_number: number | string | null | undefined;
   company_name: number | string | null | undefined;
-  membership_type: number | string | null | undefined;
+  paidFor:  number | string | null | undefined;
   utm_source: number | string | null | undefined;
   utm_medium: number | string | null | undefined;
   utm_campaign: number | string | null | undefined;
   created_at: string; // ISO timestamp
+}
+
+export interface PaymentFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  amount: number;
+  phone: string;
+  companyName: string;
+  gstNumber?: string;
+  whyToAttend?: string; // Optional field for why to attend
+}
+
+export interface PaymentProps {
+  onClose?: () => void;
+  color : string; // Optional color prop for Razorpay theme
+  amount : number;  // Payment data to be passed to the component
+  isEvent?: boolean; // Optional prop to indicate if it's an event payment
+  paidFor : string;
 }

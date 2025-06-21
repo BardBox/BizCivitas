@@ -24,6 +24,12 @@ body {
   h6 {
     @apply text-base font-medium pt-4;
   }
+  textarea {
+    @apply text-base text-black;
+  }
+  input {
+    @apply text-base text-black;
+  }
 }
 
 @theme {

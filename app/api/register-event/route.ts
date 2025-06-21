@@ -4,7 +4,20 @@ import { supabase } from '@/lib/db';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, business_name, email, phone, reason_to_attend } = body;
+    const { 
+      name, 
+      business_name, 
+      email, 
+      phone, 
+      reason_to_attend, 
+      eventSlug,
+      couponCode,
+      amount,
+      paidFor,
+      utm_source,
+      utm_medium,
+      utm_campaign 
+    } = body;
 
     // Validate required fields
     if (!name || !email) {
@@ -23,6 +36,50 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate phone format if provided
+    if (phone) {
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        return NextResponse.json(
+          { error: 'Invalid phone number format. Please enter a valid 10-digit Indian phone number.' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Handle GODIGITAL coupon validation
+    if (couponCode && couponCode.toUpperCase() === 'GODIGITAL') {
+      if (!phone) {
+        return NextResponse.json(
+          { error: 'Phone number is required for coupon redemption' },
+          { status: 400 }
+        );
+      }
+
+      // Check if phone number already used for GODIGITAL coupon
+      const { data: existingCouponUser, error: couponCheckError } = await supabase
+        .from('attendees')
+        .select('id, phone, coupon_code')
+        .eq('phone', phone.trim())
+        .eq('coupon_code', 'GODIGITAL')
+        .limit(1);
+
+      if (couponCheckError) {
+        console.error('Coupon check error:', couponCheckError);
+        return NextResponse.json(
+          { error: 'Failed to validate coupon. Please try again.' },
+          { status: 500 }
+        );
+      }
+
+      if (existingCouponUser && existingCouponUser.length > 0) {
+        return NextResponse.json(
+          { error: 'This phone number has already been used to claim the GODIGITAL coupon. Each phone number can only claim the coupon once.' },
+          { status: 409 }
+        );
+      }
+    }
+
     // Insert into Supabase
     const { data, error } = await supabase
       .from('attendees')
@@ -33,6 +90,15 @@ export async function POST(request: NextRequest) {
           email: email.trim().toLowerCase(),
           phone: phone?.trim() || null,
           reason_to_attend: reason_to_attend?.trim() || null,
+          event_slug: eventSlug || null,
+          coupon_code: couponCode?.toUpperCase() || null,
+          amount_paid: amount || 0,
+          paid_for: paidFor || null,
+          utm_source: utm_source || null,
+          utm_medium: utm_medium || null,
+          utm_campaign: utm_campaign || null,
+          registration_type: couponCode?.toUpperCase() === 'GODIGITAL' ? 'free_coupon' : 'regular',
+          created_at: new Date().toISOString()
         },
       ])
       .select()
@@ -48,6 +114,14 @@ export async function POST(request: NextRequest) {
           { status: 409 }
         );
       }
+
+      // Handle duplicate phone error for coupon users
+      if (error.code === '23505' && error.message.includes('phone') && couponCode?.toUpperCase() === 'GODIGITAL') {
+        return NextResponse.json(
+          { error: 'This phone number has already been used to claim the GODIGITAL coupon.' },
+          { status: 409 }
+        );
+      }
       
       return NextResponse.json(
         { error: 'Failed to register. Please try again.' },
@@ -57,11 +131,18 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { 
-        message: 'Registration successful',
+        success: true,
+        message: couponCode?.toUpperCase() === 'GODIGITAL' 
+          ? 'Free registration successful with GODIGITAL coupon!' 
+          : 'Registration successful',
+        registrationId: data.id,
         data: {
           id: data.id,
           name: data.name,
           email: data.email,
+          phone: data.phone,
+          couponCode: data.coupon_code,
+          registrationType: data.registration_type
         }
       },
       { status: 201 }
