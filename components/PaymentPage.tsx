@@ -652,12 +652,12 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                   </h3>
 
                   {!couponApplied ? (
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg mx-auto">
                       <input
                         type="text"
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-base sm:text-lg"
                         placeholder="Enter coupon code"
                         disabled={isLoading || isCouponLoading}
                       />
@@ -665,7 +665,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                         type="button"
                         onClick={applyCouponCode}
                         disabled={isLoading || isCouponLoading || !couponCode.trim()}
-                        className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors"
+                        className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors w-full sm:w-auto"
                       >
                         {isCouponLoading ? (
                           <LoadingSpinner text="Applying..." />
@@ -673,96 +673,97 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                           'Apply'
                         )}
                       </button>
+                    
                     </div>
-                  ) : (
-                    <div className="flex items-center justify-between bg-green-100 border border-green-200 rounded-lg p-4">
-                      <div className="flex items-center">
-                        <svg className="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div>
-                          <p className="font-semibold text-green-800">GODIGITAL Coupon Applied!</p>
-                          <p className="text-sm text-green-700">100% Discount - Event is FREE</p>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={removeCoupon}
-                        className="text-green-600 hover:text-green-800 font-medium"
-                        disabled={isLoading}
-                      >
-                        Remove
-                      </button>
-                    </div>
+              ) : (
+              <div className="flex items-center justify-between bg-green-100 border border-green-200 rounded-lg p-4">
+                <div className="flex items-center">
+                  <svg className="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <p className="font-semibold text-green-800">GODIGITAL Coupon Applied!</p>
+                    <p className="text-sm text-green-700">100% Discount - Event is FREE</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeCoupon}
+                  className="text-green-600 hover:text-green-800 font-medium"
+                  disabled={isLoading}
+                >
+                  Remove
+                </button>
+              </div>
                   )}
 
-                  <div className="mt-3 text-sm text-gray-600">
-                    <p>💡 Use code <strong>PROMO CODE</strong> for huge discount on event registration!</p>
-                  </div>
+              <div className="mt-3 text-sm text-gray-600">
+                <p>💡 Use code <strong>PROMO CODE</strong> for huge discount on event registration!</p>
+              </div>
+          </div>
+              )}
+
+          {/* Amount Summary */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Summary</h3>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-700">Original Amount:</span>
+                <span className="text-gray-900 font-medium">₹{((amount || 0) / 1.18).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-700">Added GST 18%:</span>
+                <span className="text-gray-900 font-medium">₹{((amount || 0) - ((amount || 0) / 1.18)).toFixed(2)}</span>
+              </div>
+
+
+              {couponApplied && (
+                <div className="flex justify-between items-center">
+                  <span className="text-green-700 font-medium">GODIGITAL Discount:</span>
+                  <span className="text-green-600 font-semibold">-₹{amount}</span>
                 </div>
               )}
 
-              {/* Amount Summary */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Summary</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Original Amount:</span>
-                    <span className="text-gray-900 font-medium">₹{((amount || 0) / 1.18).toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Added GST 18%:</span>
-                    <span className="text-gray-900 font-medium">₹{((amount || 0) - ((amount || 0) / 1.18)).toFixed(2)}</span>
-                  </div>
-
-
-                  {couponApplied && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-green-700 font-medium">GODIGITAL Discount:</span>
-                      <span className="text-green-600 font-semibold">-₹{amount}</span>
-                    </div>
-                  )}
-
-                  <div className="border-t border-blue-200 pt-2 mt-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xl font-bold text-gray-900">Total Amount:</span>
-                      <span className={`text-2xl font-bold ${finalAmount === 0 ? 'text-green-600' : 'text-blue-600'}`}>
-                        {finalAmount === 0 ? 'FREE' : `₹${finalAmount}`}
-                      </span>
-                    </div>
-                  </div>
+              <div className="border-t border-blue-200 pt-2 mt-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-xl font-bold text-gray-900">Total Amount:</span>
+                  <span className={`text-2xl font-bold ${finalAmount === 0 ? 'text-green-600' : 'text-blue-600'}`}>
+                    {finalAmount === 0 ? 'FREE' : `₹${finalAmount}`}
+                  </span>
                 </div>
               </div>
-
-              <button
-                type="submit"
-                disabled={isLoading || (!isScriptLoaded && finalAmount > 0)}
-                className={`w-full font-bold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${finalAmount === 0
-                  ? 'bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white'
-                  : 'bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white'
-                  }`}
-              >
-                {isLoading ? (
-                  <LoadingSpinner text="Processing..." />
-                ) : finalAmount === 0 ? (
-                  'Register for FREE'
-                ) : (
-                  'Proceed to Payment'
-                )}
-              </button>
-            </form>
-
-            {onClose && (
-              <button
-                onClick={onClose}
-                className="w-full mt-4 text-gray-600 hover:text-gray-800 py-2"
-              >
-                Cancel
-              </button>
-            )}
+            </div>
           </div>
-        </div>
+
+          <button
+            type="submit"
+            disabled={isLoading || (!isScriptLoaded && finalAmount > 0)}
+            className={`w-full font-bold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${finalAmount === 0
+              ? 'bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white'
+              : 'bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white'
+              }`}
+          >
+            {isLoading ? (
+              <LoadingSpinner text="Processing..." />
+            ) : finalAmount === 0 ? (
+              'Register for FREE'
+            ) : (
+              'Proceed to Payment'
+            )}
+          </button>
+        </form>
+
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="w-full mt-4 text-gray-600 hover:text-gray-800 py-2"
+          >
+            Cancel
+          </button>
+        )}
       </div>
+    </div >
+      </div >
     </>
   );
 }

@@ -431,3 +431,23 @@ export async function sendMinimalPaymentConfirmation(
   
   return sendTwilioMessage({ to, message, type });
 }
+
+/**
+ * Send free event entry celebration message
+ * @param to - Phone number to send to
+ * @param couponCode - Coupon code used
+ * @param eventName - Event name (optional)
+ * @param type - Message type (sms or whatsapp)
+ * @returns Promise with send result
+ */
+export async function sendFreeEventCelebration(
+  to: string,
+  couponCode: string,
+  eventName?: string,
+  type: 'sms' | 'whatsapp' = 'sms'
+): Promise<SendMessageResult> {
+  const eventText = eventName ? ` for ${eventName}` : '';
+  const message = `🎉 HOORAY! You got FREE Event Entry${eventText} using ${couponCode} coupon! 🎊 Welcome to BizCivitas networking event. See you there! 🚀`;
+  
+  return sendTwilioMessage({ to, message, type });
+}

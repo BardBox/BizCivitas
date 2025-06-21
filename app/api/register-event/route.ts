@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/db';
+import { sendFreeEventCelebration } from '@/lib/messaging';
 
 export async function POST(request: NextRequest) {
   try {
@@ -127,6 +128,28 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to register. Please try again.' },
         { status: 500 }
       );
+    }
+
+    // Send celebration message for free coupon registrations
+    if (data.phone && data.coupon_code === 'GODIGITAL') {
+      try {
+        const messageResult = await sendFreeEventCelebration(
+          data.phone,
+          data.coupon_code,
+          data.event_slug || 'BizCivitas Event', // Use event slug or default name
+          'sms'
+        );
+        
+        if (!messageResult.success) {
+          console.error('Failed to send celebration message:', messageResult.error);
+          // Don't fail the registration if message fails
+        } else {
+          console.log('Celebration message sent successfully:', messageResult.sid);
+        }
+      } catch (messageError) {
+        console.error('Error sending celebration message:', messageError);
+        // Don't fail the registration if message fails
+      }
     }
 
     return NextResponse.json(

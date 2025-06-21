@@ -16,7 +16,8 @@ import {
   sendPaymentConfirmation,
   sendComprehensiveNotification,
   sendQuickWelcomePackage,
-  sendMinimalPaymentConfirmation
+  sendMinimalPaymentConfirmation,
+  sendFreeEventCelebration
 } from '@/lib/messaging';
 ```
 
@@ -132,6 +133,17 @@ const result = await sendMinimalPaymentConfirmation(
   'sms'             // Recommended for lowest cost
 );
 // Sends: "✅ Paid ₹1770 | ID:123456 | BizCivitas | Thanks!" (under 80 chars)
+```
+
+### 11. `sendFreeEventCelebration` - Free event entry celebration
+```typescript
+const result = await sendFreeEventCelebration(
+  '+919876543210',
+  'GODIGITAL',      // Coupon code
+  'Business Summit', // Event name (optional)
+  'sms'             // Type (optional)
+);
+// Sends: "🎉 HOORAY! You got FREE Event Entry for Business Summit using GODIGITAL coupon! 🎊 Welcome to BizCivitas networking event. See you there! 🚀"
 ```
 
 ## Usage in API Routes

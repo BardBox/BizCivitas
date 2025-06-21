@@ -97,7 +97,7 @@ export default function TwilioTestPage() {
   };
 
   // Load predefined messages
-  const loadSampleMessage = (type: 'welcome' | 'test' | 'otp' | 'sandbox' | 'comprehensive' | 'quick-package' | 'minimal') => {
+  const loadSampleMessage = (type: 'welcome' | 'test' | 'otp' | 'sandbox' | 'comprehensive' | 'quick-package' | 'minimal' | 'free-event') => {
     const messages = {
       welcome: 'Welcome to BizCivitas! Thank you for joining our community of innovative entrepreneurs and business leaders.',
       test: 'This is a test message from BizCivitas. If you received this, our Twilio integration is working correctly!',
@@ -158,7 +158,8 @@ What you get:
 Need help? WhatsApp: +91 98765 43210
 
 Let's build something extraordinary! 🚀`,
-      minimal: '✅ Paid ₹1770 | ID:xyz123 | BizCivitas | Thanks!'
+      minimal: '✅ Paid ₹1770 | ID:xyz123 | BizCivitas | Thanks!',
+      'free-event': '🎉 HOORAY! You got FREE Event Entry for Business Summit using GODIGITAL coupon!'
     };
     setMessage(messages[type]);
   };
@@ -353,6 +354,13 @@ Let's build something extraordinary! 🚀`,
                     className="text-sm text-red-600 hover:text-red-800 px-2 py-1 bg-red-50 rounded"
                   >
                     Minimal (Lowest Cost)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => loadSampleMessage('free-event')}
+                    className="text-sm text-yellow-600 hover:text-yellow-800 px-2 py-1 bg-yellow-50 rounded"
+                  >
+                    Free Event 🎉
                   </button>
                 </div>
               </div>
