@@ -3,6 +3,16 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 import { Payment } from "@/types/payment.types";
 import { insertSuccessPayment } from "@/lib/payment";
+import { 
+  sendTwilioMessage, 
+  sendSMS, 
+  sendWhatsApp, 
+  sendOTP,
+  sendWelcomeMessage,
+  sendEventConfirmation,
+  sendPaymentConfirmation,
+  sendComprehensiveNotification
+} from '@/lib/messaging';
 
 const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID!,
@@ -57,7 +67,53 @@ export async function POST(request: NextRequest) {
             }
 
             await insertSuccessPayment(paymentDetails);
+            
+            // Send comprehensive notification after successful payment
+            if (paymentDetails.phone) {
+                try {
+                    const phoneNumber = String(paymentDetails.phone);
+                    const paidForString = String(paymentDetails.paidFor || paymentDetails.description || 'BizCivitas Membership');
+                    
+                    const messageResult = await sendComprehensiveNotification(
+                        phoneNumber,
+                        {
+                            userName: paymentDetails.first_name ? 
+                                `${paymentDetails.first_name} ${paymentDetails.last_name || ''}`.trim() : 
+                                undefined,
+                            amount: paymentDetails.amount,
+                            membershipType: paidForString,
+                            transactionId: paymentDetails.payment_id,
+                            includeBenefits: true,
+                            includeNetworkingTips: paidForString.toLowerCase().includes('event'),
+                            includeContactInfo: true
+                        },
+                        'sms' // Use WhatsApp for comprehensive notifications
+                    );
 
+                    if (!messageResult.success) {
+                        console.error('Failed to send comprehensive notification:', messageResult.error);
+                        
+                        // Fallback to simple payment confirmation via SMS
+                        const fallbackResult = await sendPaymentConfirmation(
+                            phoneNumber,
+                            paymentDetails.amount || 0,
+                            paidForString,
+                            paymentDetails.payment_id || '',
+                            'whatsapp'
+                        );
+                        
+                        if (!fallbackResult.success) {
+                            console.error('SMS fallback also failed:', fallbackResult.error);
+                        }
+                    } else {
+                        console.log('Comprehensive notification sent successfully:', messageResult.sid);
+                    }
+                } catch (messageError) {
+                    console.error('Error sending notification:', messageError);
+                }
+            } else {
+                console.log('No phone number provided, skipping notification');
+            }
             return NextResponse.json({
                 success: true,
                 message: "Payment verified successfully",

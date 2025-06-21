@@ -1,31 +1,39 @@
-import { client } from "@/lib/twilio";
+import { sendTwilioMessage } from "@/lib/messaging";
 import { NextRequest, NextResponse } from "next/server";
+
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { to, message } = body;
+        const { to, message, type = 'sms' } = body;
 
-        // Validate required fields
-        if (!to || !message) {
-            return NextResponse.json(
-                { error: "Missing required fields: 'to' and 'message'" },
-                { status: 400 }
-            );
+        // Use the modular messaging function
+        const result = await sendTwilioMessage({ to, message, type });
+
+        if (result.success) {
+            return NextResponse.json(result);
+        } else {
+            return NextResponse.json(result, { status: 400 });
         }
-
-        // Send SMS using Twilio
-        const response = await client.messages.create({
-            body: message,
-            from: process.env.TWILIO_PHONE_NUMBER, // Your Twilio phone number
-            to: to,
-        });
-
-        return NextResponse.json({ success: true, sid: response.sid });
-    } catch (error) {
-        console.error("Error sending SMS:", error);
+    } catch (error: any) {
+        console.error("API Error:", error);
         return NextResponse.json(
-            { error: "Failed to send SMS" },
+            { success: false, error: "Internal server error" },
             { status: 500 }
         );
     }
+}
+
+// GET endpoint to check Twilio configuration
+export async function GET() {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+    
+    const isConfigured = !!(accountSid && authToken && twilioPhoneNumber);
+    
+    return NextResponse.json({
+        configured: isConfigured,
+        phoneNumber: twilioPhoneNumber ? `${twilioPhoneNumber.slice(0, 3)}****${twilioPhoneNumber.slice(-4)}` : null,
+        accountSid: accountSid ? `${accountSid.slice(0, 8)}****${accountSid.slice(-8)}` : null
+    });
 }
