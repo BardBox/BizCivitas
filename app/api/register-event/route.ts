@@ -134,8 +134,8 @@ export async function POST(request: NextRequest) {
     if (data.phone && data.coupon_code === 'GODIGITAL') {
       try {
         const messageResult = await sendFreeEventCelebration(
+          data.id,
           data.phone,
-          data.coupon_code,
           data.event_slug || 'BizCivitas Event', // Use event slug or default name
           'sms'
         );

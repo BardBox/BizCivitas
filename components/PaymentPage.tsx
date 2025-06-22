@@ -698,7 +698,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                   )}
 
               <div className="mt-3 text-sm text-gray-600">
-                <p>💡 Use code <strong>PROMO CODE</strong> for huge discount on event registration!</p>
+                <p>💡 Use <strong>COUPON CODES</strong> for huge discount on registration!</p>
               </div>
           </div>
               )}

@@ -441,13 +441,13 @@ export async function sendMinimalPaymentConfirmation(
  * @returns Promise with send result
  */
 export async function sendFreeEventCelebration(
+  id : string,
   to: string,
-  couponCode: string,
   eventName?: string,
   type: 'sms' | 'whatsapp' = 'sms'
 ): Promise<SendMessageResult> {
   const eventText = eventName ? ` for ${eventName}` : '';
-  const message = `🎉 HOORAY! You got FREE Event Entry${eventText} using ${couponCode} coupon! 🎊 Welcome to BizCivitas networking event. See you there! 🚀`;
-  
+  const message = `🎉 HOORAY! Free Entry${eventText}! 🎊 Welcome to BizCivitas 🚀\nID: ${id.slice(0,9)}`;
+
   return sendTwilioMessage({ to, message, type });
 }
