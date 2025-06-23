@@ -1,7 +1,25 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import PaymentDialog, { MembershipPaymentButton } from "@/components/PaymentButton";
 import { Users, Globe, BookOpen, MessageSquare, Zap } from "lucide-react";
 
-export default function PaymentPage() {
+function PaymentPageContent() {
+  const searchParams = useSearchParams();
+  
+  // Extract UTM parameters
+  const utmSource = searchParams.get('utm_source');
+  const utmMedium = searchParams.get('utm_medium');
+  const utmCampaign = searchParams.get('utm_campaign');
+
+  // Create UTM data object to pass to payment button
+  const utmData = {
+    utm_source: utmSource,
+    utm_medium: utmMedium,
+    utm_campaign: utmCampaign
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
       <div className="container mx-auto px-4 py-16">
@@ -81,6 +99,7 @@ export default function PaymentPage() {
                     amount: 8259,
                     paidFor: "Bizcivitas Digital Membership",
                     isEvent: false,
+                    ...utmData // Spread UTM parameters
                   }}
                   buttonText="Purchase Digital Membership"
                   size="lg"
@@ -117,5 +136,13 @@ export default function PaymentPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <PaymentPageContent />
+    </Suspense>
   );
 }

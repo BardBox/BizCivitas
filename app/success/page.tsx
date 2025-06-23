@@ -1,12 +1,12 @@
+'use client';
+
 import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Success from '@/components/SuccessPage';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Payment Successful - BizCivitas Digital Membership',
-  description: 'Your BizCivitas Digital Membership payment was successful',
-  robots: 'noindex, nofollow',
-};
+// Note: Metadata cannot be used in client components, 
+// so we'll need to handle SEO differently if needed
 
 function SuccessPageContent() {
   return <Success />;

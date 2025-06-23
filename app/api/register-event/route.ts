@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/db';
 import { sendFreeEventCelebration } from '@/lib/messaging';
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -17,7 +16,8 @@ export async function POST(request: NextRequest) {
       paidFor,
       utm_source,
       utm_medium,
-      utm_campaign 
+      utm_campaign,
+      referredBy
     } = body;
 
     // Validate required fields
@@ -95,6 +95,7 @@ export async function POST(request: NextRequest) {
           coupon_code: couponCode?.toUpperCase() || null,
           amount_paid: amount || 0,
           paid_for: paidFor || null,
+          referredBy : referredBy || null,
           utm_source: utm_source || null,
           utm_medium: utm_medium || null,
           utm_campaign: utm_campaign || null,

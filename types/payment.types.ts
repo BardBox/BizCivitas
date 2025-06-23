@@ -28,6 +28,7 @@ export interface PaymentFormData {
   companyName: string;
   gstNumber?: string;
   whyToAttend?: string; // Optional field for why to attend
+  referredBy?: string; // Optional field for referred by
 }
 
 export interface PaymentProps {

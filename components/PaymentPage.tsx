@@ -87,12 +87,13 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
       phone: '',
       companyName: '',
       gstNumber: '',
-      whyToAttend: ''
+      whyToAttend: '',
+      referredBy:''
     }
   });
 
-  // Watch form values for validation
-  const watchedValues = watch();
+  // // Watch form values for validation
+  // const watchedValues = watch();
 
   // Load Razorpay script with error handling
   const loadRazorpayScript = useCallback(() => {
@@ -232,6 +233,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
             couponCode: 'GODIGITAL',
             amount: 0,
             paidFor,
+            referredBy : data.referredBy || '',
             ...utmParams
           })
         });
@@ -636,6 +638,20 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                     rows={3}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                     placeholder="Tell us why you're interested in attending..."
+                    disabled={isLoading}
+                  />
+                </div>
+              )}
+              {isEvent && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Referred By ? (Optional)
+                  </label>
+                  <textarea
+                    {...register('referredBy')}
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                    placeholder="Enter the name of the person who referred you (if any)"
                     disabled={isLoading}
                   />
                 </div>

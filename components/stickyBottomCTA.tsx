@@ -18,7 +18,7 @@ export default function StickyBottomCTA({ membership, paymentUrl }: { membership
                             <div className="text-gray-500 text-xs">including GST</div>
                         </div>
                         <Link
-                            href={'/digital-membership-payment'}
+                            href={paymentUrl || `/digital-membership-payment`}
                             className="text-white px-8 py-4 rounded-2xl font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-center"
                             style={{
                                 backgroundColor: membership.color.primary,
