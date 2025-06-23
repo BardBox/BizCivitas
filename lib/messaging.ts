@@ -447,7 +447,7 @@ export async function sendFreeEventCelebration(
   type: 'sms' | 'whatsapp' = 'sms'
 ): Promise<SendMessageResult> {
   const eventText = eventName ? ` for ${eventName}` : '';
-  const message = `🎉 HOORAY! Free Entry${eventText}! 🎊 Welcome to BizCivitas 🚀\nID: ${id.slice(0,9)}`;
+  const message = `🎉 HOORAY! Free Entry approved! 🎊 Welcome to BizCivitas 🚀\nID: ${id.slice(0,9)}`;
 
   return sendTwilioMessage({ to, message, type });
 }
