@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/db';
 import { sendFreeEventCelebration } from '@/lib/messaging';
+
+const apiKey = process.env.TFT_API_KEY!;
+const templateName = process.env.TFT_TEMPLATE_NAME || 'api';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { 
-      name, 
-      business_name, 
-      email, 
-      phone, 
-      reason_to_attend, 
+    const {
+      name,
+      business_name,
+      email,
+      phone,
+      reason_to_attend,
       eventSlug,
       couponCode,
       amount,
@@ -81,6 +85,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
+
     // Insert into Supabase
     const { data, error } = await supabase
       .from('attendees')
@@ -95,7 +100,7 @@ export async function POST(request: NextRequest) {
           coupon_code: couponCode?.toUpperCase() || null,
           amount_paid: amount || 0,
           paid_for: paidFor || null,
-          referredBy : referredBy || null,
+          referredBy: referredBy || null,
           utm_source: utm_source || null,
           utm_medium: utm_medium || null,
           utm_campaign: utm_campaign || null,
@@ -108,7 +113,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Supabase error:', error);
-      
+
       // Handle duplicate email error
       if (error.code === '23505' && error.message.includes('email')) {
         return NextResponse.json(
@@ -124,13 +129,31 @@ export async function POST(request: NextRequest) {
           { status: 409 }
         );
       }
-      
+
       return NextResponse.json(
         { error: 'Failed to register. Please try again.' },
         { status: 500 }
       );
     }
-
+    fetch("http://official.thefuturetech.in/wapp/api/v2/send/bytemplate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        apikey: apiKey,
+        templatename: templateName,
+        mobile: phone?.trim() || null, // Use phone if available
+        dvariables: [name.trim(), data.id.slice(0,10)] // pass as array for positional variables
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Message sent successfully:", data);
+      })
+      .catch(error => {
+        console.error("Error sending message:", error);
+      });
     // Send celebration message for free coupon registrations
     if (data.phone && data.coupon_code === 'GODIGITAL') {
       try {
@@ -140,7 +163,7 @@ export async function POST(request: NextRequest) {
           data.event_slug || 'BizCivitas Event', // Use event slug or default name
           'sms'
         );
-        
+
         if (!messageResult.success) {
           console.error('Failed to send celebration message:', messageResult.error);
           // Don't fail the registration if message fails
@@ -154,10 +177,10 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
+      {
         success: true,
-        message: couponCode?.toUpperCase() === 'GODIGITAL' 
-          ? 'Free registration successful with GODIGITAL coupon!' 
+        message: couponCode?.toUpperCase() === 'GODIGITAL'
+          ? 'Free registration successful with GODIGITAL coupon!'
           : 'Registration successful',
         registrationId: data.id,
         data: {
