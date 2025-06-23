@@ -135,20 +135,12 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-    fetch("http://official.thefuturetech.in/wapp/api/v2/send/bytemplate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        apikey: apiKey,
-        templatename: templateName,
-        mobile: phone?.trim() || null, // Use phone if available
-        dvariables: [name.trim(), data.id.slice(0,10)] // pass as array for positional variables
+
+      fetch(`http://official.thefuturetech.in/wapp/api/v2/send/bytemplate?apikey=${apiKey}&templatename=${templateName}&mobile=${phone?.trim() || null}&dvariables=${name.trim()},${data.id.slice(0,10)}`, {
+        method: "POST",
       })
-    })
-      .then(response => response.json())
-      .then(data => {
+        .then(response => response.json())
+        .then(data => {
         console.log("Message sent successfully:", data);
       })
       .catch(error => {
