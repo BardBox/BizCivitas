@@ -98,8 +98,34 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="BizCivitas" />
         <link rel="apple-touch-icon" href="/bizcivitas.svg" />
-        
+
         {/* Google Tag Manager */}
+
+        <Script id="facebook-pixel" strategy="afterInteractive">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod ?
+              n.callMethod.apply(n, arguments) : n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '727341753116820');
+            fbq('track', 'PageView');
+          `}
+        </Script>
+
+        {/* Facebook Pixel Noscript fallback */}
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            src="https://www.facebook.com/tr?id=727341753116820&ev=PageView&noscript=1"
+          />
+        </noscript>
+
         <Script id="gtm-script" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -154,13 +180,12 @@ export default function RootLayout({
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
-          <iframe 
+          <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-M85WZNMH"
-            height="0" 
-            width="0" 
-            />
+            height="0"
+            width="0"
+          />
         </noscript>
-        
         {/* Google Analytics 4 */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=GTM-M85WZNMH`}
@@ -197,7 +222,7 @@ export default function RootLayout({
           `}
         </Script>
         <Analytics />
-        <SpeedInsights/>
+        <SpeedInsights />
         <PWAInstaller />
         <GoogleTagManager gtmId="GTM-M85WZNMH" />
         <Navbar />
@@ -205,9 +230,9 @@ export default function RootLayout({
           {children}
         </main>
         <div className="z-10 relative">
-           <Footer />
+          <Footer />
         </div>
-       
+
       </body>
     </html>
   );

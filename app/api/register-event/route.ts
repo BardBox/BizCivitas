@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Handle GODIGITAL coupon validation
-    if (couponCode && couponCode.toUpperCase() === 'GODIGITAL') {
+    // Handle INNERCIRCLE coupon validation
+    if (couponCode && couponCode.toUpperCase() === 'INNERCIRCLE') {
       if (!phone) {
         return NextResponse.json(
           { error: 'Phone number is required for coupon redemption' },
@@ -61,12 +61,12 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Check if phone number already used for GODIGITAL coupon
+      // Check if phone number already used for INNERCIRCLE coupon
       const { data: existingCouponUser, error: couponCheckError } = await supabase
         .from('attendees')
         .select('id, phone, coupon_code')
         .eq('phone', phone.trim())
-        .eq('coupon_code', 'GODIGITAL')
+        .eq('coupon_code', 'INNERCIRCLE')
         .limit(1);
 
       if (couponCheckError) {
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
 
       if (existingCouponUser && existingCouponUser.length > 0) {
         return NextResponse.json(
-          { error: 'This phone number has already been used to claim the GODIGITAL coupon. Each phone number can only claim the coupon once.' },
+          { error: 'This phone number has already been used to claim the INNERCIRCLE coupon. Each phone number can only claim the coupon once.' },
           { status: 409 }
         );
       }
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
           utm_source: utm_source || null,
           utm_medium: utm_medium || null,
           utm_campaign: utm_campaign || null,
-          registration_type: couponCode?.toUpperCase() === 'GODIGITAL' ? 'free_coupon' : 'regular',
+          registration_type: couponCode?.toUpperCase() === 'INNERCIRCLE' ? 'free_coupon' : 'regular',
           created_at: new Date().toISOString()
         },
       ])
@@ -123,9 +123,9 @@ export async function POST(request: NextRequest) {
       }
 
       // Handle duplicate phone error for coupon users
-      if (error.code === '23505' && error.message.includes('phone') && couponCode?.toUpperCase() === 'GODIGITAL') {
+      if (error.code === '23505' && error.message.includes('phone') && couponCode?.toUpperCase() === 'INNERCIRCLE') {
         return NextResponse.json(
-          { error: 'This phone number has already been used to claim the GODIGITAL coupon.' },
+          { error: 'This phone number has already been used to claim the INNERCIRCLE coupon.' },
           { status: 409 }
         );
       }
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
         console.error("Error sending message:", error);
       });
     // Send celebration message for free coupon registrations
-    if (data.phone && data.coupon_code === 'GODIGITAL') {
+    if (data.phone && data.coupon_code === 'INNERCIRCLE') {
       try {
         const messageResult = await sendFreeEventCelebration(
           data.id,
@@ -171,8 +171,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: couponCode?.toUpperCase() === 'GODIGITAL'
-          ? 'Free registration successful with GODIGITAL coupon!'
+        message: couponCode?.toUpperCase() === 'INNERCIRCLE'
+          ? 'Free registration successful with INNERCIRCLE coupon!'
           : 'Registration successful',
         registrationId: data.id,
         data: {
