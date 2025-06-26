@@ -15,7 +15,7 @@ export default function Success() {
   const amount = searchParams.get('amount');
   const coupon = searchParams.get('coupon');
 
-  const isFreeRegistration = coupon === 'GODIGITAL' || amount === '0';
+  const isFreeRegistration = coupon === 'INNERCIRCLE' || amount === '0';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -53,7 +53,7 @@ export default function Success() {
 
         <p className="text-gray-600 mb-6">
           {isFreeRegistration 
-            ? `Congratulations! You've successfully registered for ${paidFor} using the GODIGITAL coupon.`
+            ? `Congratulations! You've successfully registered for ${paidFor} using the INNERCIRCLE coupon.`
             : `Congratulations! Your BizCivitas ${paidFor} has been activated successfully.`
           }
         </p>
@@ -88,7 +88,7 @@ export default function Success() {
               <svg className="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a1.994 1.994 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
               </svg>
-              <h4 className="font-semibold text-green-800">GODIGITAL Coupon Applied!</h4>
+              <h4 className="font-semibold text-green-800">INNERCIRCLE Coupon Applied!</h4>
             </div>
             <p className="text-sm text-green-700 text-center">
               You've successfully claimed your free event registration. Check your email for further details.
