@@ -3,13 +3,7 @@
 
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-
-interface ContactFormData {
-  name: string;
-  contact: string;
-  email: string;
-  howFindUs: string;
-}
+import { ContactFormData } from "@/types/common.types";
 
 interface ContactFormProps {
   onSubmit: (data: ContactFormData) => Promise<void>;

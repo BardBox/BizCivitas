@@ -6,15 +6,12 @@ import Script from 'next/script';
 import { getBlogBySlug, getAllBlogs, getBlogSEOData } from '@/lib/blogs';
 import { generateSEOTags, generateOptimizedImageSizes } from '@/lib/seo-utils';
 import { generateBlogPostSchema } from '@/lib/structured-data';
-
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
+import { BasePageProps } from "@/types/common.types";
 
 // Enhanced ISR with 180-second (3 minutes) revalidation for individual blogs
 export const revalidate = 180;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
@@ -89,7 +86,7 @@ function formatDate(dateString: string) {
   });
 }
 
-export default async function BlogPage({ params }: PageProps) {
+export default async function BlogPage({ params }: BasePageProps) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 

@@ -1,3 +1,5 @@
+import { UTMParams } from './common.types';
+
 export interface Payment {
   id: string; // UUID
   payment_id: string;
@@ -16,7 +18,7 @@ export interface Payment {
   utm_source: number | string | null | undefined;
   utm_medium: number | string | null | undefined;
   utm_campaign: number | string | null | undefined;
-  created_at: string; // ISO timestamp
+  created_at: string; // ISO timestamp;
 }
 
 export interface PaymentFormData {
@@ -31,13 +33,10 @@ export interface PaymentFormData {
   referredBy?: string; // Optional field for referred by
 }
 
-export interface PaymentProps {
+export interface PaymentProps extends UTMParams {
   onClose?: () => void;
   color : string; // Optional color prop for Razorpay theme
   amount : number;  // Payment data to be passed to the component
   isEvent?: boolean; // Optional prop to indicate if it's an event payment
   paidFor : string;
-  utm_source?: string | null; // UTM tracking parameters
-  utm_medium?: string | null;
-  utm_campaign?: string | null;
 }

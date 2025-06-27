@@ -3,13 +3,7 @@
 
 import { useState } from "react";
 import ContactForm from "./ContactForm";
-
-interface ContactFormData {
-  name: string;
-  contact: string;
-  email: string;
-  howFindUs: string;
-}
+import { ContactFormData } from "@/types/common.types";
 
 interface ContactFormWrapperProps {
   onFormSubmit: (data: ContactFormData) => Promise<any>;

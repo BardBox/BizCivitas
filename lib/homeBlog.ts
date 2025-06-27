@@ -1,18 +1,5 @@
 import { supabase } from './db'
-
-// lib/supabase.ts
-export interface Blog {
-  id: string
-  slug: string // Added slug field
-  topic_name: string
-  description: string
-  content: string
-  cover_url: string
-  type_of_topic: string
-  author_name: string
-  date: string
-  created_at: string
-}
+import { Blog } from '@/types/blogs.types'
 
 export async function getLatestBlogs(limit: number = 3): Promise<Blog[]> {
   const { data, error } = await supabase

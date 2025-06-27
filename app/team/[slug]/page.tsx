@@ -4,15 +4,12 @@ import Link from "next/link";
 import { getTeamMemberBySlug, getTeamMemberSEOData, getAllTeamMembers } from "@/lib/team";
 import { notFound } from "next/navigation";
 import { FaLinkedin, FaGlobe } from "react-icons/fa";
-
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
+import { BasePageProps } from "@/types/common.types";
 
 // Enable ISR with 60-second revalidation for team members
 export const revalidate = 60;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: BasePageProps): Promise<Metadata> {
   const { slug } = await params;
   const member = await getTeamMemberBySlug(slug);
 
@@ -71,7 +68,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function TeamMemberPage({ params }: PageProps) {
+export default async function TeamMemberPage({ params }: BasePageProps) {
   const { slug } = await params;
   const member = await getTeamMemberBySlug(slug);
 

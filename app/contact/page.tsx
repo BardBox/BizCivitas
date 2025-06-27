@@ -31,12 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-interface ContactFormData {
-  name: string;
-  contact: string;
-  email: string;
-  howFindUs: string;
-}
+import { ContactFormData } from "@/types/common.types";
 
 interface ContactPageProps {
   searchParams: Promise<{ success?: string; error?: string }>;

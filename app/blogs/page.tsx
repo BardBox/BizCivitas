@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllBlogs, formatBlogDate, getBlogReadTime, type Blog } from "@/lib/blogs";
+import { getAllBlogs, formatBlogDate, getBlogReadTime } from "@/lib/blogs";
+import { Blog } from '@/types/blogs.types';
 import { Suspense } from "react";
 import SearchAndRecentPosts from "@/components/SearchAndRecentPost";
 import "./blog-cards.css";

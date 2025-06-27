@@ -1,7 +1,8 @@
 // components/InsightsSection.tsx
 import Link from 'next/link'
 import Image from 'next/image'
-import { getLatestBlogs, type Blog } from '@/lib/homeBlog'
+import { getLatestBlogs } from '@/lib/homeBlog'
+import { Blog } from '@/types/blogs.types'
 import './insights.css'
 interface BlogCardProps {
   blog: Blog

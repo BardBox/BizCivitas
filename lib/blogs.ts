@@ -1,19 +1,5 @@
 import { supabase } from './db'
-
-
-export interface Blog {
-  id: string;
-  slug: string;
-  cover_url?: string;
-  author_name?: string;
-  date: string;
-  topic_name?: string;
-  type_of_topic?: string;
-  description?: string;
-  content?: string;
-  created_at?: string;
-  updated_at?: string;
-}
+import { Blog } from '@/types/blogs.types'
 
 export async function getAllBlogs(): Promise<Blog[]> {
   const { data, error } = await supabase

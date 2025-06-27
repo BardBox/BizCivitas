@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { type Blog, formatBlogDate } from '@/lib/blogs'
+import { Blog } from '@/types/blogs.types'
+import { formatBlogDate } from '@/lib/blogs'
 
 interface SearchAndRecentPostsProps {
   recentPosts: Blog[]

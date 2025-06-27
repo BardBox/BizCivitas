@@ -1,6 +1,7 @@
 
-interface IconProps {
-  className?: string;
+import { BaseComponentProps } from "@/types/common.types";
+
+interface IconProps extends BaseComponentProps {
   size?: number;
 }
 

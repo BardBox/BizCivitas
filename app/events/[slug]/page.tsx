@@ -7,16 +7,14 @@ import ImageCarousel from "@/components/ImageCarousel";
 import ShareButton from "@/components/ShareButton";
 import EnhancedCTA from "@/components/EnhancedCTA";
 import PaymentDialog from "@/components/PaymentButton";
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
+import { BasePageProps } from "@/types/common.types";
 
 // Enable ISR with 300-second (5 minutes) revalidation for individual events
 export const revalidate = 30;
 
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
+}: BasePageProps): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
   console.log(event);
@@ -75,7 +73,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function EventPage({ params }: PageProps) {
+export default async function EventPage({ params }: BasePageProps) {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
 

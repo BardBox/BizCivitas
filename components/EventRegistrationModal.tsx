@@ -13,7 +13,7 @@ interface EventRegistrationModalProps {
   eventSlug: string;
 }
 
-interface FormData {
+interface EventRegistrationFormData {
   name: string;
   business_name?: string;
   email: string;
@@ -38,9 +38,9 @@ export default function EventRegistrationModal({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormData>();
+  } = useForm<EventRegistrationFormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: EventRegistrationFormData) => {
     setSubmissionStatus('loading');
     setErrorMessage('');
 
