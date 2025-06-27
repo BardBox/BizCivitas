@@ -1,60 +1,99 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle, ArrowRight, Sparkles, Heart, Star } from 'lucide-react';
+import { gsap } from 'gsap';
 
 export default function Success() {
-  const [countdown, setCountdown] = useState(8);
   const router = useRouter();
   const searchParams = useSearchParams();
   const paymentId = searchParams.get('payment_id');
   const registrationId = searchParams.get('registration_id');
-  const color = searchParams.get('color');
+  const color = searchParams.get('color') || '#10b981';
   const paidFor = searchParams.get('paid_for');
   const amount = searchParams.get('amount');
   const coupon = searchParams.get('coupon');
 
+  // Refs for animations
+  const cardRef = useRef<HTMLDivElement>(null);
+  const thankYouRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
+
   const isFreeRegistration = coupon === 'INNERCIRCLE' || amount === '0';
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          router.push('/');
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    // Simple entrance animations
+    if (cardRef.current && thankYouRef.current && iconRef.current) {
+      gsap.fromTo(cardRef.current, 
+        { opacity: 0, y: 50, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "back.out(1.7)" }
+      );
+      
+      gsap.fromTo(iconRef.current,
+        { scale: 0, rotation: -180 },
+        { scale: 1, rotation: 0, duration: 1, ease: "elastic.out(1, 0.3)", delay: 0.3 }
+      );
+      
+      gsap.fromTo(thankYouRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 0.5 }
+      );
 
-    return () => clearInterval(timer);
-  }, [router]);
+      // Floating animation for decorative elements
+      gsap.to('.floating-icon', {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+        stagger: 0.3
+      });
+    }
+  }, []);
 
   return (
     <div style={{
-      backgroundColor: `${hexToRgba(color || '#FFFFFF', 0.2)}`
-    }} className={`min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8`}>
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-        {/* Success Icon */}
-        <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${
-          isFreeRegistration ? 'bg-green-100' : `bg-[${color}]/50`
-        }`}>
-          <CheckCircle className={`w-12 h-12 ${
-            isFreeRegistration ? 'text-green-600' : 'text-gray-900'
-          }`} />
+      backgroundColor: `${hexToRgba(color, 0.1)}`
+    }} className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      
+      {/* Floating decorative elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Sparkles className="floating-icon absolute top-20 left-20 w-6 h-6 text-yellow-400 opacity-60" />
+        <Heart className="floating-icon absolute top-32 right-32 w-5 h-5 text-pink-400 opacity-60" />
+        <Star className="floating-icon absolute bottom-32 left-32 w-6 h-6 text-purple-400 opacity-60" />
+        <Sparkles className="floating-icon absolute bottom-20 right-20 w-5 h-5 text-blue-400 opacity-60" />
+      </div>
+
+      <div ref={cardRef} className="max-w-md w-full bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 text-center relative">
+        
+        {/* Thank You Icon */}
+        <div ref={iconRef} className="relative mb-6">
+          <div 
+            className="w-24 h-24 rounded-full flex items-center justify-center mx-auto shadow-xl"
+            style={{ backgroundColor: color }}
+          >
+            <CheckCircle className="w-14 h-14 text-white" />
+          </div>
+          <div className="absolute -top-2 -right-2">
+            <Sparkles className="w-6 h-6 text-yellow-400" />
+          </div>
         </div>
 
-        {/* Success Message */}
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          {isFreeRegistration ? 'Registration Successful!' : 'Payment Successful!'}
-        </h1>
+        {/* Thank You Message */}
+        <div ref={thankYouRef}>
+          <h1 className="text-4xl font-black mb-2 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+            Thank You! 🎉
+          </h1>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            {isFreeRegistration ? 'You\'re All Set!' : 'Payment Successful!'}
+          </h2>
+        </div>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-6 leading-relaxed">
           {isFreeRegistration 
-            ? `Congratulations! You've successfully registered for ${paidFor} using the INNERCIRCLE coupon.`
-            : `Congratulations! Your BizCivitas ${paidFor} has been activated successfully.`
+            ? `Welcome aboard! You've successfully registered for ${paidFor} using the INNERCIRCLE coupon.`
+            : `Congratulations! Your BizCivitas ${paidFor} membership is now active. Welcome to our community!`
           }
         </p>
 
@@ -96,30 +135,27 @@ export default function Success() {
           </div>
         )}
 
-        {/* Membership Benefits */}
-        <div className="text-left mb-6">
+        {/* What's Next */}
+        <div className="text-left mb-8">
           <h3 className="font-semibold text-gray-900 mb-3">What's Next?</h3>
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-start">
               <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
               You'll receive a welcome email with access details
             </li>
-
+            <li className="flex items-start">
+              <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+              Join our exclusive member community
+            </li>
           </ul>
-        </div>
-
-        {/* Countdown */}
-        <div className="bg-green-50 rounded-lg p-4 mb-6">
-          <p className={`text-sm text-[${color}]`}>
-            Redirecting to homepage in <span className="font-bold">{countdown}</span> seconds...
-          </p>
         </div>
 
         {/* Action Buttons */}
         <div className="space-y-3">
           <button
             onClick={() => router.push('/')}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center"
+            className="w-full text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center"
+            style={{ backgroundColor: color }}
           >
             Go to Homepage
             <ArrowRight className="w-5 h-5 ml-2" />
@@ -127,7 +163,8 @@ export default function Success() {
 
           <button
             onClick={() => router.push('/memberships')}
-            className="w-full border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-6 rounded-lg transition-all duration-200"
+            className="w-full border-2 font-bold py-3 px-6 rounded-lg transition-all duration-200 hover:bg-gray-50"
+            style={{ borderColor: color, color: color }}
           >
             View All Memberships
           </button>
@@ -137,7 +174,7 @@ export default function Success() {
         <div className="mt-6 pt-6 border-t border-gray-200">
           <p className="text-xs text-gray-500">
             Need help? Contact us at{' '}
-            <a href="mailto:support@bizcivitas.com" className="text-green-600 hover:text-green-700">
+            <a href="mailto:support@bizcivitas.com" className="hover:underline" style={{ color }}>
               support@bizcivitas.com
             </a>
           </p>
