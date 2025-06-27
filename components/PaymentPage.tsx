@@ -162,18 +162,18 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
       return;
     }
 
-    // Check if INNERCIRCLE coupon (case insensitive)
-    if (couponCode.toUpperCase() !== 'INNERCIRCLE') {
+    // Check if LASTMINUTE coupon (case insensitive)
+    if (couponCode.toUpperCase() !== 'LASTMINUTE') {
       showError('Invalid coupon code');
       return;
     }
 
     setIsCouponLoading(true);
     try {
-      // Apply 100% discount for INNERCIRCLE coupon
+      // Apply 100% discount for LASTMINUTE coupon
       setFinalAmount(0);
       setCouponApplied(true);
-      showSuccess('INNERCIRCLE coupon applied! 100% discount - Event is now FREE!');
+      showSuccess('LASTMINUTE coupon applied! 100% discount - Event is now FREE!');
     } catch (error) {
       showError('Failed to apply coupon code');
     } finally {
@@ -228,9 +228,9 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
             business_name: data.companyName,
             email: data.email,
             phone: data.phone,
-            reason_to_attend: data.whyToAttend || 'Applied INNERCIRCLE coupon',
+            reason_to_attend: data.whyToAttend || 'Applied LASTMINUTE coupon',
             eventSlug: 'free-registration', // You can modify this based on your needs
-            couponCode: 'INNERCIRCLE',
+            couponCode: 'LASTMINUTE',
             amount: 0,
             paidFor,
             referredBy : data.referredBy || '',
@@ -243,7 +243,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
         if (!response.ok) {
           if (response.status === 409) {
             // Phone number already exists
-            throw new Error('This phone number has already been used to claim the INNERCIRCLE coupon. Each phone number can only claim the coupon once.');
+            throw new Error('This phone number has already been used to claim the LASTMINUTE coupon. Each phone number can only claim the coupon once.');
           }
           throw new Error(result.error || 'Registration failed');
         }
@@ -251,7 +251,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
         if (result.success) {
           showSuccess('Registration successful! Redirecting...');
           setTimeout(() => {
-            router.push(`/success?registration_id=${result.registrationId}&paid_for=${encodeURIComponent(paidFor || '')}&amount=0&coupon=INNERCIRCLE&color=${encodeURIComponent(color)}`);
+            router.push(`/success?registration_id=${result.registrationId}&paid_for=${encodeURIComponent(paidFor || '')}&amount=0&coupon=LASTMINUTE&color=${encodeURIComponent(color)}`);
           }, 1500);
           return;
         } else {
@@ -698,7 +698,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
-                    <p className="font-semibold text-green-800">INNERCIRCLE Coupon Applied!</p>
+                    <p className="font-semibold text-green-800">LASTMINUTE Coupon Applied!</p>
                     <p className="text-sm text-green-700">100% Discount - Event is FREE</p>
                   </div>
                 </div>
@@ -735,7 +735,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
 
               {couponApplied && (
                 <div className="flex justify-between items-center">
-                  <span className="text-green-700 font-medium">INNERCIRCLE Discount:</span>
+                  <span className="text-green-700 font-medium">LASTMINUTE Discount:</span>
                   <span className="text-green-600 font-semibold">-₹{amount}</span>
                 </div>
               )}

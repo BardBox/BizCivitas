@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
                                 utm_source: paymentDetails.utm_source || null,
                                 utm_medium: paymentDetails.utm_medium || null,
                                 utm_campaign: paymentDetails.utm_campaign || null,
-                                registration_type: couponCode?.toUpperCase() === 'INNERCIRCLE' ? 'free_coupon' : 'regular',
+                                registration_type: couponCode?.toUpperCase() === 'LASTMINUTE' ? 'free_coupon' : 'regular',
                                 created_at: new Date().toISOString()
                             },
                         ])
@@ -114,9 +114,9 @@ export async function POST(request: NextRequest) {
                         }
 
                         // Handle duplicate phone error for coupon users
-                        if (error.code === '23505' && error.message.includes('phone') && couponCode?.toUpperCase() === 'INNERCIRCLE') {
+                        if (error.code === '23505' && error.message.includes('phone') && couponCode?.toUpperCase() === 'LASTMINUTE') {
                             return NextResponse.json(
-                                { error: 'This phone number has already been used to claim the INNERCIRCLE coupon.' },
+                                { error: 'This phone number has already been used to claim the LASTMINUTE coupon.' },
                                 { status: 409 }
                             );
                         }
@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
                     }
 
                     // Send celebration message for free coupon registrations
-                    if (data.phone && data.coupon_code === 'INNERCIRCLE') {
+                    if (data.phone && data.coupon_code === 'LASTMINUTE') {
                         try {
                             const messageResult = await sendFreeEventCelebration(
                                 data.id,
@@ -167,8 +167,8 @@ export async function POST(request: NextRequest) {
                     return NextResponse.json(
                         {
                             success: true,
-                            message: couponCode?.toUpperCase() === 'INNERCIRCLE'
-                                ? 'Free registration successful with INNERCIRCLE coupon!'
+                            message: couponCode?.toUpperCase() === 'LASTMINUTE'
+                                ? 'Free registration successful with LASTMINUTE coupon!'
                                 : 'Event registration successful',
                             registrationId: data.id,
                             data: {

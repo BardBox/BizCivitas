@@ -139,11 +139,11 @@ const result = await sendMinimalPaymentConfirmation(
 ```typescript
 const result = await sendFreeEventCelebration(
   '+919876543210',
-  'INNERCIRCLE',      // Coupon code
+  'LASTMINUTE',      // Coupon code
   'Business Summit', // Event name (optional)
   'sms'             // Type (optional)
 );
-// Sends: "🎉 HOORAY! You got FREE Event Entry for Business Summit using INNERCIRCLE coupon! 🎊 Welcome to BizCivitas networking event. See you there! 🚀"
+// Sends: "🎉 HOORAY! You got FREE Event Entry for Business Summit using LASTMINUTE coupon! 🎊 Welcome to BizCivitas networking event. See you there! 🚀"
 ```
 
 ## Usage in API Routes
