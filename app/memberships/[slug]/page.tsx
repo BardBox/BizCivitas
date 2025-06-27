@@ -162,7 +162,7 @@ function DigitalMembershipPage({ notes }: N) {
   if (notes?.utm_medium) utmParams.set('utm_medium', notes.utm_medium.toString());
   if (notes?.utm_campaign) utmParams.set('utm_campaign', notes.utm_campaign.toString());
 
-  const paymentUrl = `/digital-membership-payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`;
+  const paymentUrl = `/memberships/digital-membership/payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -220,7 +220,7 @@ function DigitalMembershipPage({ notes }: N) {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <Link
-                  href={`/digital-membership-payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`}
+                  href={`/memberships/digital-membership/payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`}
                   className="text-white px-8 py-4 rounded-2xl font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-center"
                   style={{
                     backgroundColor:"white",
@@ -366,7 +366,7 @@ function DigitalMembershipPage({ notes }: N) {
 
           <div className="text-center">
             <Link
-              href={`/digital-membership-payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`}
+              href={`/memberships/digital-membership/payment${utmParams.toString() ? `?${utmParams.toString()}` : ''}`}
               className="text-white px-8 py-4 rounded-2xl font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-center"
               style={{
                 backgroundColor: membership.color.primary,

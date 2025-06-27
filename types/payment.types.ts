@@ -37,4 +37,7 @@ export interface PaymentProps {
   amount : number;  // Payment data to be passed to the component
   isEvent?: boolean; // Optional prop to indicate if it's an event payment
   paidFor : string;
+  utm_source?: string | null; // UTM tracking parameters
+  utm_medium?: string | null;
+  utm_campaign?: string | null;
 }

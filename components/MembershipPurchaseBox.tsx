@@ -1,30 +1,49 @@
+'use client';
+
 import { MembershipPlan } from "@/lib/memberships";
 import { PhoneIcon, EmailIcon, WebsiteIcon } from "./Icons";
 import { Check, Star, Crown, Zap, Users } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 interface MembershipPurchaseBoxProps {
   membership: MembershipPlan;
 }
 
 export default function MembershipPurchaseBox({ membership }: MembershipPurchaseBoxProps) {
+  const searchParams = useSearchParams();
+  
+  // Build UTM query string to pass along
+  const utmParams = new URLSearchParams();
+  const utmSource = searchParams.get('utm_source');
+  const utmMedium = searchParams.get('utm_medium');
+  const utmCampaign = searchParams.get('utm_campaign');
+  
+  if (utmSource) utmParams.set('utm_source', utmSource);
+  if (utmMedium) utmParams.set('utm_medium', utmMedium);
+  if (utmCampaign) utmParams.set('utm_campaign', utmCampaign);
+
   const AnimatedButton = ({ 
     href, 
     children, 
     className = '',
-    variant = 'primary'
+    variant = 'primary',
+    planIndex
   }: {
-    href: string;
+    href?: string;
     children: React.ReactNode;
     className?: string;
     variant?: 'primary' | 'secondary';
+    planIndex: number;
   }) => {
     const isPrimary = variant === 'primary';
     
+    // Create the payment URL with plan index and UTM parameters
+    const paymentUrl = `/memberships/${membership.slug}/payment?plan=${planIndex}${utmParams.toString() ? `&${utmParams.toString()}` : ''}`;
+    
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href={paymentUrl}
         className={`
           group relative overflow-hidden
           inline-flex items-center justify-center 
@@ -70,7 +89,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </span>
-      </a>
+      </Link>
     );
   };
 
@@ -201,7 +220,7 @@ export default function MembershipPurchaseBox({ membership }: MembershipPurchase
 
         {/* Action Button - Always at bottom */}
         <div className="mt-auto">
-          <AnimatedButton href={plan.url}>
+          <AnimatedButton planIndex={index}>
             {getButtonText(plan.title)}
           </AnimatedButton>
         </div>
