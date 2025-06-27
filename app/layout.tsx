@@ -10,8 +10,9 @@ import { GoogleTagManager } from '@next/third-parties/google'
 // import { Poppins } from "next/font/google";s
 import { Raleway } from "next/font/google";
 import ClientPixelTracker from "@/components/Ads/ClientPixelTracker"
+import AutoPixelEvents from "@/components/Ads/AutoPixelTracker";
 // Enhanced ISR configuration for layout
-export const revalidate = 3600; // 1 hour for layout components
+export const revalidate = 18000; // 1 hour for layout components
 
 const geistSans = Raleway({
   variable: "--font-geist-sans",
@@ -225,6 +226,7 @@ export default function RootLayout({
         <PWAInstaller />
         <GoogleTagManager gtmId="GTM-M85WZNMH" />
         <ClientPixelTracker/>
+        <AutoPixelEvents/>
         <Navbar />
         <main className={`min-h-screen ${geistSans.className}`} >
           {children}
