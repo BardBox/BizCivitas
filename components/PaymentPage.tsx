@@ -657,7 +657,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                 </div>
               )}
 
-              {/* Coupon Code Section */}
+              {/* Coupon Code Section
               {isEvent && (
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
@@ -717,7 +717,7 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
                 <p>💡 Use <strong>COUPON CODES</strong> for huge discount on registration!</p>
               </div>
           </div>
-              )}
+              )} */}
 
           {/* Amount Summary */}
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
