@@ -132,36 +132,9 @@ export async function POST(request: NextRequest) {
                     const templateName = process.env.WHATSAPP_EVENT_TEMPLATE_NAME;
                     
                     if (apiKey && templateName && phone) {
-                        fetch(`https://official.thefuturetech.in/wapp/api/v2/send/bytemplate?apikey=${apiKey}&templatename=${templateName}&mobile=${phone.trim()}&dvariables=${fullName.trim()},${data.id.toString().slice(0, 10)}`, {
+                        await fetch(`https://official.thefuturetech.in/wapp/api/v2/send/bytemplate?apikey=${apiKey}&templatename=${templateName}&mobile=${phone.trim()}&dvariables=${fullName.trim()},${data.id.toString().slice(0, 10)}`, {
                             method: "POST",
                         })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log("WhatsApp message sent successfully:", data);
-                            })
-                            .catch(error => {
-                                console.error("Error sending WhatsApp message:", error);
-                            });
-                    }
-
-                    // Send celebration message for free coupon registrations
-                    if (data.phone && data.coupon_code === 'LASTMINUTE') {
-                        try {
-                            const messageResult = await sendFreeEventCelebration(
-                                data.id,
-                                data.phone,
-                                data.event_slug || 'BizCivitas Event',
-                                'sms'
-                            );
-
-                            if (!messageResult.success) {
-                                console.error('Failed to send celebration message:', messageResult.error);
-                            } else {
-                                console.log('Celebration message sent successfully:', messageResult.sid);
-                            }
-                        } catch (messageError) {
-                            console.error('Error sending celebration message:', messageError);
-                        }
                     }
 
                     return NextResponse.json(
