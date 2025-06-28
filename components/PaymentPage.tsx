@@ -311,7 +311,6 @@ export default function Payment({ onClose, color = "#10b981", paidFor, amount, i
             // Verify payment with timeout
             const verifyController = new AbortController();
             const verifyTimeoutId = setTimeout(() => verifyController.abort(), 30000);
-
             const verifyResponse = await fetch('/api/razorpay/verify', {
               method: 'POST',
               headers: {
