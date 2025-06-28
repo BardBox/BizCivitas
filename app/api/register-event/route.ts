@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-      fetch(`http://official.thefuturetech.in/wapp/api/v2/send/bytemplate?apikey=${apiKey}&templatename=${templateName}&mobile=${phone?.trim() || null}&dvariables=${name.trim()},${data.id.slice(0,10)}`, {
+      fetch(`https://official.thefuturetech.in/wapp/api/v2/send/bytemplate?apikey=${apiKey}&templatename=${templateName}&mobile=${phone?.trim() || null}&dvariables=${name.trim()},${data.id.slice(0,10)}`, {
         method: "POST",
       })
         .then(response => response.json())
