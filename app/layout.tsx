@@ -223,7 +223,7 @@ export default function RootLayout({
         </Script>
         <Analytics />
         <SpeedInsights />
-        <PWAInstaller />
+        {/* <PWAInstaller /> */}
         <GoogleTagManager gtmId="GTM-M85WZNMH" />
         <ClientPixelTracker/>
         <AutoPixelEvents/>
