@@ -214,7 +214,7 @@ export default async function TeamMemberPage({ params }: BasePageProps) {
                     <div className="mb-6">
                       <div className="flex items-center space-x-3 mb-4">
                         {(member.company_logo || member.company_logo_url) && (
-                          <div className="relative w-12 h-12 flex-shrink-0">
+                          <div className="relative w-32 h-32 flex-shrink-0">
                             <Image
                               src={member.company_logo || member.company_logo_url || "/placeholder-company.png"}
                               alt={`${member.company_name || 'Company'} Logo`}
