@@ -23,7 +23,8 @@ export async function getAllTeamMembers(): Promise<TeamMember[]> {
   const { data, error } = await supabase
     .from("teams")
     .select("*")
-    .order("position", { ascending: true });
+    .order("position", { ascending: true })
+    .order("name", { ascending: true }); // secondary sort
 
   if (error) {
     console.error("Error fetching team members:", error);
@@ -52,15 +53,15 @@ export async function getTeamMemberBySlug(
 
 export function getTeamMemberSEOData(member: TeamMember) {
   // Clean HTML from description if present
-  const cleanDescription = member.description ? 
+  const cleanDescription = member.description ?
     member.description.replace(/<[^>]*>/g, '').trim() : '';
-  
+
   // Generate rich description with member details
   const fallbackDescription = `Meet ${member.name}, ${member.designation} at ${member.company_name || 'BizCivitas'}. ${member.leading_in_domain ? `Leading expert in ${member.leading_in_domain}.` : ""} ${member.company_name && member.company_name !== 'BizCivitas' ? `Currently working at ${member.company_name}.` : ''} Connect with our team member and learn about their expertise in business development and professional growth.`;
-  
+
   const description = cleanDescription || fallbackDescription;
   const shortDescription = description.length > 160 ? description.substring(0, 157) + '...' : description;
-  
+
   // Generate comprehensive keywords
   const keywords = [
     member.name,
