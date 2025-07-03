@@ -220,7 +220,7 @@ export default async function TeamMemberPage({ params }: BasePageProps) {
                               alt={`${member.company_name || 'Company'} Logo`}
                               fill
                               className="object-contain rounded"
-                              sizes="48px"
+                              sizes="1024px"
                             />
                           </div>
                         )}
